@@ -17,6 +17,12 @@
     "paths": {
       "@container-management/api-interfaces": [
         "libs/api-interfaces/src/index.ts"
+      ],
+      "@container-management/authentication": [
+        "libs/authentication/src/index.ts"
+      ],
+      "@container-management/container-camera": [
+        "libs/container-camera/src/index.ts"
       ]
     }
   },

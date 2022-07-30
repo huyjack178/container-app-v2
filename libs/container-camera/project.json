@@ -1,0 +1,42 @@
+{
+  "projectType": "library",
+  "sourceRoot": "libs/container-camera/src",
+  "prefix": "container-management",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/angular:ng-packagr-lite",
+      "outputs": ["dist/libs/container-camera"],
+      "options": {
+        "project": "libs/container-camera/ng-package.json",
+        "tailwindConfig": "libs/container-camera/tailwind.config.js"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/container-camera/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "libs/container-camera/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/container-camera"],
+      "options": {
+        "jestConfig": "libs/container-camera/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/container-camera/**/*.ts",
+          "libs/container-camera/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": []
+}
