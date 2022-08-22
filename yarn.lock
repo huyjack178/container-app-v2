@@ -2520,6 +2520,11 @@
     jest-matcher-utils "^27.0.0"
     pretty-format "^27.0.0"
 
+"@types/jslib-html5-camera-photo@^3.1.2":
+  version "3.1.2"
+  resolved "https://registry.npmjs.org/@types/jslib-html5-camera-photo/-/jslib-html5-camera-photo-3.1.2.tgz#f48c10b220bbcd616bebcf6a8344f99f0bcd740d"
+  integrity sha512-V26JUipZfEC2JKDw8M/t7HzxCJIRR0APmxhvbjstByvB9GI4x9LWlWCsQoNcvei1+MFRhA7QjBXSSmMm0Mn7Sw==
+
 "@types/json-schema@*", "@types/json-schema@^7.0.5", "@types/json-schema@^7.0.8", "@types/json-schema@^7.0.9":
   version "7.0.11"
   resolved "https://registry.npmjs.org/@types/json-schema/-/json-schema-7.0.11.tgz#d421b6c527a3037f7c84433fd2c4229e016863d3"
@@ -6851,6 +6856,11 @@ jsesc@~0.5.0:
   version "0.5.0"
   resolved "https://registry.npmjs.org/jsesc/-/jsesc-0.5.0.tgz#e7dee66e35d6fc16f710fe91d5cf69f70f08911d"
   integrity sha512-uZz5UnB7u4T9LvwmFqXii7pZSouaRPorGs5who1Ip7VO0wxanFvBL7GkM6dTHlgX+jhBApRetaWpnDabOeTcnA==
+
+jslib-html5-camera-photo@^3.3.4:
+  version "3.3.4"
+  resolved "https://registry.npmjs.org/jslib-html5-camera-photo/-/jslib-html5-camera-photo-3.3.4.tgz#ae859b1747f8dd709edeb98ea28a5c0802871157"
+  integrity sha512-qysjLnP4bud0+g0qs5uA/7i569x+6ID2ufgezf9XQ+BE3EvhYjz177vi9WXLEuq+V6C/WXEv73NUICvHm5VGmQ==
 
 json-parse-even-better-errors@^2.3.0, json-parse-even-better-errors@^2.3.1:
   version "2.3.1"
