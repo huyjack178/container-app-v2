@@ -17,7 +17,10 @@
           "apps/container-management/src/favicon.ico",
           "apps/container-management/src/assets"
         ],
-        "styles": ["apps/container-management/src/styles.scss"],
+        "styles": [
+          "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
+          "apps/container-management/src/styles.scss"
+        ],
         "scripts": []
       },
       "configurations": {
