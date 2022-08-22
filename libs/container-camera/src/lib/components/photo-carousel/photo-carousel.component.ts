@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { Image } from 'angular-responsive-carousel/lib/interfaces';
 
 @Component({
   selector: 'container-management-photo-carousel',
@@ -7,6 +8,8 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
   encapsulation: ViewEncapsulation.Emulated,
 })
 export class PhotoCarouselComponent implements OnInit {
+  @Input() images!: Image[];
+
   constructor() {}
 
   ngOnInit(): void {}

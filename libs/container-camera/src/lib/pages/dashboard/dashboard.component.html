@@ -1,2 +1,6 @@
-<container-management-camera></container-management-camera>
-<container-management-photo-carousel></container-management-photo-carousel>
+<container-management-camera
+  (photoCaptured)="onPhotoCaptured($event)"
+></container-management-camera>
+<container-management-photo-carousel
+  [images]="images"
+></container-management-photo-carousel>

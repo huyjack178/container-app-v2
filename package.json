@@ -27,6 +27,7 @@
     "@nestjs/core": "^8.0.0",
     "@nestjs/platform-express": "^8.0.0",
     "@nrwl/angular": "14.5.1",
+    "angular-responsive-carousel": "^2.1.2",
     "ngx-cookie-service": "^14.0.1",
     "jslib-html5-camera-photo": "^3.3.4",
     "reflect-metadata": "^0.1.13",

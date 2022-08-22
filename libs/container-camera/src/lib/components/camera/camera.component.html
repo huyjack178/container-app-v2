@@ -1,4 +1,6 @@
 <div fxLayout="column" fxLayoutAlign="space-around center">
   <video autoPlay playsinline #camera></video>
-  <button mat-stroked-button><mat-icon>camera_alt</mat-icon></button>
+  <button mat-stroked-button (click)="capturePhoto()">
+    <mat-icon>camera_alt</mat-icon>
+  </button>
 </div>

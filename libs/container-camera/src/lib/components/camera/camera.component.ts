@@ -3,6 +3,8 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  EventEmitter,
+  Output,
   ViewChild,
 } from '@angular/core';
 import CameraPhoto, {
@@ -19,6 +21,8 @@ import { from } from 'rxjs';
 })
 export class CameraComponent implements AfterViewInit {
   @ViewChild('camera') cameraElement!: ElementRef;
+
+  @Output() photoCaptured = new EventEmitter<string>();
 
   private cameraPhoto?: CameraPhoto;
 
@@ -46,6 +50,6 @@ export class CameraComponent implements AfterViewInit {
       imageCompression: 1,
     });
 
-    console.log(dataUri);
+    this.photoCaptured.emit(dataUri);
   }
 }
