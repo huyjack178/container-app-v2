@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { LoginInformation } from '../interfaces/login-information';
 
@@ -7,18 +7,20 @@ import { LoginInformation } from '../interfaces/login-information';
   providedIn: 'root',
 })
 export class AuthService {
-  serverUrl = 'http://localhost:3001';
-  serialNumbers = '9S716R512020ZL8000395';
-  expiredDate = '2023-05-01';
-
-  constructor(private readonly http: HttpClient) {}
+  constructor(
+    private readonly http: HttpClient,
+    @Inject('environment') private environment: any
+  ) {}
 
   login = (loginInfo: LoginInformation): Observable<any> => {
-    return this.http.post<LoginInformation>(`${this.serverUrl}/login`, {
-      userName: loginInfo.userName.toLowerCase(),
-      password: loginInfo.password,
-      serialNumbers: JSON.stringify(this.serialNumbers),
-      expiredDate: this.expiredDate,
-    });
+    return this.http.post<LoginInformation>(
+      `${this.environment.serverUrl}/login`,
+      {
+        userName: loginInfo.userName.toLowerCase(),
+        password: loginInfo.password,
+        serialNumbers: JSON.stringify(this.environment.serialNumbers),
+        expiredDate: this.environment.expiredDate,
+      }
+    );
   };
 }
