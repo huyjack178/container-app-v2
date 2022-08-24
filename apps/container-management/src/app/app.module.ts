@@ -6,6 +6,8 @@ import { AppComponent } from './app.component';
 
 import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CookieService } from 'ngx-cookie-service';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [AppComponent],
@@ -31,7 +33,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ]),
     BrowserAnimationsModule,
   ],
-  providers: [],
+  providers: [CookieService, { provide: 'environment', useValue: environment }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

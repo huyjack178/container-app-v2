@@ -1,17 +1,47 @@
-<mat-form-field appearance="fill">
-  <mat-label>Input</mat-label>
-  <input matInput />
-</mat-form-field>
-<mat-form-field appearance="fill">
-  <mat-label>Enter your password</mat-label>
-  <input matInput [type]="hide ? 'password' : 'text'" />
-  <button
-    mat-icon-button
-    matSuffix
-    (click)="hide = !hide"
-    [attr.aria-label]="'Hide password'"
-    [attr.aria-pressed]="hide"
-  >
-    <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
-  </button>
-</mat-form-field>
+<div class="login-container">
+  <mat-card>
+    <form
+      #loginForm="ngForm"
+      (ngSubmit)="onSubmit(loginForm)"
+      fxLayout="column"
+      fxLayoutAlign="space-around center"
+    >
+      <mat-form-field appearance="outline" [style.width.px]="450">
+        <mat-label>Tên đăng nhập</mat-label>
+        <input matInput ngModel name="userName" required />
+      </mat-form-field>
+      <mat-form-field
+        appearance="outline"
+        [style.width.px]="450"
+        hintLabel="Ít nhất 4 ký tự"
+      >
+        <mat-label>Mật khẩu</mat-label>
+        <input
+          matInput
+          ngModel
+          [type]="hide ? 'password' : 'text'"
+          name="password"
+          required
+          minlength="4"
+        />
+        <button
+          mat-icon-button
+          matSuffix
+          (click)="hide = !hide"
+          [attr.aria-label]="'Hide password'"
+          [attr.aria-pressed]="hide"
+        >
+          <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+        </button>
+        <mat-hint align="end">{{
+          loginForm.value.password?.length || 0
+        }}</mat-hint>
+      </mat-form-field>
+      <button mat-stroked-button color="primary" class="login-button">
+        ĐĂNG NHẬP
+        <mat-icon>exit_to_app</mat-icon>
+      </button>
+    </form>
+    <p *ngIf="errorMessage" class="invalid-error-message">{{ errorMessage }}</p>
+  </mat-card>
+</div>
