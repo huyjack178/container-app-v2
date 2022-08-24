@@ -23,7 +23,8 @@ export class LoginComponent {
 
   onSubmit(loginForm: NgForm) {
     if (!loginForm.valid) {
-      this.errorMessage = 'Please enter valid username and password!';
+      this.errorMessage = 'Vui lòng nhập tên đăng nhập và mật khẩu hợp lệ';
+      setTimeout(() => (this.errorMessage = ''), 1);
     } else {
       this.authService
         .login({
@@ -33,12 +34,10 @@ export class LoginComponent {
         .pipe(first())
         .subscribe(
           (response) => {
-            this.errorMessage = '';
             this.cookieService.set('token', response.token, 1);
             localStorage.setItem('userName', loginForm.value.userName);
             localStorage.setItem('imageMaxSizes', response.imageMaxSizes);
             localStorage.setItem('serverSettings', response.settings);
-            //this.adjustUploadSettings(response);
             this.router.navigate(['/', 'camera']);
           },
           (error) => {
