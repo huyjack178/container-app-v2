@@ -13,6 +13,10 @@ export class NavbarComponent {
   constructor(private readonly router: Router, private readonly cookieService: CookieService) {}
 
   logout() {
+    localStorage.removeItem('userName');
+    localStorage.removeItem('imageMaxSizes');
+    localStorage.removeItem('serverSettings');
+    localStorage.removeItem('uploadSettings');
     this.cookieService.delete('token');
     this.router.navigate(['/', 'login']);
   }
