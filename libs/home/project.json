@@ -1,0 +1,22 @@
+{
+  "projectType": "library",
+  "sourceRoot": "libs/home/src",
+  "prefix": "container-management",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/home"],
+      "options": {
+        "jestConfig": "libs/home/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["libs/home/**/*.ts", "libs/home/**/*.html"]
+      }
+    }
+  },
+  "tags": []
+}

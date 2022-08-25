@@ -36,6 +36,13 @@ import { AppComponent } from './app.component';
             (module) => module.AuthenticationModule
           ),
       },
+      {
+        path: 'home',
+        loadChildren: () =>
+          import('@container-management/home').then(
+            (module) => module.HomeModule
+          ),
+      },
     ]),
     BrowserAnimationsModule,
   ],
