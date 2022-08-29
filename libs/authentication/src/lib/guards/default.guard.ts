@@ -1,0 +1,20 @@
+import { Injectable } from '@angular/core';
+import { CanActivate, Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
+
+@Injectable()
+export class DefaultGuard implements CanActivate {
+  constructor(
+    private readonly router: Router,
+    private readonly authService: AuthService
+  ) {}
+
+  canActivate() {
+    if (this.authService.isAuthenticated()) {
+      this.router.navigate(['camera']);
+      return false;
+    }
+
+    return true;
+  }
+}
