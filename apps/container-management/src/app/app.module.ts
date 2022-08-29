@@ -1,13 +1,17 @@
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
-import { HttpClientModule } from '@angular/common/http';
-import { AppComponent } from './app.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { RouterModule } from '@angular/router';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {
+  AuthenticationModule,
+  AuthGuard,
+  RoleGuard,
+} from '@container-management/authentication';
 import { CookieService } from 'ngx-cookie-service';
 import { environment } from '../environments/environment';
+import { AppComponent } from './app.component';
 
 @NgModule({
   declarations: [AppComponent],
@@ -15,9 +19,10 @@ import { environment } from '../environments/environment';
     BrowserModule,
     HttpClientModule,
     RouterModule.forRoot([
-      { path: '', redirectTo: 'login', pathMatch: 'full' },
+      { path: '', redirectTo: 'camera', pathMatch: 'full' },
       {
         path: 'login',
+        canActivate: [RoleGuard],
         loadChildren: () =>
           import('@container-management/authentication').then(
             (module) => module.AuthenticationModule
@@ -25,6 +30,7 @@ import { environment } from '../environments/environment';
       },
       {
         path: 'camera',
+        canActivate: [AuthGuard],
         loadChildren: () =>
           import('@container-management/container-camera').then(
             (module) => module.ContainerCameraModule
@@ -32,8 +38,14 @@ import { environment } from '../environments/environment';
       },
     ]),
     BrowserAnimationsModule,
+    AuthenticationModule,
   ],
-  providers: [CookieService, { provide: 'environment', useValue: environment }],
+  providers: [
+    AuthGuard,
+    RoleGuard,
+    CookieService,
+    { provide: 'environment', useValue: environment },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

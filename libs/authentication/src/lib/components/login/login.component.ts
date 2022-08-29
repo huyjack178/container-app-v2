@@ -16,6 +16,7 @@ import {
   takeUntil,
   tap,
 } from 'rxjs';
+import { Cookie } from '../../constants';
 import { LoginResponse } from '../../interfaces/login-response';
 import { AuthService } from '../../services/auth.service';
 
@@ -86,7 +87,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   private storeCookie(response: LoginResponse, userName: string) {
-    this.cookieService.set('token', response.token, 1);
+    this.cookieService.set(Cookie.TOKEN, response.token, 1);
     localStorage.setItem('userName', userName);
     localStorage.setItem('imageMaxSizes', response.imageMaxSizes);
     localStorage.setItem('serverSettings', response.settings);
