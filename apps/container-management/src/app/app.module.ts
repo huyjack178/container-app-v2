@@ -7,7 +7,7 @@ import { RouterModule } from '@angular/router';
 import {
   AuthenticationModule,
   AuthGuard,
-  RoleGuard,
+  DefaultGuard,
 } from '@container-management/authentication';
 import { CookieService } from 'ngx-cookie-service';
 import { environment } from '../environments/environment';
@@ -21,14 +21,6 @@ import { AppComponent } from './app.component';
     RouterModule.forRoot([
       { path: '', redirectTo: 'camera', pathMatch: 'full' },
       {
-        path: 'login',
-        canActivate: [RoleGuard],
-        loadChildren: () =>
-          import('@container-management/authentication').then(
-            (module) => module.AuthenticationModule
-          ),
-      },
-      {
         path: 'camera',
         canActivate: [AuthGuard],
         loadChildren: () =>
@@ -36,13 +28,20 @@ import { AppComponent } from './app.component';
             (module) => module.ContainerCameraModule
           ),
       },
+      {
+        path: 'login',
+        canActivate: [DefaultGuard],
+        loadChildren: () =>
+          import('@container-management/authentication').then(
+            (module) => module.AuthenticationModule
+          ),
+      },
     ]),
     BrowserAnimationsModule,
-    AuthenticationModule,
   ],
   providers: [
     AuthGuard,
-    RoleGuard,
+    DefaultGuard,
     CookieService,
     { provide: 'environment', useValue: environment },
   ],

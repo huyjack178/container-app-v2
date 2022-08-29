@@ -9,8 +9,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { RouterModule } from '@angular/router';
 import { LoginComponent } from './components/login/login.component';
-import { AuthGuard } from './guards/auth.guard';
-import { RoleGuard } from './guards/role.guard';
 
 @NgModule({
   imports: [
@@ -23,7 +21,11 @@ import { RoleGuard } from './guards/role.guard';
     MatButtonModule,
     FormsModule,
     RouterModule.forChild([
-      { path: '', pathMatch: 'full', component: LoginComponent },
+      {
+        path: '',
+        pathMatch: 'full',
+        component: LoginComponent,
+      },
     ]),
   ],
   declarations: [LoginComponent],
