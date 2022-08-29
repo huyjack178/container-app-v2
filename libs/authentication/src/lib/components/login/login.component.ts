@@ -16,6 +16,7 @@ import {
   takeUntil,
   tap,
 } from 'rxjs';
+import { LoginResponse } from '../../interfaces/login-response';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -59,32 +60,35 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   onSubmit(loginForm: NgForm) {
     if (!loginForm.valid) {
-      this.errorMessage$.next('Vui lòng nhập tên đăng nhập và mật khẩu hợp lệ');
-    } else {
-      this.authService
-        .login({
-          userName: loginForm.value.userName,
-          password: loginForm.value.password,
-        })
-        .pipe(first())
-        .subscribe({
-          next: (response) => {
-            this.cookieService.set('token', response.token, 1);
-            localStorage.setItem('userName', loginForm.value.userName);
-            localStorage.setItem('imageMaxSizes', response.imageMaxSizes);
-            localStorage.setItem('serverSettings', response.settings);
-
-            return this.router.navigate(['/', 'camera']);
-          },
-          error: (error) => {
-            this.errorMessage$.next(error.error);
-          },
-        });
+      return this.errorMessage$.next(
+        'Vui lòng nhập tên đăng nhập và mật khẩu hợp lệ'
+      );
     }
+
+    this.authService
+      .login$({
+        userName: loginForm.value.userName,
+        password: loginForm.value.password,
+      })
+      .pipe(first())
+      .subscribe({
+        next: (response) => {
+          this.storeCookie(response, loginForm.value.userName);
+          return this.router.navigate(['/', 'camera']);
+        },
+        error: (error) => this.errorMessage$.next(error.error),
+      });
   }
 
   ngOnDestroy(): void {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
+  }
+
+  private storeCookie(response: LoginResponse, userName: string) {
+    this.cookieService.set('token', response.token, 1);
+    localStorage.setItem('userName', userName);
+    localStorage.setItem('imageMaxSizes', response.imageMaxSizes);
+    localStorage.setItem('serverSettings', response.settings);
   }
 }
