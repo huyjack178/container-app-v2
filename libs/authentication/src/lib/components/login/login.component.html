@@ -1,5 +1,5 @@
 <div class="login-container">
-  <mat-card fxFlex.xs="80" fxFlex.sm="60" fxFlex.md="40" fxFlex.lg="40"> 
+  <mat-card fxFlex.xs="80" fxFlex.sm="60" fxFlex.md="40" fxFlex.lg="40">
     <form
       #loginForm="ngForm"
       (ngSubmit)="onSubmit(loginForm)"
@@ -19,19 +19,22 @@
         <input
           matInput
           ngModel
-          [type]="hide ? 'password' : 'text'"
+          [type]="(hidePassword$ | async) ? 'password' : 'text'"
           name="password"
           required
           minlength="4"
         />
         <button
+          type="button"
           mat-icon-button
           matSuffix
-          (click)="hide = !hide"
+          (click)="showPassword()"
           [attr.aria-label]="'Hide password'"
-          [attr.aria-pressed]="hide"
+          [attr.aria-pressed]="hidePassword$ | async"
         >
-          <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+          <mat-icon>{{
+            (hidePassword$ | async) ? 'visibility_off' : 'visibility'
+          }}</mat-icon>
         </button>
         <mat-hint align="end">{{
           loginForm.value.password?.length || 0
@@ -42,6 +45,8 @@
         <mat-icon>exit_to_app</mat-icon>
       </button>
     </form>
-    <p *ngIf="errorMessage" class="invalid-error-message">{{ errorMessage }}</p>
+    <p *ngIf="errorMessage$" class="invalid-error-message">
+      {{ errorMessage$ | async }}
+    </p>
   </mat-card>
 </div>
