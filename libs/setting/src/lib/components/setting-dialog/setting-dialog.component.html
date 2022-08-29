@@ -1,0 +1,41 @@
+<h1 mat-dialog-title>Cấu hình Upload</h1>
+<mat-dialog-content class="mat-typography">
+  <mat-accordion>
+    <mat-expansion-panel
+      (opened)="panelOpenState = true"
+      (closed)="panelOpenState = false"
+    >
+      <mat-expansion-panel-header>
+        <mat-panel-title> Upload Local </mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-slide-toggle #local formControlName="enabled" color="primary">
+        <span>{{ local.checked ? 'Tắt' : 'Bật' }}</span>
+      </mat-slide-toggle>
+    </mat-expansion-panel>
+    <mat-expansion-panel
+      (opened)="panelOpenState = true"
+      (closed)="panelOpenState = false"
+    >
+      <mat-expansion-panel-header>
+        <mat-panel-title> Upload FPT </mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-slide-toggle #fpt formControlName="enabled" color="primary">
+        <span>{{ fpt.checked ? 'Tắt' : 'Bật' }}</span>
+      </mat-slide-toggle>
+    </mat-expansion-panel>
+    <mat-expansion-panel
+      (opened)="panelOpenState = true"
+      (closed)="panelOpenState = false"
+    >
+      <mat-expansion-panel-header>
+        <mat-panel-title> Upload Cloudinary </mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-slide-toggle #cloudinary formControlName="enabled" color="primary">
+        <span>{{ cloudinary.checked ? 'Tắt' : 'Bật' }}</span>
+      </mat-slide-toggle>
+    </mat-expansion-panel>
+  </mat-accordion>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close color="primary">OK</button>
+</mat-dialog-actions>

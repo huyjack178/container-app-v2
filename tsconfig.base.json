@@ -25,6 +25,7 @@
         "libs/container-camera/src/index.ts"
       ],
       "@container-management/home": ["libs/home/src/index.ts"],
+      "@container-management/setting": ["libs/setting/src/index.ts"],
       "@container-management/shared": ["libs/shared/src/index.ts"]
     }
   },
