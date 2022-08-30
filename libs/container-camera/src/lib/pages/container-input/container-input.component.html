@@ -1,0 +1,24 @@
+<div class="container-input-wrapper">
+  <form
+    class="full-height"
+    #containerForm="ngForm"
+    fxLayout="column"
+    fxLayoutAlign="center center"
+  >
+    <mat-form-field appearance="outline" [style.width.%]="100">
+      <mat-label>Container ID</mat-label>
+      <input matInput ngModel name="containerId" required />
+      <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+      <mat-hint>Required</mat-hint>
+    </mat-form-field>
+    <button
+      mat-stroked-button
+      color="primary"
+      class="login-button"
+      (click)="openCamera()"
+    >
+      CHỤP
+      <mat-icon>camera_alt</mat-icon>
+    </button>
+  </form>
+</div>

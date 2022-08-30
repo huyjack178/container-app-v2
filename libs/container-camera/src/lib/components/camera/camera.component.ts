@@ -4,6 +4,9 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  HostListener,
+  OnDestroy,
+  OnInit,
   Output,
   ViewChild,
 } from '@angular/core';
@@ -11,7 +14,7 @@ import CameraPhoto, {
   FACING_MODES,
   IMAGE_TYPES,
 } from 'jslib-html5-camera-photo';
-import { from } from 'rxjs';
+import { from, Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'container-management-camera',
@@ -19,28 +22,33 @@ import { from } from 'rxjs';
   styleUrls: ['./camera.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CameraComponent implements AfterViewInit {
+export class CameraComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('camera') cameraElement!: ElementRef;
-
   @Output() photoCaptured = new EventEmitter<string>();
-
+  private readonly unsubscribe$ = new Subject<void>();
+  private readonly windowResize$ = new Subject<void>();
   private cameraPhoto?: CameraPhoto;
+  private screenWidth: any;
+  private screenHeight: any;
 
   constructor() {}
 
-  ngAfterViewInit(): void {
-    this.cameraPhoto = new CameraPhoto(this.cameraElement.nativeElement);
+  ngOnInit() {
+    this.screenWidth = window.innerWidth;
+    this.screenHeight = window.innerHeight;
+  }
 
-    from(
-      this.cameraPhoto.startCamera(FACING_MODES.ENVIRONMENT, {
-        width: 300, // TODO: Get device width height for more responsive
-        height: 200,
-      })
-    ).subscribe({
-      next: (stream) => console.log(stream),
-      error: (error) => console.error(error),
-      complete: () => console.info('complete'),
-    });
+  @HostListener('window:resize', ['$event'])
+  onWindowResize() {
+    this.windowResize$.next();
+    this.windowResize$.complete();
+    this.screenWidth = window.innerWidth;
+    this.screenHeight = window.innerHeight;
+    this.startCameraVideo();
+  }
+
+  ngAfterViewInit() {
+    this.startCameraVideo();
   }
 
   capturePhoto() {
@@ -51,5 +59,27 @@ export class CameraComponent implements AfterViewInit {
     });
 
     this.photoCaptured.emit(dataUri);
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
+  }
+
+  private startCameraVideo() {
+    this.cameraPhoto = new CameraPhoto(this.cameraElement.nativeElement);
+
+    from(
+      this.cameraPhoto.startCamera(FACING_MODES.ENVIRONMENT, {
+        width: this.screenWidth,
+        height: this.screenHeight * 0.8,
+      })
+    )
+      .pipe(takeUntil(this.unsubscribe$), takeUntil(this.windowResize$))
+      .subscribe({
+        next: (stream) => console.log(stream),
+        error: (error) => console.error(error),
+        complete: () => console.info('complete'),
+      });
   }
 }
