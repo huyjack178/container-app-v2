@@ -5,8 +5,6 @@ import {
   OnInit,
 } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
-import { CookieService } from 'ngx-cookie-service';
 import {
   BehaviorSubject,
   first,
@@ -16,8 +14,6 @@ import {
   takeUntil,
   tap,
 } from 'rxjs';
-import { Cookie } from '../../constants';
-import { LoginResponse } from '../../interfaces/login-response';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -31,11 +27,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   readonly errorMessage$ = new BehaviorSubject<string>('');
   private readonly unsubscribe$ = new Subject<void>();
 
-  constructor(
-    private readonly authService: AuthService,
-    private readonly router: Router,
-    private readonly cookieService: CookieService
-  ) {}
+  constructor(private readonly authService: AuthService) {}
 
   ngOnInit(): void {
     this.hidePassword$
@@ -73,12 +65,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       })
       .pipe(first())
       .subscribe({
-        next: () => {
-          return this.router.navigate(['camera']);
-        },
-        error: (error) => {
-          this.errorMessage$.next(error.error);
-        },
+        error: (error) => this.errorMessage$.next(error.error),
       });
   }
 

@@ -1,27 +1,20 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { SettingDialogComponent } from 'libs/common/src/lib/components/setting-dialog/setting-dialog.component';
-import { AuthService } from 'libs/authentication/src/lib/services/auth.service';
-import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
+import { AuthService } from '@container-management/authentication';
+import { SettingDialogComponent } from '../setting-dialog/setting-dialog.component';
 
 @Component({
   selector: 'container-management-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss'],
 })
-export class NavbarComponent implements OnInit {
-  isAuthenticated$: Observable<boolean> | undefined;
-  
+export class NavbarComponent {
   constructor(
+    public readonly authService: AuthService,
     private readonly router: Router,
-    private readonly settingDialog: MatDialog,
-    private readonly authService: AuthService
+    private readonly settingDialog: MatDialog
   ) {}
-
-  ngOnInit() {
-    this.isAuthenticated$ = this.authService.isAuthenticated$;
-  }
 
   openSettingDialog() {
     const dialogRef = this.settingDialog.open(SettingDialogComponent, {
@@ -34,7 +27,6 @@ export class NavbarComponent implements OnInit {
   }
 
   logout() {
-    this.authService.logout();
-    this.router.navigate(['/', 'login']);
+    return this.authService.logout();
   }
 }

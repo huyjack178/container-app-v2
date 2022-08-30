@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
-import { BehaviorSubject, map, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, switchMap } from 'rxjs';
 import { Cookie } from '../constants';
 import { LoginInformation } from '../interfaces/login-information';
 import { LoginResponse } from '../interfaces/login-response';
@@ -10,40 +11,55 @@ import { LoginResponse } from '../interfaces/login-response';
   providedIn: 'root',
 })
 export class AuthService {
-  public isAuthenticated$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(this.cookieService.check(Cookie.TOKEN));
+  public readonly isAuthenticated$: BehaviorSubject<boolean> =
+    new BehaviorSubject<boolean>(this.cookieService.check(Cookie.TOKEN));
 
   constructor(
+    private readonly router: Router,
     private readonly cookieService: CookieService,
     private readonly http: HttpClient,
     // TODO: Change to strong type
     @Inject('environment') private readonly environment: any
   ) {}
 
-  login$ = (loginInfo: LoginInformation): Observable<LoginResponse> =>
-    this.http.post<LoginResponse>(`${this.environment.serverUrl}/login`, {
-      userName: loginInfo.userName.toLowerCase(),
-      password: loginInfo.password,
-      serialNumbers: JSON.stringify(this.environment.serialNumbers),
-      expiredDate: this.environment.expiredDate,
-    }).pipe(map((response) => {
-      this.storeCookie(response, loginInfo.userName.toLowerCase());
-      this.isAuthenticated$.next(true);
-      return response;
-    }));
+  login$ = (loginInfo: LoginInformation): Observable<boolean> =>
+    this.http
+      .post<LoginResponse>(`${this.environment.serverUrl}/login`, {
+        userName: loginInfo.userName.toLowerCase(),
+        password: loginInfo.password,
+        serialNumbers: JSON.stringify(this.environment.serialNumbers),
+        expiredDate: this.environment.expiredDate,
+      })
+      .pipe(
+        switchMap((response) => {
+          this.storeLoginInformation(
+            response,
+            loginInfo.userName.toLowerCase()
+          );
+          this.isAuthenticated$.next(true);
 
-  private storeCookie(response: LoginResponse, userName: string) {
+          return this.router.navigate(['camera']);
+        })
+      );
+
+  logout() {
+    this.removeLoginInformation();
+    this.isAuthenticated$.next(false);
+    return this.router.navigate(['/', 'login']);
+  }
+
+  private storeLoginInformation(response: LoginResponse, userName: string) {
     this.cookieService.set(Cookie.TOKEN, response.token, 1);
     localStorage.setItem('userName', userName);
     localStorage.setItem('imageMaxSizes', response.imageMaxSizes);
     localStorage.setItem('serverSettings', response.settings);
   }
 
-  logout() {
-    this.isAuthenticated$.next(false);
+  private removeLoginInformation() {
+    this.cookieService.delete(Cookie.TOKEN);
     localStorage.removeItem('userName');
     localStorage.removeItem('imageMaxSizes');
     localStorage.removeItem('serverSettings');
     localStorage.removeItem('uploadSettings');
-    this.cookieService.delete(Cookie.TOKEN);
   }
 }

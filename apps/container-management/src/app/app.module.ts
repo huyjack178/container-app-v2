@@ -18,7 +18,7 @@ import { AppComponent } from './app.component';
       { path: '', redirectTo: 'camera', pathMatch: 'full' },
       {
         path: 'camera',
-        // canActivate: [AuthGuard],
+        canActivate: [AuthGuard],
         loadChildren: () =>
           import('@container-management/container-camera').then(
             (module) => module.ContainerCameraModule
@@ -26,7 +26,7 @@ import { AppComponent } from './app.component';
       },
       {
         path: 'login',
-        // canActivate: [DefaultGuard],
+        canActivate: [DefaultGuard],
         loadChildren: () =>
           import('@container-management/authentication').then(
             (module) => module.AuthenticationModule
