@@ -1,20 +1,27 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { CookieService } from 'ngx-cookie-service';
 import { MatDialog } from '@angular/material/dialog';
 import { SettingDialogComponent } from 'libs/common/src/lib/components/setting-dialog/setting-dialog.component';
+import { AuthService } from 'libs/authentication/src/lib/services/auth.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'container-management-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss'],
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnInit {
+  isAuthenticated$: Observable<boolean> | undefined;
+  
   constructor(
     private readonly router: Router,
-    private readonly cookieService: CookieService,
-    private readonly settingDialog: MatDialog
+    private readonly settingDialog: MatDialog,
+    private readonly authService: AuthService
   ) {}
+
+  ngOnInit() {
+    this.isAuthenticated$ = this.authService.isAuthenticated$;
+  }
 
   openSettingDialog() {
     const dialogRef = this.settingDialog.open(SettingDialogComponent, {
@@ -27,11 +34,7 @@ export class NavbarComponent {
   }
 
   logout() {
-    localStorage.removeItem('userName');
-    localStorage.removeItem('imageMaxSizes');
-    localStorage.removeItem('serverSettings');
-    localStorage.removeItem('uploadSettings');
-    this.cookieService.delete('token');
+    this.authService.logout();
     this.router.navigate(['/', 'login']);
   }
 }

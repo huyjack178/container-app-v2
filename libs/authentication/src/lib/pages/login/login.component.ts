@@ -73,8 +73,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       })
       .pipe(first())
       .subscribe({
-        next: (response) => {
-          this.storeCookie(response, loginForm.value.userName);
+        next: () => {
           return this.router.navigate(['camera']);
         },
         error: (error) => {
@@ -86,12 +85,5 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
-  }
-
-  private storeCookie(response: LoginResponse, userName: string) {
-    this.cookieService.set(Cookie.TOKEN, response.token, 1);
-    localStorage.setItem('userName', userName);
-    localStorage.setItem('imageMaxSizes', response.imageMaxSizes);
-    localStorage.setItem('serverSettings', response.settings);
   }
 }
