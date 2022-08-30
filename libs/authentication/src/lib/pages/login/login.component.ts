@@ -77,7 +77,9 @@ export class LoginComponent implements OnInit, OnDestroy {
           this.storeCookie(response, loginForm.value.userName);
           return this.router.navigate(['camera']);
         },
-        error: (error) => this.errorMessage$.next(error.error),
+        error: (error) => {
+          this.errorMessage$.next(error.error);
+        },
       });
   }
 

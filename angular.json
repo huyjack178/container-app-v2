@@ -5,11 +5,8 @@
     "api": "apps/api",
     "api-interfaces": "libs/api-interfaces",
     "authentication": "libs/authentication",
+    "common": "libs/common",
     "container-camera": "libs/container-camera",
-    "container-management": "apps/container-management",
-    "container-management-e2e": "apps/container-management-e2e",
-    "home": "libs/home",
-    "setting": "libs/setting",
-    "shared": "libs/shared"
+    "container-management": "apps/container-management"
   }
 }

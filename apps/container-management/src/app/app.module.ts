@@ -2,13 +2,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
 import { RouterModule } from '@angular/router';
-import {
-  AuthenticationModule,
-  AuthGuard,
-  DefaultGuard,
-} from '@container-management/authentication';
+import { AuthGuard, DefaultGuard } from '@container-management/authentication';
+import { CommonModule } from '@container-management/common';
 import { CookieService } from 'ngx-cookie-service';
 import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
@@ -36,15 +32,9 @@ import { AppComponent } from './app.component';
             (module) => module.AuthenticationModule
           ),
       },
-      {
-        path: 'home',
-        loadChildren: () =>
-          import('@container-management/home').then(
-            (module) => module.HomeModule
-          ),
-      },
     ]),
     BrowserAnimationsModule,
+    CommonModule,
   ],
   providers: [
     AuthGuard,

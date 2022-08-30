@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { MatDialog } from '@angular/material/dialog';
-import { SettingDialogComponent } from 'libs/setting/src/lib/components/setting-dialog/setting-dialog.component';
+import { SettingDialogComponent } from 'libs/common/src/lib/components/setting-dialog/setting-dialog.component';
 
 @Component({
   selector: 'container-management-navbar',
