@@ -11,6 +11,7 @@ import { CameraComponent } from './components/camera/camera.component';
 import { PhotoCarouselComponent } from './components/photo-carousel/photo-carousel.component';
 import { ContainerCameraComponent } from './pages/container-camera/container-camera.component';
 import { ContainerInputComponent } from './pages/container-input/container-input.component';
+import { ContainerActionComponent } from './pages/container-action/container-action.component';
 
 @NgModule({
   imports: [
@@ -34,6 +35,7 @@ import { ContainerInputComponent } from './pages/container-input/container-input
     PhotoCarouselComponent,
     ContainerCameraComponent,
     ContainerInputComponent,
+    ContainerActionComponent,
   ],
   exports: [ContainerCameraComponent, ContainerInputComponent],
 })
