@@ -14,7 +14,7 @@ import CameraPhoto, {
   FACING_MODES,
   IMAGE_TYPES,
 } from 'jslib-html5-camera-photo';
-import { from, Subject, takeUntil } from 'rxjs';
+import { BehaviorSubject, from, Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'container-management-camera',
@@ -25,6 +25,8 @@ import { from, Subject, takeUntil } from 'rxjs';
 export class CameraComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('camera') cameraElement!: ElementRef;
   @Output() photoCaptured = new EventEmitter<string>();
+  @Output() captureFinished = new EventEmitter<void>();
+  readonly capturedPhoto$ = new BehaviorSubject<string | undefined>('');
   private readonly unsubscribe$ = new Subject<void>();
   private readonly windowResize$ = new Subject<void>();
   private cameraPhoto?: CameraPhoto;
@@ -58,7 +60,12 @@ export class CameraComponent implements OnInit, AfterViewInit, OnDestroy {
       imageCompression: 1,
     });
 
+    this.capturedPhoto$.next(dataUri);
     this.photoCaptured.emit(dataUri);
+  }
+
+  finishCapturing() {
+    this.captureFinished.emit();
   }
 
   ngOnDestroy(): void {
@@ -72,7 +79,7 @@ export class CameraComponent implements OnInit, AfterViewInit, OnDestroy {
     from(
       this.cameraPhoto.startCamera(FACING_MODES.ENVIRONMENT, {
         width: this.screenWidth,
-        height: this.screenHeight * 0.8,
+        height: this.screenHeight * 0.9,
       })
     )
       .pipe(takeUntil(this.unsubscribe$), takeUntil(this.windowResize$))

@@ -37,8 +37,7 @@ export class AuthService {
             loginInfo.userName.toLowerCase()
           );
           this.isAuthenticated$.next(true);
-
-          return this.router.navigate(['camera']);
+          return this.router.navigate(['container']);
         })
       );
 
