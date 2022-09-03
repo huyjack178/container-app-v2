@@ -5,6 +5,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { AuthGuard, DefaultGuard } from '@container-management/authentication';
 import { CommonModule } from '@container-management/common';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { CookieService } from 'ngx-cookie-service';
 import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
@@ -15,9 +18,9 @@ import { AppComponent } from './app.component';
     BrowserModule,
     HttpClientModule,
     RouterModule.forRoot([
-      { path: '', redirectTo: 'camera', pathMatch: 'full' },
+      { path: '', redirectTo: 'container', pathMatch: 'full' },
       {
-        path: 'camera',
+        path: 'container',
         canActivate: [AuthGuard],
         loadChildren: () =>
           import('@container-management/container-camera').then(
@@ -33,6 +36,12 @@ import { AppComponent } from './app.component';
           ),
       },
     ]),
+    StoreModule.forRoot({}),
+    EffectsModule.forRoot([]),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25, // Retains last 25 states
+      logOnly: environment.production, // Restrict extension to log-only mode
+    }),
     BrowserAnimationsModule,
     CommonModule,
   ],
