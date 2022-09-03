@@ -9,6 +9,8 @@ import { RouterModule } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { IvyCarouselModule } from 'angular-responsive-carousel';
+import { MatDialogModule } from '@angular/material/dialog';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { ContainerEffects } from './+state/container.effects';
 import { ContainerFacade } from './+state/container.facade';
 import * as fromContainer from './+state/container.reducer';
@@ -17,6 +19,8 @@ import { PhotoCarouselComponent } from './components/photo-carousel/photo-carous
 import { ContainerActionComponent } from './pages/container-action/container-action.component';
 import { ContainerCameraComponent } from './pages/container-camera/container-camera.component';
 import { ContainerInputComponent } from './pages/container-input/container-input.component';
+import { PhotoCarouselDialogComponent } from './components/photo-carousel-dialog/photo-carousel-dialog.component';
+import { UploadDialogComponent } from './components/upload-dialog/upload-dialog.component';
 
 @NgModule({
   imports: [
@@ -44,6 +48,8 @@ import { ContainerInputComponent } from './pages/container-input/container-input
     IvyCarouselModule,
     MatInputModule,
     FormsModule,
+    MatDialogModule,
+    MatProgressSpinnerModule,
     StoreModule.forFeature(
       fromContainer.CONTAINER_FEATURE_KEY,
       fromContainer.containerReducer
@@ -56,6 +62,8 @@ import { ContainerInputComponent } from './pages/container-input/container-input
     ContainerCameraComponent,
     ContainerInputComponent,
     ContainerActionComponent,
+    PhotoCarouselDialogComponent,
+    UploadDialogComponent,
   ],
   exports: [ContainerCameraComponent, ContainerInputComponent],
   providers: [ContainerFacade],

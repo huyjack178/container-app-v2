@@ -1,4 +1,7 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { PhotoCarouselDialogComponent } from '../../components/photo-carousel-dialog/photo-carousel-dialog.component';
+import { UploadDialogComponent } from '../../components/upload-dialog/upload-dialog.component';
 
 @Component({
   selector: 'container-management-container-action',
@@ -6,8 +9,18 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
   styleUrls: ['./container-action.component.css'],
   encapsulation: ViewEncapsulation.Emulated,
 })
-export class ContainerActionComponent implements OnInit {
-  constructor() {}
+export class ContainerActionComponent {
+  constructor(private readonly dialog: MatDialog) {}
 
-  ngOnInit(): void {}
+  viewImages(){
+    this.dialog.open(PhotoCarouselDialogComponent, {
+      width: '100%',
+    });
+  }
+
+  upload(){
+    this.dialog.open(UploadDialogComponent, {
+      width: '100%',
+    });
+  }
 }

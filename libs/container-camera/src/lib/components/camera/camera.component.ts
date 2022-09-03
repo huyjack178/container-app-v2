@@ -37,7 +37,7 @@ export class CameraComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit() {
     this.screenWidth = window.innerWidth;
-    this.screenHeight = window.innerHeight;
+    this.screenHeight = window.innerHeight - 64;
   }
 
   @HostListener('window:resize', ['$event'])

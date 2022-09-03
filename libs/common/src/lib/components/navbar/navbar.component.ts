@@ -11,16 +11,12 @@ import { SettingDialogComponent } from '@container-management/setting';
 export class NavbarComponent {
   constructor(
     public readonly authService: AuthService,
-    private readonly settingDialog: MatDialog
+    private readonly dialog: MatDialog
   ) {}
 
   openSettingDialog() {
-    const dialogRef = this.settingDialog.open(SettingDialogComponent, {
+    this.dialog.open(SettingDialogComponent, {
       width: '75%',
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log(`Dialog result: ${result}`);
     });
   }
 

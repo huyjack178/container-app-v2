@@ -1,1 +1,19 @@
-<div fxLayout="column" fxLayoutAlign="space-around center"></div>
+<div class="action-container" fxLayout="column" fxLayoutAlign="space-evenly center">
+    <h3>Đã chụp 1 ảnh</h3>
+    <button mat-stroked-button color="primary" (click)="upload()">
+        <mat-icon>cloud_upload</mat-icon>
+        GHI
+    </button>
+    <button mat-stroked-button color="primary">
+        <mat-icon>cloud_upload</mat-icon>
+        GHI VÀO LOCAL
+    </button>
+    <button mat-stroked-button color="primary" (click)="viewImages()">
+        <mat-icon> insert_drive_file</mat-icon>
+        XEM
+    </button>
+    <button mat-stroked-button color="primary">
+        <mat-icon>camera_alt</mat-icon>
+        CHỤP
+    </button>
+</div>
