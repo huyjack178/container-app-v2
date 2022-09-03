@@ -5,6 +5,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { SettingDialogComponent } from './components/setting-dialog/setting-dialog.component';
@@ -18,6 +19,8 @@ import { SettingDialogComponent } from './components/setting-dialog/setting-dial
     MatToolbarModule,
     MatButtonModule,
     MatIconModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
   declarations: [NavbarComponent, SettingDialogComponent],
   exports: [NavbarComponent],

@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { SettingService } from '@container-management/common';
 import { CookieService } from 'ngx-cookie-service';
 import { BehaviorSubject, Observable, switchMap } from 'rxjs';
 import { Cookie } from '../constants';
@@ -17,6 +18,7 @@ export class AuthService {
   constructor(
     private readonly router: Router,
     private readonly cookieService: CookieService,
+    private readonly settingService: SettingService,
     private readonly http: HttpClient,
     // TODO: Change to strong type
     @Inject('environment') private readonly environment: any
@@ -37,7 +39,8 @@ export class AuthService {
             loginInfo.userName.toLowerCase()
           );
           this.isAuthenticated$.next(true);
-
+          this.settingService.serverSetting$.next(response.settings);
+          this.settingService.setUploadSettings();
           return this.router.navigate(['camera']);
         })
       );

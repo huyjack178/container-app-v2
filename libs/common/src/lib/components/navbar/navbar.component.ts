@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
 import { AuthService } from '@container-management/authentication';
 import { SettingDialogComponent } from '../setting-dialog/setting-dialog.component';
 
@@ -12,7 +11,6 @@ import { SettingDialogComponent } from '../setting-dialog/setting-dialog.compone
 export class NavbarComponent {
   constructor(
     public readonly authService: AuthService,
-    private readonly router: Router,
     private readonly settingDialog: MatDialog
   ) {}
 
