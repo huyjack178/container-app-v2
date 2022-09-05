@@ -1,4 +1,6 @@
-export const defaultSettings = {
+import { UploadSettings } from "../interfaces";
+
+export const defaultSettings: UploadSettings = {
   local: {
     enabled: true,
     ip: '',

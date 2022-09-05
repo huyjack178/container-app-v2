@@ -39,15 +39,16 @@ export class AuthService {
             loginInfo.userName.toLowerCase()
           );
           this.isAuthenticated$.next(true);
-          this.settingService.serverSetting$.next(response.settings);
-          this.settingService.setUploadSettings();
-          return this.router.navigate(['camera']);
+          //this.settingService.serverSetting$.next(response.settings);
+          //this.settingService.initUploadSettings(response.settings);
+          return this.router.navigate(['container']);
         })
       );
 
   logout() {
     this.removeLoginInformation();
     this.isAuthenticated$.next(false);
+    //this.settingService.serverSetting$.next('');
     return this.router.navigate(['/', 'login']);
   }
 
@@ -55,14 +56,11 @@ export class AuthService {
     this.cookieService.set(Cookie.TOKEN, response.token, 1);
     localStorage.setItem('userName', userName);
     localStorage.setItem('imageMaxSizes', response.imageMaxSizes);
-    localStorage.setItem('serverSettings', response.settings);
+    localStorage.setItem('serverSettings', JSON.stringify(response.settings));
   }
 
   private removeLoginInformation() {
     this.cookieService.delete(Cookie.TOKEN);
-    localStorage.removeItem('userName');
-    localStorage.removeItem('imageMaxSizes');
-    localStorage.removeItem('serverSettings');
-    localStorage.removeItem('uploadSettings');
+    localStorage.clear();
   }
 }

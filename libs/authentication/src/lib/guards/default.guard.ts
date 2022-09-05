@@ -11,7 +11,7 @@ export class DefaultGuard implements CanActivate {
 
   canActivate() {
     if (this.authService.isAuthenticated$.value) {
-      this.router.navigate(['camera']);
+      this.router.navigate(['container']);
       return false;
     }
 

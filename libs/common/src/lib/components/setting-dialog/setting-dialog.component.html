@@ -1,5 +1,5 @@
 <h1 mat-dialog-title>Cấu hình Upload</h1>
-<form #settingForm="ngForm" (ngSubmit)="onSubmit(settingForm)">
+<form #settingForm="ngForm" (ngSubmit)="onSubmit(settingForm)" *ngIf="uploadSettings$ | async as uploadSettings">
   <mat-dialog-content class="mat-typography">
     <mat-accordion>
       <mat-expansion-panel
@@ -12,9 +12,9 @@
         <mat-slide-toggle
           color="primary"
           name="local"
-          [(ngModel)]="this.uploadSettings.local.enabled"
+          [(ngModel)]="uploadSettings.local.enabled"
         >
-          <span>{{ this.uploadSettings.local.enabled ? 'Tắt' : 'Bật' }}</span>
+          <span>{{ uploadSettings.local.enabled ? 'Tắt' : 'Bật' }}</span>
         </mat-slide-toggle>
       </mat-expansion-panel>
       <mat-expansion-panel
@@ -27,9 +27,9 @@
         <mat-slide-toggle
           color="primary"
           name="ftp"
-          [(ngModel)]="this.uploadSettings.ftp.enabled"
+          [(ngModel)]="uploadSettings.ftp.enabled"
         >
-          <span>{{ this.uploadSettings.ftp.enabled ? 'Tắt' : 'Bật' }}</span>
+          <span>{{ uploadSettings.ftp.enabled ? 'Tắt' : 'Bật' }}</span>
         </mat-slide-toggle>
       </mat-expansion-panel>
       <mat-expansion-panel
@@ -42,9 +42,9 @@
         <mat-slide-toggle
           color="primary"
           name="cloudinary"
-          [(ngModel)]="this.uploadSettings.cloudinary.enabled"
+          [(ngModel)]="uploadSettings.cloudinary.enabled"
         >
-          <span>{{ this.uploadSettings.cloudinary.enabled ? 'Tắt' : 'Bật' }}</span>
+          <span>{{ uploadSettings.cloudinary.enabled ? 'Tắt' : 'Bật' }}</span>
         </mat-slide-toggle>
       </mat-expansion-panel>
     </mat-accordion>
