@@ -7,6 +7,7 @@
     "authentication": "libs/authentication",
     "common": "libs/common",
     "container-camera": "libs/container-camera",
-    "container-management": "apps/container-management"
+    "container-management": "apps/container-management",
+    "setting": "libs/setting"
   }
 }

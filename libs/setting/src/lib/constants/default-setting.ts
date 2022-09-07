@@ -1,4 +1,4 @@
-import { UploadSettings } from "../interfaces";
+import { UploadSettings } from '../interfaces';
 
 export const defaultSettings: UploadSettings = {
   local: {

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from '@container-management/authentication';
-import { SettingDialogComponent } from '../setting-dialog/setting-dialog.component';
+import { SettingDialogComponent } from '@container-management/setting';
 
 @Component({
   selector: 'container-management-navbar',

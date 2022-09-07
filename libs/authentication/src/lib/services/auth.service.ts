@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { SettingService } from '@container-management/common';
+import { ServerSetting, SettingService } from '@container-management/setting';
 import { CookieService } from 'ngx-cookie-service';
 import { BehaviorSubject, Observable, switchMap } from 'rxjs';
 import { Cookie } from '../constants';
@@ -39,16 +39,17 @@ export class AuthService {
             loginInfo.userName.toLowerCase()
           );
           this.isAuthenticated$.next(true);
-          //this.settingService.serverSetting$.next(response.settings);
-          //this.settingService.initUploadSettings(response.settings);
+          this.settingService.initUploadSettings(
+            JSON.parse(response.settings) as ServerSetting
+          );
           return this.router.navigate(['container']);
         })
       );
 
   logout() {
-    this.removeLoginInformation();
+    localStorage.clear();
+    this.cookieService.delete(Cookie.TOKEN);
     this.isAuthenticated$.next(false);
-    //this.settingService.serverSetting$.next('');
     return this.router.navigate(['/', 'login']);
   }
 
@@ -56,11 +57,6 @@ export class AuthService {
     this.cookieService.set(Cookie.TOKEN, response.token, 1);
     localStorage.setItem('userName', userName);
     localStorage.setItem('imageMaxSizes', response.imageMaxSizes);
-    localStorage.setItem('serverSettings', JSON.stringify(response.settings));
-  }
-
-  private removeLoginInformation() {
-    this.cookieService.delete(Cookie.TOKEN);
-    localStorage.clear();
+    localStorage.setItem('serverSettings', response.settings);
   }
 }

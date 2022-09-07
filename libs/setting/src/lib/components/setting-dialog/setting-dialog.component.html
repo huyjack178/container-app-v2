@@ -1,5 +1,9 @@
 <h1 mat-dialog-title>Cấu hình Upload</h1>
-<form #settingForm="ngForm" (ngSubmit)="onSubmit(settingForm)" *ngIf="uploadSettings$ | async as uploadSettings">
+<form
+  #settingForm="ngForm"
+  (ngSubmit)="onSubmit(settingForm)"
+  *ngIf="uploadSettings$ | async as uploadSettings"
+>
   <mat-dialog-content class="mat-typography">
     <mat-accordion>
       <mat-expansion-panel

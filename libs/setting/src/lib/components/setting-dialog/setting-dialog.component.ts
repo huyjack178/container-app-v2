@@ -13,13 +13,18 @@ import { SettingService } from '../../services';
 })
 export class SettingDialogComponent implements OnInit {
   panelOpenState = true;
-  public readonly uploadSettings$: BehaviorSubject<UploadSettings> = new BehaviorSubject<UploadSettings>(defaultSettings);
+  public readonly uploadSettings$: BehaviorSubject<UploadSettings> =
+    new BehaviorSubject<UploadSettings>(defaultSettings);
 
-  constructor(private readonly dialog: MatDialog, public readonly settingService: SettingService){}
+  constructor(
+    private readonly dialog: MatDialog,
+    public readonly settingService: SettingService
+  ) {}
+
   ngOnInit(): void {
     this.uploadSettings$.next(this.settingService.getUploadSettings());
   }
-  
+
   onSubmit(settingForm: NgForm) {
     this.settingService.adjustUploadSettings(settingForm.value);
     this.dialog.closeAll();
