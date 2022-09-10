@@ -1,17 +1,18 @@
 <div class="container-input-wrapper">
-  <form class="full-height" fxLayout="column" fxLayoutAlign="center center">
+  <form
+    class="full-height"
+    fxLayout="column"
+    fxLayoutAlign="center center"
+    #containerInputForm="ngForm"
+    (submit)="openCamera(containerInputForm)"
+  >
     <mat-form-field appearance="outline" [style.width.%]="100">
       <mat-label>Container ID</mat-label>
-      <input matInput #containerId required />
+      <input matInput ngModel name="containerId" required />
       <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
       <mat-hint>Required</mat-hint>
     </mat-form-field>
-    <button
-      mat-stroked-button
-      color="primary"
-      class="login-button"
-      (click)="openCamera(containerId)"
-    >
+    <button mat-stroked-button color="primary" class="login-button">
       CHỤP
       <mat-icon>camera_alt</mat-icon>
     </button>

@@ -1,6 +1,9 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
-import { ContainerFacade } from '../../+state';
+import { isValid } from '../../utils';
+import { NgForm } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { ContainerIdConfirmDialogComponent } from '../../components/container-id-confirm-dialog/container-id-confirm-dialog.component';
 
 @Component({
   selector: 'container-management-container-input',
@@ -11,14 +14,24 @@ import { ContainerFacade } from '../../+state';
 export class ContainerInputComponent {
   constructor(
     private readonly router: Router,
-    private readonly containerFacade: ContainerFacade
+    private readonly dialog: MatDialog
   ) {}
 
-  openCamera(containerId: HTMLInputElement) {
-    this.containerFacade.setContainerId(containerId.value);
+  openCamera(form: NgForm) {
+    const containerId = form.value.containerId;
+
+    if (!isValid(containerId)) {
+      this.dialog.open(ContainerIdConfirmDialogComponent, {
+        width: '250px',
+        data: { containerId },
+      });
+
+      return;
+    }
+
     return this.router.navigate([this.router.url, 'camera'], {
       queryParams: {
-        containerId: containerId.value,
+        containerId,
       },
     });
   }

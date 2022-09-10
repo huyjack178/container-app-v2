@@ -19,6 +19,7 @@ import { ContainerCameraComponent } from './pages/container-camera/container-cam
 import { ContainerInputComponent } from './pages/container-input/container-input.component';
 import { PhotoCarouselDialogComponent } from './components/photo-carousel-dialog/photo-carousel-dialog.component';
 import { UploadDialogComponent } from './components/upload-dialog/upload-dialog.component';
+import { ContainerIdConfirmDialogComponent } from './components/container-id-confirm-dialog/container-id-confirm-dialog.component';
 
 @NgModule({
   imports: [
@@ -59,6 +60,7 @@ import { UploadDialogComponent } from './components/upload-dialog/upload-dialog.
     ContainerActionComponent,
     PhotoCarouselDialogComponent,
     UploadDialogComponent,
+    ContainerIdConfirmDialogComponent,
   ],
   exports: [ContainerCameraComponent, ContainerInputComponent],
   providers: [ContainerFacade],
