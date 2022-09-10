@@ -16,7 +16,7 @@ export class ContainerInputComponent {
 
   openCamera(containerId: HTMLInputElement) {
     this.containerFacade.setContainerId(containerId.value);
-    return this.router.navigate([this.router.url, 'video'], {
+    return this.router.navigate([this.router.url, 'camera'], {
       queryParams: {
         containerId: containerId.value,
       },

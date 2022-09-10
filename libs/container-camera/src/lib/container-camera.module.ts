@@ -30,7 +30,7 @@ import { UploadDialogComponent } from './components/upload-dialog/upload-dialog.
         component: ContainerInputComponent,
       },
       {
-        path: 'video',
+        path: 'camera',
         pathMatch: 'full',
         component: ContainerCameraComponent,
       },

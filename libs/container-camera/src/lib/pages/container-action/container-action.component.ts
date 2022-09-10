@@ -30,6 +30,6 @@ export class ContainerActionComponent {
   }
 
   capture() {
-    return this.router.navigateByUrl('/container');
+    return this.router.navigate(['/container', 'camera'], {queryParamsHandling: "preserve"});
   }
 }
