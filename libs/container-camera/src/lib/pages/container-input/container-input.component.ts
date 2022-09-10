@@ -1,7 +1,6 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
-import { ContainerFacade } from '@container-management/container-camera';
-import { tap } from 'rxjs';
+import { ContainerFacade } from '../../+state';
 
 @Component({
   selector: 'container-management-container-input',
@@ -9,19 +8,15 @@ import { tap } from 'rxjs';
   styleUrls: ['./container-input.component.css'],
   encapsulation: ViewEncapsulation.Emulated,
 })
-export class ContainerInputComponent implements OnInit {
+export class ContainerInputComponent {
   constructor(
     private readonly router: Router,
     private readonly containerFacade: ContainerFacade
   ) {}
 
-  ngOnInit(): void {
-    this.containerFacade.selectedContainer$.pipe(tap(console.log));
-  }
-
   openCamera(containerId: HTMLInputElement) {
-    this.containerFacade.selectContainerId(containerId.value);
-    this.router.navigate([this.router.url, 'video'], {
+    this.containerFacade.setContainerId(containerId.value);
+    return this.router.navigate([this.router.url, 'video'], {
       queryParams: {
         containerId: containerId.value,
       },

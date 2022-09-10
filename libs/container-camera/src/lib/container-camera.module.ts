@@ -10,10 +10,8 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { IvyCarouselModule } from 'angular-responsive-carousel';
 import { MatDialogModule } from '@angular/material/dialog';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import { ContainerEffects } from './+state/container.effects';
-import { ContainerFacade } from './+state/container.facade';
-import * as fromContainer from './+state/container.reducer';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ContainerEffects, ContainerFacade, containerFeature } from './+state';
 import { CameraComponent } from './components/camera/camera.component';
 import { PhotoCarouselComponent } from './components/photo-carousel/photo-carousel.component';
 import { ContainerActionComponent } from './pages/container-action/container-action.component';
@@ -50,10 +48,7 @@ import { UploadDialogComponent } from './components/upload-dialog/upload-dialog.
     FormsModule,
     MatDialogModule,
     MatProgressSpinnerModule,
-    StoreModule.forFeature(
-      fromContainer.CONTAINER_FEATURE_KEY,
-      fromContainer.containerReducer
-    ),
+    StoreModule.forFeature(containerFeature),
     EffectsModule.forFeature([ContainerEffects]),
   ],
   declarations: [

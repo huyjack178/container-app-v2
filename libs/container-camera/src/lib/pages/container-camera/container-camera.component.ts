@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
-import { ContainerFacade } from '@container-management/container-camera';
 import { Image } from 'angular-responsive-carousel/lib/interfaces';
-import { tap } from 'rxjs';
+import { ContainerFacade } from '../../+state';
+import { take, tap, withLatestFrom } from "rxjs";
 
 @Component({
   selector: 'container-management-container-camera',
@@ -15,8 +15,10 @@ export class ContainerCameraComponent implements OnInit {
 
   constructor(
     private readonly router: Router,
-    private readonly facade: ContainerFacade
-  ) {}
+    readonly facade: ContainerFacade
+  ) {
+    withLatestFrom(this.facade.selectedContainer$)
+  }
 
   ngOnInit(): void {}
 

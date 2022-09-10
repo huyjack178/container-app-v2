@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { PhotoCarouselDialogComponent } from '../../components/photo-carousel-dialog/photo-carousel-dialog.component';
 import { UploadDialogComponent } from '../../components/upload-dialog/upload-dialog.component';
 import { Router } from '@angular/router';
+import { ContainerFacade } from "../../+state";
 
 @Component({
   selector: 'container-management-container-action',
@@ -13,7 +14,7 @@ import { Router } from '@angular/router';
 export class ContainerActionComponent {
   constructor(
     private readonly dialog: MatDialog,
-    private readonly router: Router
+    private readonly router: Router,
   ) {}
 
   viewImages() {
