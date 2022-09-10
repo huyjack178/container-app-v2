@@ -3,11 +3,15 @@ import { select, Store } from '@ngrx/store';
 
 import * as ContainerActions from './container.actions';
 import * as ContainerSelectors from './container.selectors';
+import * as RouterSelectors from './router.selectors';
+import { map, Observable } from 'rxjs';
 
 @Injectable()
 export class ContainerFacade {
   loaded$ = this.store.pipe(select(ContainerSelectors.selectLoaded));
-  selectedContainer$ = this.store.select(ContainerSelectors.selectContainerId);
+  selectContainerId$: Observable<string> = this.store
+    .select(RouterSelectors.selectQueryParams)
+    .pipe(map((params) => params['containerId']));
 
   constructor(private readonly store: Store) {}
 

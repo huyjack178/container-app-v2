@@ -11,6 +11,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { CookieService } from 'ngx-cookie-service';
 import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
+import { routerReducer, StoreRouterConnectingModule } from '@ngrx/router-store';
 
 @NgModule({
   declarations: [AppComponent],
@@ -36,12 +37,13 @@ import { AppComponent } from './app.component';
           ),
       },
     ]),
-    StoreModule.forRoot({}),
+    StoreModule.forRoot({ router: routerReducer }),
     EffectsModule.forRoot([]),
     StoreDevtoolsModule.instrument({
       maxAge: 25, // Retains last 25 states
       logOnly: environment.production, // Restrict extension to log-only mode
     }),
+    StoreRouterConnectingModule.forRoot(),
     BrowserAnimationsModule,
     CommonModule,
   ],

@@ -2,7 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { Image } from 'angular-responsive-carousel/lib/interfaces';
 import { ContainerFacade } from '../../+state';
-import { take, tap, withLatestFrom } from "rxjs";
+import { first, take, tap, withLatestFrom } from 'rxjs';
 
 @Component({
   selector: 'container-management-container-camera',
@@ -16,11 +16,13 @@ export class ContainerCameraComponent implements OnInit {
   constructor(
     private readonly router: Router,
     readonly facade: ContainerFacade
-  ) {
-    withLatestFrom(this.facade.selectedContainer$)
-  }
+  ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.facade.selectContainerId$
+      .pipe(first())
+      .subscribe((containerId) => console.log(containerId));
+  }
 
   onPhotoCaptured(photoDataUri: string) {
     this.images.push({
@@ -29,6 +31,6 @@ export class ContainerCameraComponent implements OnInit {
   }
 
   onCaptureFinished() {
-    this.router.navigate(['container', 'action'], {});
+    return this.router.navigate(['container', 'action'], {});
   }
 }

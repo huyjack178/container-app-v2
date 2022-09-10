@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from '@container-management/authentication';
 import { SettingDialogComponent } from '@container-management/setting';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'container-management-navbar',
@@ -11,7 +12,8 @@ import { SettingDialogComponent } from '@container-management/setting';
 export class NavbarComponent {
   constructor(
     public readonly authService: AuthService,
-    private readonly dialog: MatDialog
+    private readonly dialog: MatDialog,
+    private readonly router: Router
   ) {}
 
   openSettingDialog() {
@@ -22,5 +24,9 @@ export class NavbarComponent {
 
   logout() {
     return this.authService.logout();
+  }
+
+  backToHome() {
+    return this.router.navigateByUrl('/');
   }
 }
