@@ -4,11 +4,18 @@
       class="carousel-cell"
       *ngFor="let image of facade.selectImageList$ | async; let i = index"
     >
+      <button
+        mat-button
+        color="primary"
+        (click)="deleteImage(i)"
+        style="float: right"
+      >
+        XÓA
+      </button>
       <img src="{{ image }}" />
-      <button mat-button color="primary" (click)="deleteImage(i)">XÓA</button>
     </div>
   </carousel>
 </mat-dialog-content>
-<mat-dialog-actions flexLayout="row" fxLayoutAlign="space-between center">
+<mat-dialog-actions flexLayout="row" fxLayoutAlign="end center">
   <button mat-button mat-dialog-close color="primary">THOÁT</button>
 </mat-dialog-actions>

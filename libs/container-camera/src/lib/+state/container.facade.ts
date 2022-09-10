@@ -19,10 +19,6 @@ export class ContainerFacade {
 
   constructor(private readonly store: Store) {}
 
-  setContainerId(containerId: string) {
-    this.store.dispatch(ContainerActions.selectContainerId({ containerId }));
-  }
-
   setImageList(imageList: string[]) {
     this.store.dispatch(ContainerActions.selectImageList({ imageList }));
   }

@@ -3,7 +3,7 @@ import * as ContainerActions from './container.actions';
 
 export interface ContainerState {
   readonly loaded: boolean;
-  readonly imageList: string[];
+  imageList: string[];
   readonly error: string | null;
 }
 
@@ -20,9 +20,12 @@ const reducer = createReducer(
     imageList,
   })),
   on(ContainerActions.deleteImage, (state, { index }) => {
-    const newState = { ...state };
-    newState.imageList.splice(index, 1);
-    return newState;
+    const imageList = [...state.imageList];
+    imageList.splice(index, 1);
+    return {
+      ...state,
+      imageList,
+    };
   })
 );
 
