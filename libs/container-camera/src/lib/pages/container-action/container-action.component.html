@@ -3,7 +3,7 @@
   fxLayout="column"
   fxLayoutAlign="space-evenly center"
 >
-  <h3>Đã chụp 1 ảnh</h3>
+  <h3>Đã chụp {{ (facade.selectImageList$ | async)?.length }} ảnh</h3>
   <button mat-stroked-button color="primary" (click)="upload()">
     <mat-icon>cloud_upload</mat-icon>
     GHI

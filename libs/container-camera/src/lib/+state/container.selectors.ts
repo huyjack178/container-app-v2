@@ -1,3 +1,3 @@
 import { containerFeature } from './container.reducer';
 
-export const { selectLoaded } = containerFeature;
+export const { selectImageList, selectLoaded } = containerFeature;

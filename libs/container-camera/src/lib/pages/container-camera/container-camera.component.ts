@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { Image } from 'angular-responsive-carousel/lib/interfaces';
 import { ContainerFacade } from '../../+state';
 import { first, take, tap, withLatestFrom } from 'rxjs';
+import { PhotoCarouselDialogComponent } from '../../components/photo-carousel-dialog/photo-carousel-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'container-management-container-camera',
@@ -11,7 +13,7 @@ import { first, take, tap, withLatestFrom } from 'rxjs';
   encapsulation: ViewEncapsulation.Emulated,
 })
 export class ContainerCameraComponent implements OnInit {
-  readonly images: Image[] = [];
+  readonly images: string[] = [];
 
   constructor(
     private readonly router: Router,
@@ -25,12 +27,13 @@ export class ContainerCameraComponent implements OnInit {
   }
 
   onPhotoCaptured(photoDataUri: string) {
-    this.images.push({
-      path: photoDataUri,
-    });
+    this.images.push(photoDataUri);
   }
 
   onCaptureFinished() {
-    return this.router.navigate(['container', 'action'], {queryParamsHandling: "preserve"});
+    this.facade.setImageList(this.images);
+    return this.router.navigate(['container', 'action'], {
+      queryParamsHandling: 'preserve',
+    });
   }
 }

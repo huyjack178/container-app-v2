@@ -13,7 +13,6 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ContainerEffects, ContainerFacade, containerFeature } from './+state';
 import { CameraComponent } from './components/camera/camera.component';
-import { PhotoCarouselComponent } from './components/photo-carousel/photo-carousel.component';
 import { ContainerActionComponent } from './pages/container-action/container-action.component';
 import { ContainerCameraComponent } from './pages/container-camera/container-camera.component';
 import { ContainerInputComponent } from './pages/container-input/container-input.component';
@@ -54,7 +53,6 @@ import { ContainerIdConfirmDialogComponent } from './components/container-id-con
   ],
   declarations: [
     CameraComponent,
-    PhotoCarouselComponent,
     ContainerCameraComponent,
     ContainerInputComponent,
     ContainerActionComponent,
