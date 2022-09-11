@@ -1,6 +1,5 @@
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   ViewChild,
   ViewEncapsulation,
@@ -9,6 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ContainerFacade } from '../../+state';
 import { ImageViewerComponent, UploadDialogComponent } from '../../components';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'container-management-container-action',
@@ -19,11 +19,15 @@ import { ImageViewerComponent, UploadDialogComponent } from '../../components';
 })
 export class ContainerActionComponent {
   @ViewChild('imageViewer') imageViewer!: ImageViewerComponent;
+
+  readonly hasNoImage$ = this.facade.selectImages$.pipe(
+    map((images) => images.length === 0)
+  );
+
   constructor(
-    private readonly dialog: MatDialog,
-    private readonly router: Router,
     readonly facade: ContainerFacade,
-    private readonly changeDetector: ChangeDetectorRef
+    private readonly dialog: MatDialog,
+    private readonly router: Router
   ) {}
 
   viewImages() {

@@ -3,22 +3,19 @@ import { select, Store } from '@ngrx/store';
 
 import * as ContainerActions from './container.actions';
 import * as ContainerSelectors from './container.selectors';
-import * as RouterSelectors from './router.selectors';
-import { map, Observable } from 'rxjs';
-import { Image } from 'angular-responsive-carousel/lib/interfaces';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class ContainerFacade {
-  loaded$ = this.store.pipe(select(ContainerSelectors.selectLoaded));
-
-  selectImageList$: Observable<string[]> = this.store.select(
-    ContainerSelectors.selectImageList
+  readonly loaded$ = this.store.pipe(select(ContainerSelectors.selectLoaded));
+  readonly selectImages$: Observable<string[]> = this.store.select(
+    ContainerSelectors.selectImages
   );
 
   constructor(private readonly store: Store) {}
 
-  setImageList(imageList: string[]) {
-    this.store.dispatch(ContainerActions.selectImageList({ imageList }));
+  setImages(images: string[]) {
+    this.store.dispatch(ContainerActions.selectImages({ images }));
   }
 
   deleteImage(index: number) {

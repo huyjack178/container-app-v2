@@ -13,3 +13,18 @@ video {
   position: fixed;
   bottom: 8px;
 }
+
+.captured-image {
+  width: 50px;
+  height: 50px;
+  border-radius: 5px;
+  object-fit: cover;
+}
+
+.capture-btn {
+  background-color: white;
+}
+
+.ok-btn {
+  background-color: white;
+}

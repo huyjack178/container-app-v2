@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { ContainerFacade } from '../../+state';
-import { first } from 'rxjs';
 
 @Component({
   selector: 'container-management-container-camera',
@@ -24,7 +23,7 @@ export class ContainerCameraComponent implements OnInit {
   }
 
   onCaptureFinished() {
-    this.facade.setImageList(this.images);
+    this.facade.setImages(this.images);
     return this.router.navigate(['container', 'action'], {
       queryParamsHandling: 'preserve',
     });

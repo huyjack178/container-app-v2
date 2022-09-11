@@ -1,7 +1,6 @@
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   OnInit,
   ViewChild,
@@ -9,9 +8,10 @@ import {
 } from '@angular/core';
 import { Lightbox } from 'ng-gallery/lightbox';
 import { ContainerFacade } from '../../+state';
-import { Gallery, GalleryItem, ImageItem, ImageSize } from 'ng-gallery';
-import { tap } from 'rxjs';
+import { Gallery, ImageItem, ImageSize } from 'ng-gallery';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Component({
   selector: 'container-management-image-viewer',
   templateUrl: './image-viewer.component.html',
@@ -20,23 +20,39 @@ import { tap } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImageViewerComponent implements OnInit, AfterViewInit {
-  @ViewChild('itemTemplate') itemTemplate: any;
-  items: GalleryItem[] = [];
+  @ViewChild('itemTemplate') lightBoxItemTemplate: any;
+
   currentIndex = 0;
+
   constructor(
     private readonly facade: ContainerFacade,
     private readonly lightbox: Lightbox,
-    private readonly gallery: Gallery,
-    private readonly changeDetector: ChangeDetectorRef
+    private readonly gallery: Gallery
   ) {}
 
   ngOnInit(): void {
-    this.facade.selectImageList$.subscribe((imageList) => {
-      this.items = imageList
-        ? imageList.map((image) => new ImageItem({ src: image, thumb: image }))
-        : [];
-      this.gallery.ref('lightbox').load(this.items);
+    this.facade.selectImages$.pipe(untilDestroyed(this)).subscribe((images) => {
+      const imageItems = images.map(
+        (image) => new ImageItem({ src: image, thumb: image })
+      );
+
+      imageItems.length > 0
+        ? this.getLightBoxRef().load(imageItems)
+        : this.lightbox.close();
     });
+  }
+
+  ngAfterViewInit(): void {
+    const lightboxRef = this.getLightBoxRef();
+    lightboxRef.setConfig({
+      imageSize: ImageSize.Cover,
+      thumb: false,
+      itemTemplate: this.lightBoxItemTemplate,
+    });
+
+    lightboxRef.indexChanged
+      .pipe(untilDestroyed(this))
+      .subscribe((state) => (this.currentIndex = state.currIndex ?? 0));
   }
 
   open() {
@@ -47,17 +63,5 @@ export class ImageViewerComponent implements OnInit, AfterViewInit {
     this.facade.deleteImage(index);
   };
 
-  ngAfterViewInit(): void {
-    const lightboxRef = this.gallery.ref('lightbox');
-    lightboxRef.setConfig({
-      imageSize: ImageSize.Cover,
-      thumb: false,
-      itemTemplate: this.itemTemplate,
-    });
-
-    lightboxRef.load(this.items);
-    lightboxRef.indexChanged.subscribe(
-      (state) => (this.currentIndex = state.currIndex ?? 0)
-    );
-  }
+  private getLightBoxRef = () => this.gallery.ref('lightbox');
 }

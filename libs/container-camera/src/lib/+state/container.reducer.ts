@@ -3,28 +3,28 @@ import * as ContainerActions from './container.actions';
 
 export interface ContainerState {
   readonly loaded: boolean;
-  imageList: string[];
+  readonly images: string[];
   readonly error: string | null;
 }
 
-export const initialContainerState: ContainerState = {
+const initialContainerState: ContainerState = {
   loaded: true,
-  imageList: [],
+  images: [],
   error: null,
 };
 
 const reducer = createReducer(
   initialContainerState,
-  on(ContainerActions.selectImageList, (state, { imageList }) => ({
+  on(ContainerActions.selectImages, (state, { images }) => ({
     ...state,
-    imageList,
+    images,
   })),
   on(ContainerActions.deleteImage, (state, { index }) => {
-    const imageList = [...state.imageList];
-    imageList.splice(index, 1);
+    const images = [...state.images];
+    images.splice(index, 1);
     return {
       ...state,
-      imageList,
+      images,
     };
   })
 );

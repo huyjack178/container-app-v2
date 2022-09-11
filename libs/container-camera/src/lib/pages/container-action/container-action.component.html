@@ -6,21 +6,22 @@
   fxLayout="column"
   fxLayoutAlign="space-evenly center"
 >
-  <h3>Đã chụp {{ (facade.selectImageList$ | async)?.length }} ảnh</h3>
+  <h3>Đã chụp {{ (facade.selectImages$ | async)?.length }} ảnh</h3>
   <button mat-stroked-button color="primary" (click)="upload()">
     <mat-icon>cloud_upload</mat-icon>
     GHI
   </button>
   <button mat-stroked-button color="primary">
-    <mat-icon>cloud_upload</mat-icon>
-    GHI VÀO LOCAL
+    <mat-icon>download</mat-icon>
+    LOCAL
   </button>
-  <!--  <button mat-stroked-button color="primary" (click)="viewImages()">-->
-  <!--    <mat-icon> insert_drive_file</mat-icon>-->
-  <!--    XEM-->
-  <!--  </button>-->
-  <button mat-stroked-button color="primary" (click)="viewImages()">
-    <mat-icon> insert_drive_file</mat-icon>
+  <button
+    mat-stroked-button
+    color="primary"
+    [disabled]="hasNoImage$ | async"
+    (click)="viewImages()"
+  >
+    <mat-icon>insert_drive_file</mat-icon>
     XEM
   </button>
   <button mat-stroked-button color="primary" (click)="capture()">
