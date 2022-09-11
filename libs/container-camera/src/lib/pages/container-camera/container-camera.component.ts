@@ -1,10 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
-import { Image } from 'angular-responsive-carousel/lib/interfaces';
 import { ContainerFacade } from '../../+state';
-import { first, take, tap, withLatestFrom } from 'rxjs';
-import { PhotoCarouselDialogComponent } from '../../components/photo-carousel-dialog/photo-carousel-dialog.component';
-import { MatDialog } from '@angular/material/dialog';
+import { first } from 'rxjs';
 
 @Component({
   selector: 'container-management-container-camera',
@@ -20,11 +17,7 @@ export class ContainerCameraComponent implements OnInit {
     readonly facade: ContainerFacade
   ) {}
 
-  ngOnInit(): void {
-    this.facade.selectContainerId$
-      .pipe(first())
-      .subscribe((containerId) => console.log(containerId));
-  }
+  ngOnInit(): void {}
 
   onPhotoCaptured(photoDataUri: string) {
     this.images.push(photoDataUri);

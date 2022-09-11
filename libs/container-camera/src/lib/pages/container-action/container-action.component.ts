@@ -1,29 +1,33 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ViewChild,
+  ViewEncapsulation,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { PhotoCarouselDialogComponent } from '../../components/photo-carousel-dialog/photo-carousel-dialog.component';
-import { UploadDialogComponent } from '../../components/upload-dialog/upload-dialog.component';
 import { Router } from '@angular/router';
 import { ContainerFacade } from '../../+state';
-import { first } from 'rxjs';
-import { Image } from 'angular-responsive-carousel/lib/interfaces';
+import { ImageViewerComponent, UploadDialogComponent } from '../../components';
 
 @Component({
   selector: 'container-management-container-action',
   templateUrl: './container-action.component.html',
   styleUrls: ['./container-action.component.css'],
   encapsulation: ViewEncapsulation.Emulated,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ContainerActionComponent {
+  @ViewChild('imageViewer') imageViewer!: ImageViewerComponent;
   constructor(
     private readonly dialog: MatDialog,
     private readonly router: Router,
-    readonly facade: ContainerFacade
+    readonly facade: ContainerFacade,
+    private readonly changeDetector: ChangeDetectorRef
   ) {}
 
   viewImages() {
-    this.dialog.open(PhotoCarouselDialogComponent, {
-      width: '100%',
-    });
+    this.imageViewer.open();
   }
 
   upload() {

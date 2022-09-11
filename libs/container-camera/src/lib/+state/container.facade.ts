@@ -10,9 +10,7 @@ import { Image } from 'angular-responsive-carousel/lib/interfaces';
 @Injectable()
 export class ContainerFacade {
   loaded$ = this.store.pipe(select(ContainerSelectors.selectLoaded));
-  selectContainerId$: Observable<string> = this.store
-    .select(RouterSelectors.selectQueryParams)
-    .pipe(map((params) => params['containerId']));
+
   selectImageList$: Observable<string[]> = this.store.select(
     ContainerSelectors.selectImageList
   );

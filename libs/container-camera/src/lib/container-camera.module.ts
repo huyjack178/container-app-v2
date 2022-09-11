@@ -8,7 +8,6 @@ import { MatInputModule } from '@angular/material/input';
 import { RouterModule } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
-import { IvyCarouselModule } from 'angular-responsive-carousel';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ContainerEffects, ContainerFacade, containerFeature } from './+state';
@@ -16,9 +15,11 @@ import { CameraComponent } from './components/camera/camera.component';
 import { ContainerActionComponent } from './pages/container-action/container-action.component';
 import { ContainerCameraComponent } from './pages/container-camera/container-camera.component';
 import { ContainerInputComponent } from './pages/container-input/container-input.component';
-import { PhotoCarouselDialogComponent } from './components/photo-carousel-dialog/photo-carousel-dialog.component';
 import { UploadDialogComponent } from './components/upload-dialog/upload-dialog.component';
 import { ContainerIdConfirmDialogComponent } from './components/container-id-confirm-dialog/container-id-confirm-dialog.component';
+import { GalleryModule } from 'ng-gallery';
+import { LightboxModule } from 'ng-gallery/lightbox';
+import { ImageViewerComponent } from './components/image-viewer/image-viewer.component';
 
 @NgModule({
   imports: [
@@ -43,22 +44,23 @@ import { ContainerIdConfirmDialogComponent } from './components/container-id-con
     FlexLayoutModule,
     MatButtonModule,
     MatIconModule,
-    IvyCarouselModule,
     MatInputModule,
     FormsModule,
     MatDialogModule,
     MatProgressSpinnerModule,
     StoreModule.forFeature(containerFeature),
     EffectsModule.forFeature([ContainerEffects]),
+    GalleryModule,
+    LightboxModule,
   ],
   declarations: [
     CameraComponent,
     ContainerCameraComponent,
     ContainerInputComponent,
     ContainerActionComponent,
-    PhotoCarouselDialogComponent,
     UploadDialogComponent,
     ContainerIdConfirmDialogComponent,
+    ImageViewerComponent,
   ],
   exports: [ContainerCameraComponent, ContainerInputComponent],
   providers: [ContainerFacade],
