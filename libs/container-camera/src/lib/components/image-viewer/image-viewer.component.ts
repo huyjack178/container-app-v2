@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { Lightbox } from 'ng-gallery/lightbox';
 import { ContainerFacade } from '../../+state';
-import { Gallery, ImageItem, ImageSize } from 'ng-gallery';
+import { Gallery, GalleryItem, ImageItem, ImageSize } from 'ng-gallery';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 @UntilDestroy()
@@ -47,6 +47,7 @@ export class ImageViewerComponent implements OnInit, AfterViewInit {
     lightboxRef.setConfig({
       imageSize: ImageSize.Cover,
       thumb: false,
+      loop: false,
       itemTemplate: this.lightBoxItemTemplate,
     });
 
@@ -61,6 +62,7 @@ export class ImageViewerComponent implements OnInit, AfterViewInit {
 
   deleteImage = (index: number) => {
     this.facade.deleteImage(index);
+    if (index > 0) this.getLightBoxRef().set(index - 1);
   };
 
   private getLightBoxRef = () => this.gallery.ref('lightbox');
