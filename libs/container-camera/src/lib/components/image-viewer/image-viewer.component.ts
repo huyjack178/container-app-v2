@@ -23,6 +23,7 @@ export class ImageViewerComponent implements OnInit, AfterViewInit {
   @ViewChild('itemTemplate') lightBoxItemTemplate: any;
 
   currentIndex = 0;
+  imagesLength = 0;
 
   constructor(
     private readonly facade: ContainerFacade,
@@ -32,8 +33,9 @@ export class ImageViewerComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.facade.selectImages$.pipe(untilDestroyed(this)).subscribe((images) => {
+      this.imagesLength = images.length;
       const imageItems = images.map(
-        (image) => new ImageItem({ src: image, thumb: image })
+        (image) => new ImageItem({ src: image.data.uri })
       );
 
       imageItems.length > 0

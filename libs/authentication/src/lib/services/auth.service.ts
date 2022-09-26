@@ -35,13 +35,15 @@ export class AuthService {
       .pipe(
         switchMap((response) => {
           this.storeLoginInformation(
-            response,
+            response.token,
             loginInfo.userName.toLowerCase()
           );
-          this.isAuthenticated$.next(true);
+          this.settingService.storeImageSettings(response.imageMaxSizes);
           this.settingService.initUploadSettings(
             JSON.parse(response.settings) as ServerSetting
           );
+
+          this.isAuthenticated$.next(true);
           return this.router.navigate(['container']);
         })
       );
@@ -53,10 +55,8 @@ export class AuthService {
     return this.router.navigate(['/', 'login']);
   }
 
-  private storeLoginInformation(response: LoginResponse, userName: string) {
-    this.cookieService.set(Cookie.TOKEN, response.token, 1);
+  private storeLoginInformation(token: string, userName: string) {
+    this.cookieService.set(Cookie.TOKEN, token, 1);
     localStorage.setItem('userName', userName);
-    localStorage.setItem('imageMaxSizes', response.imageMaxSizes);
-    localStorage.setItem('serverSettings', response.settings);
   }
 }

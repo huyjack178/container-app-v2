@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { BehaviorSubject } from 'rxjs';
-import { defaultSettings } from '../../constants';
+import { defaultUploadSettings } from '../../constants';
 import { UploadSettings } from '../../interfaces';
 import { SettingService } from '../../services';
 
@@ -14,7 +14,7 @@ import { SettingService } from '../../services';
 export class SettingDialogComponent implements OnInit {
   panelOpenState = true;
   public readonly uploadSettings$: BehaviorSubject<UploadSettings> =
-    new BehaviorSubject<UploadSettings>(defaultSettings);
+    new BehaviorSubject<UploadSettings>(defaultUploadSettings);
 
   constructor(
     private readonly dialog: MatDialog,

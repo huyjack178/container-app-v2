@@ -29,3 +29,8 @@ export type ServerSetting = {
     enabled: boolean;
   };
 };
+
+export type ImageSettings = {
+  high: number;
+  low: number;
+};

@@ -1,6 +1,6 @@
-import { UploadSettings } from '../interfaces';
+import { ImageSettings, UploadSettings } from '../interfaces';
 
-export const defaultSettings: UploadSettings = {
+export const defaultUploadSettings: UploadSettings = {
   local: {
     enabled: true,
     ip: '',
@@ -17,4 +17,9 @@ export const defaultSettings: UploadSettings = {
     api_key: '',
     api_secret: '',
   },
+};
+
+export const defaultImageSettings: ImageSettings = {
+  high: 2100,
+  low: 840,
 };
