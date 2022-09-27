@@ -1,9 +1,13 @@
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
-import { AuthGuard, DefaultGuard } from '@container-management/authentication';
+import {
+  AuthGuard,
+  DefaultGuard,
+  HeaderInterceptor,
+} from '@container-management/authentication';
 import { CommonModule } from '@container-management/common';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
@@ -52,6 +56,7 @@ import { routerReducer, StoreRouterConnectingModule } from '@ngrx/router-store';
     DefaultGuard,
     CookieService,
     { provide: 'environment', useValue: environment },
+    { provide: HTTP_INTERCEPTORS, useClass: HeaderInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
 })

@@ -8,7 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ContainerFacade } from '../../+state';
 import { ImageViewerComponent, UploadDialogComponent } from '../../components';
-import { map } from 'rxjs';
+import { first, map } from 'rxjs';
 
 @Component({
   selector: 'container-management-container-action',
@@ -38,6 +38,8 @@ export class ContainerActionComponent {
     this.dialog.open(UploadDialogComponent, {
       width: '100%',
     });
+
+    return this.facade.uploadImages();
   }
 
   capture() {

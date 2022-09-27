@@ -25,4 +25,10 @@ export class ContainerFacade {
   deleteImage(index: number) {
     this.store.dispatch(ContainerActions.deleteImage({ index }));
   }
+
+  uploadImages() {
+    this.store.dispatch(
+      ContainerActions.uploadImages({ isHighResolution: false, userName: 'KC' })
+    );
+  }
 }

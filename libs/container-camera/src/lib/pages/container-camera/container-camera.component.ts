@@ -25,7 +25,7 @@ export class ContainerCameraComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.facade.selectContainerId$.subscribe((containerId) => {
+    this.facade.selectContainerId$.pipe(first()).subscribe((containerId) => {
       this.#containerId = containerId;
     });
   }
