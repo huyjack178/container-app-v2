@@ -45,6 +45,25 @@ export class UploadImageService {
     );
   }
 
+  downloadToLocalStorage() {
+    // const zip = new jsZip();
+    //
+    // for (const image of this.imageFiles) {
+    //   const filesData = image.files;
+    //   const fileName = `${image.name}.jpg`;
+    //   zip.file(fileName, filesData.low);
+    // }
+    //
+    // zip
+    // .generateAsync({ type: 'blob' })
+    // .then(content => {
+    //   saveAs(content, `${this.containerId}_${this.containerDate.format('YYMMDDHHmmss')}.zip`);
+    // })
+    // .then(() => {
+    //   this.backToHomePage();
+    // });
+  }
+
   private static createFormData(payload: UploadImagePayload) {
     const data = new FormData();
     data.append('file', payload.image, payload.imageFileName);

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { defaultImageSettings, defaultUploadSettings } from '../constants';
+import { defaultImageSettings, defaultServerSettings, defaultUploadSettings } from "../constants";
 import {
   ImageSettings,
   ServerSetting,
@@ -25,6 +25,10 @@ export class SettingService {
     );
   }
 
+  getUserName() {
+    return localStorage.getItem('userName') ?? '';
+  }
+
   initUploadSettings(serverSettings: ServerSetting) {
     try {
       localStorage.setItem('serverSettings', JSON.stringify(serverSettings));
@@ -35,6 +39,8 @@ export class SettingService {
         settings.cloudinary.enabled && serverSettings.cloudinary.enabled;
       settings.local.enabled =
         serverSettings.local.enabledHigh || serverSettings.local.enabledLow;
+      settings.local.enabledHigh = serverSettings.local.enabledHigh;
+      settings.local.enabledLow = serverSettings.local.enabledLow;
       localStorage.setItem('uploadSettings', JSON.stringify(settings));
     } catch (error) {
       console.error(error);
@@ -43,6 +49,10 @@ export class SettingService {
 
   storeImageSettings(imageSetting: string) {
     localStorage.setItem('imageSetting', imageSetting);
+  }
+
+  storeUserName(userName: string) {
+    localStorage.setItem('userName', userName);
   }
 
   adjustUploadSettings(settingFormValue: SettingForm) {

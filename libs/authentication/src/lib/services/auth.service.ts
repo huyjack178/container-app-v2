@@ -57,6 +57,6 @@ export class AuthService {
 
   private storeLoginInformation(token: string, userName: string) {
     this.cookieService.set(Cookie.TOKEN, token, 1);
-    localStorage.setItem('userName', userName);
+    this.settingService.storeUserName(userName);
   }
 }

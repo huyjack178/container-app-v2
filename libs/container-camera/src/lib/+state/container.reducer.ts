@@ -46,6 +46,55 @@ const reducer = createReducer(
       ...state,
       images,
     };
+  }),
+  on(
+    ContainerActions.uploadImagesToLocalSuccessfully,
+    (state, { imageName }) => {
+      const updatedImages = state.images.map((image) =>
+        image.name === imageName ? { ...image, isUploadedLocal: true } : image
+      );
+
+      return {
+        ...state,
+        images: updatedImages,
+      };
+    }
+  ),
+  on(ContainerActions.uploadImagesToFtpSuccessfully, (state, { imageName }) => {
+    const updatedImages = state.images.map((image) =>
+      image.name === imageName ? { ...image, isUploadedFtp: true } : image
+    );
+
+    return {
+      ...state,
+      images: updatedImages,
+    };
+  }),
+  on(
+    ContainerActions.uploadImagesToCloudSuccessfully,
+    (state, { imageName }) => {
+      const updatedImages = state.images.map((image) =>
+        image.name === imageName ? { ...image, isUploadedCloud: true } : image
+      );
+
+      return {
+        ...state,
+        images: updatedImages,
+      };
+    }
+  ),
+  on(ContainerActions.clearUploadStatus, (state) => {
+    const updatedImages = state.images.map((image) => ({
+      ...image,
+      isUploadedLocal: false,
+      isUploadedFtp: false,
+      isUploadedCloud: false,
+    }));
+
+    return {
+      ...state,
+      images: updatedImages,
+    };
   })
 );
 

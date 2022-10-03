@@ -1,6 +1,8 @@
 export type UploadSettings = {
   local: {
     enabled: boolean;
+    enabledHigh: boolean;
+    enabledLow: boolean;
     ip: string;
   };
   ftp: {

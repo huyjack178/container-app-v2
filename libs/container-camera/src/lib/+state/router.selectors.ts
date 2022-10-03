@@ -11,3 +11,5 @@ export const {
   selectUrl, // select the current url
   selectTitle, // Select the title if available
 } = getSelectors();
+
+export const selectContainerId = selectQueryParam('containerId');

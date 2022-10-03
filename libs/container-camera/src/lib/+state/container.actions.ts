@@ -1,6 +1,5 @@
 import { createAction, props } from '@ngrx/store';
 import { ProcessedImage } from '../utils/image-processor';
-import { UploadImagePayload } from '../services/upload-image.service';
 
 export const deleteImage = createAction(
   '[Container] Image is deleted',
@@ -12,17 +11,48 @@ export const addImage = createAction(
   props<{ processedImage: ProcessedImage; containerId: string }>()
 );
 
-export const uploadImages = createAction(
-  '[Container] Images are uploading',
+export const uploadImagesToLocal = createAction(
+  '[Container] Images are uploading to local server',
   props<{
-    userName: string;
     isHighResolution: boolean;
   }>()
 );
 
-export const uploadImage = createAction(
-  '[Container] Images are uploading',
+export const uploadImagesToLocalSuccessfully = createAction(
+  '[Container] Images are uploaded to local server successfully',
   props<{
-    payload: UploadImagePayload;
+    imageName: string;
   }>()
+);
+
+export const uploadImagesToFtp = createAction(
+  '[Container] Images are uploading to ftp server',
+  props<{
+    isHighResolution: boolean;
+  }>()
+);
+
+export const uploadImagesToFtpSuccessfully = createAction(
+  '[Container] Images are uploaded to ftp server successfully',
+  props<{
+    imageName: string;
+  }>()
+);
+
+export const uploadImagesToCloud = createAction(
+  '[Container] Images are uploading to cloud',
+  props<{
+    isHighResolution: boolean;
+  }>()
+);
+
+export const uploadImagesToCloudSuccessfully = createAction(
+  '[Container] Images are uploaded to cloud successfully',
+  props<{
+    imageName: string;
+  }>()
+);
+
+export const clearUploadStatus = createAction(
+  '[Container] Images uploaded status are cleared'
 );
