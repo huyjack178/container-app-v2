@@ -8,7 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ContainerFacade } from '../../+state';
 import { ImageViewerComponent, UploadDialogComponent } from '../../components';
-import { first, map } from 'rxjs';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'container-management-container-action',
@@ -47,4 +47,10 @@ export class ContainerActionComponent {
       queryParamsHandling: 'preserve',
     });
   }
+
+  downloadToLocal() {
+    this.facade.downloadImagesToLocal();
+  }
+
+  viewFtpImages() {}
 }

@@ -12,6 +12,8 @@ import { ContainerIdConfirmDialogComponent } from '../../components/container-id
   encapsulation: ViewEncapsulation.Emulated,
 })
 export class ContainerInputComponent {
+  containerId: string = '';
+
   constructor(
     private readonly router: Router,
     private readonly dialog: MatDialog

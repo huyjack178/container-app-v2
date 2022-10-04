@@ -5,7 +5,7 @@ export const defaultUploadSettings: UploadSettings = {
     enabled: true,
     ip: '',
     enabledHigh: false,
-    enabledLow: true
+    enabledLow: true,
   },
   ftp: {
     enabled: true,
@@ -26,16 +26,15 @@ export const defaultImageSettings: ImageSettings = {
   low: 840,
 };
 
-
 export const defaultServerSettings = {
   local: {
     enabledHigh: false,
     enabledLow: true,
   },
   ftp: {
-    enabled: false
+    enabled: false,
   },
   cloudinary: {
-    enabled: false
-  }
-}
+    enabled: false,
+  },
+};

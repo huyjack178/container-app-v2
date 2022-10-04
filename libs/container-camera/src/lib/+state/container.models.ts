@@ -7,7 +7,7 @@ export interface ContainerImageData {
 export interface ContainerImage {
   readonly data: ContainerImageData;
   readonly name: string;
-  readonly isUploadedLocal?: boolean
+  readonly isUploadedLocal?: boolean;
   readonly isUploadedFtp?: boolean;
   readonly isUploadedCloud?: boolean;
 }

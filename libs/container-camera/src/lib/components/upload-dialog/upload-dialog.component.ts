@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ContainerFacade, ContainerImage } from '../../+state';
 import { SettingService } from '@container-management/setting';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'container-management-upload-dialog',
@@ -12,6 +13,7 @@ export class UploadDialogComponent implements OnInit {
 
   constructor(
     readonly containerFacade: ContainerFacade,
+    private readonly router: Router,
     private readonly settingService: SettingService
   ) {}
 
@@ -31,5 +33,17 @@ export class UploadDialogComponent implements OnInit {
 
   closeDialog() {
     this.containerFacade.clearUploadStatus();
+  }
+
+  continueCapture() {
+    this.containerFacade.clearImages();
+    return this.router.navigate(['/container', 'camera'], {
+      queryParamsHandling: 'preserve',
+    });
+  }
+
+  backToHomePage() {
+    this.containerFacade.resetState();
+    return this.router.navigate(['/container']);
   }
 }

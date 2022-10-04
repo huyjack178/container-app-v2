@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as ContainerActions from './container.actions';
-import { catchError, mergeMap, switchMap, tap } from "rxjs/operators";
+import { catchError, mergeMap } from 'rxjs/operators';
 import {
   UploadImagePayload,
   UploadImageService,
@@ -29,7 +29,7 @@ export class ContainerEffects {
         )
       ),
       catchError((error) => {
-        console.log(error)
+        console.log(error);
         throw new Error(error);
       })
     )
@@ -73,6 +73,31 @@ export class ContainerEffects {
         throw new Error(error);
       })
     )
+  );
+
+  downloadImagesToLocalStorage$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(ContainerActions.downloadToLocal),
+        withLatestFrom(
+          this.store$.select(ContainerSelectors.selectImages),
+          this.store$.select(ContainerSelectors.selectDate),
+          this.store$.select(RouterSelectors.selectContainerId)
+        ),
+        mergeMap(([a, images, date, containerId]) =>
+          this.uploadService.downloadToLocalStorage(
+            containerId ?? '',
+            images,
+            date
+          )
+        ),
+        catchError((error) => {
+          throw new Error(error);
+        })
+      ),
+    {
+      dispatch: false,
+    }
   );
 
   constructor(

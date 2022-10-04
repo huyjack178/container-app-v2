@@ -95,6 +95,18 @@ const reducer = createReducer(
       ...state,
       images: updatedImages,
     };
+  }),
+  on(ContainerActions.clearImages, (state) => {
+    return {
+      ...state,
+      images: [],
+    };
+  }),
+  on(ContainerActions.resetState, (state) => {
+    return {
+      ...state,
+      initialContainerState,
+    };
   })
 );
 

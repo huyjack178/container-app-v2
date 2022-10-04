@@ -35,9 +35,11 @@ export class ContainerFacade {
     this.uploadedAllImagesToLocal$,
     this.uploadedAllImagesToFtp$,
     this.uploadedAllImagesToCloud$,
-  ]).pipe(map
-    (([uploadAllToLocal, uploadAllToFtp, uploadAllToCloud]) =>
-      uploadAllToCloud && uploadAllToLocal && uploadAllToFtp)
+  ]).pipe(
+    map(
+      ([uploadAllToLocal, uploadAllToFtp, uploadAllToCloud]) =>
+        uploadAllToCloud && uploadAllToLocal && uploadAllToFtp
+    )
   );
 
   constructor(
@@ -78,5 +80,17 @@ export class ContainerFacade {
 
   clearUploadStatus() {
     this.store.dispatch(ContainerActions.clearUploadStatus());
+  }
+
+  downloadImagesToLocal() {
+    this.store.dispatch(ContainerActions.downloadToLocal());
+  }
+
+  clearImages() {
+    this.store.dispatch(ContainerActions.clearImages());
+  }
+
+  resetState() {
+    this.store.dispatch(ContainerActions.resetState());
   }
 }

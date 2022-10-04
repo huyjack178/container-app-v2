@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
-import { defaultImageSettings, defaultServerSettings, defaultUploadSettings } from "../constants";
+import {
+  defaultImageSettings,
+  defaultServerSettings,
+  defaultUploadSettings,
+} from '../constants';
 import {
   ImageSettings,
   ServerSetting,

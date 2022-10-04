@@ -8,11 +8,24 @@
   >
     <mat-form-field appearance="outline" [style.width.%]="100">
       <mat-label>Container ID</mat-label>
-      <input matInput ngModel name="containerId" required />
+      <input
+        matInput
+        name="containerId"
+        required
+        minlength="11"
+        maxlength="11"
+        [ngModel]="containerId"
+        (ngModelChange)="containerId = $event.toUpperCase()"
+      />
       <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-      <mat-hint>Required</mat-hint>
+      <mat-hint>Required 11 characters</mat-hint>
     </mat-form-field>
-    <button mat-stroked-button color="primary" class="login-button">
+    <button
+      mat-stroked-button
+      color="primary"
+      class="login-button"
+      [disabled]="!containerInputForm.valid"
+    >
       CHỤP
       <mat-icon>camera_alt</mat-icon>
     </button>

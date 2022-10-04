@@ -7,14 +7,21 @@
   fxLayoutAlign="space-evenly center"
 >
   <h3>Đã chụp {{ (facade.selectImages$ | async)?.length }} ảnh</h3>
-  <button mat-stroked-button
-          color="primary"
-          (click)="upload()"
-          [disabled]="hasNoImage$ | async">
+  <button
+    mat-stroked-button
+    color="primary"
+    (click)="upload()"
+    [disabled]="hasNoImage$ | async"
+  >
     <mat-icon>cloud_upload</mat-icon>
     GHI
   </button>
-  <button mat-stroked-button color="primary" [disabled]="hasNoImage$ | async">
+  <button
+    mat-stroked-button
+    color="primary"
+    (click)="downloadToLocal()"
+    [disabled]="hasNoImage$ | async"
+  >
     <mat-icon>download</mat-icon>
     LOCAL
   </button>
@@ -26,6 +33,15 @@
   >
     <mat-icon>insert_drive_file</mat-icon>
     XEM
+  </button>
+  <button
+    mat-stroked-button
+    color="primary"
+    [disabled]="hasNoImage$ | async"
+    (click)="viewFtpImages()"
+  >
+    <mat-icon>insert_drive_file</mat-icon>
+    XEM FTP
   </button>
   <button mat-stroked-button color="primary" (click)="capture()">
     <mat-icon>camera_alt</mat-icon>

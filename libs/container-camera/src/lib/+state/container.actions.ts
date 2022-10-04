@@ -56,3 +56,11 @@ export const uploadImagesToCloudSuccessfully = createAction(
 export const clearUploadStatus = createAction(
   '[Container] Images uploaded status are cleared'
 );
+
+export const downloadToLocal = createAction(
+  '[Container] Images are downloaded to local storage'
+);
+
+export const clearImages = createAction('[Container] Images are cleared');
+
+export const resetState = createAction('[Container] State is reset');

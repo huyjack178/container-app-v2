@@ -1,8 +1,11 @@
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { from, map, Observable } from 'rxjs';
 import * as moment from 'moment';
 import { CookieService } from 'ngx-cookie-service';
+import * as JSZip from 'jszip';
+import { ContainerImage } from '../+state';
+import { saveAs } from 'file-saver';
 
 export interface UploadImagePayload {
   readonly image: Blob;
@@ -45,23 +48,25 @@ export class UploadImageService {
     );
   }
 
-  downloadToLocalStorage() {
-    // const zip = new jsZip();
-    //
-    // for (const image of this.imageFiles) {
-    //   const filesData = image.files;
-    //   const fileName = `${image.name}.jpg`;
-    //   zip.file(fileName, filesData.low);
-    // }
-    //
-    // zip
-    // .generateAsync({ type: 'blob' })
-    // .then(content => {
-    //   saveAs(content, `${this.containerId}_${this.containerDate.format('YYMMDDHHmmss')}.zip`);
-    // })
-    // .then(() => {
-    //   this.backToHomePage();
-    // });
+  downloadToLocalStorage(
+    containerId: string,
+    images: ContainerImage[],
+    imageFileDate: moment.Moment
+  ): Observable<void> {
+    const zip = new JSZip();
+
+    for (const image of images) {
+      zip.file(`${image.name}.jpg`, image.data.lowResolution);
+    }
+
+    return from(zip.generateAsync({ type: 'blob' })).pipe(
+      map((content) =>
+        saveAs(
+          content,
+          `${containerId}_${imageFileDate.format('YYMMDDHHmmss')}.zip`
+        )
+      )
+    );
   }
 
   private static createFormData(payload: UploadImagePayload) {

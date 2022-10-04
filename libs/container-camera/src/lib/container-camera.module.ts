@@ -20,7 +20,7 @@ import { ContainerIdConfirmDialogComponent } from './components/container-id-con
 import { GalleryModule } from 'ng-gallery';
 import { LightboxModule } from 'ng-gallery/lightbox';
 import { ImageViewerComponent } from './components/image-viewer/image-viewer.component';
-import { MatDividerModule } from "@angular/material/divider";
+import { MatDividerModule } from '@angular/material/divider';
 
 @NgModule({
   imports: [
@@ -53,7 +53,7 @@ import { MatDividerModule } from "@angular/material/divider";
     EffectsModule.forFeature([ContainerEffects]),
     GalleryModule,
     LightboxModule,
-    MatDividerModule
+    MatDividerModule,
   ],
   declarations: [
     CameraComponent,
