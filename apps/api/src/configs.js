@@ -1,5 +1,4 @@
-export const environment = {
-  production: false,
+module.exports = {
   jwtSecret: 'thisissecretjwt',
   imageMaxSizes: {
     high: 2100,
@@ -42,7 +41,7 @@ export const environment = {
   },
   ftp: {
     host: '115.78.128.218',
-    port: 5021,
+    port: '5021',
     user: 'baogia3',
     rootFolder: '/DataMNR_PL',
     password: 'Solog2022#',
