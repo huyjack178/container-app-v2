@@ -1,1 +1,30 @@
-<p>camera works!</p>
+<div fxLayout="column" fxLayoutAlign="space-around center">
+  <div>
+    <video autoPlay playsinline #camera></video>
+  </div>
+  <div
+    class="button-area"
+    [style.width.%]="100"
+    fxLayout="row"
+    fxLayoutAlign="space-around center"
+  >
+    <span fxFlex style="left: 8px">
+      <img
+        class="captured-image"
+        *ngIf="capturedPhoto$ | async as capturedPhoto"
+        src="{{ capturedPhoto }}"
+        alt=""
+      />
+    </span>
+    <span fxFlex="66">
+      <button class="capture-btn" mat-fab (click)="capturePhoto()">
+        <mat-icon>camera_alt</mat-icon>
+      </button>
+    </span>
+    <span fxFlex style="margin-right: 8px">
+      <button class="ok-btn" (click)="finishCapturing()" mat-flat-button>
+        OK
+      </button>
+    </span>
+  </div>
+</div>

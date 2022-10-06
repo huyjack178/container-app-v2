@@ -3,23 +3,6 @@
   "sourceRoot": "libs/authentication/src",
   "prefix": "container-management",
   "targets": {
-    "build": {
-      "executor": "@nrwl/angular:ng-packagr-lite",
-      "outputs": ["dist/libs/authentication"],
-      "options": {
-        "project": "libs/authentication/ng-package.json",
-        "tailwindConfig": "libs/authentication/tailwind.config.js"
-      },
-      "configurations": {
-        "production": {
-          "tsConfig": "libs/authentication/tsconfig.lib.prod.json"
-        },
-        "development": {
-          "tsConfig": "libs/authentication/tsconfig.lib.json"
-        }
-      },
-      "defaultConfiguration": "production"
-    },
     "test": {
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libs/authentication"],

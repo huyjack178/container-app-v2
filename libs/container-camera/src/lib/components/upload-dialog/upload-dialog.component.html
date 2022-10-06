@@ -1,0 +1,86 @@
+<h1 *ngIf="!(containerFacade.uploadedAllImages$ | async)">Đang Upload ...</h1>
+<h1 *ngIf="containerFacade.uploadedAllImages$ | async">Upload Thành Công</h1>
+<mat-dialog-content
+  class="mat-typography"
+  *ngIf="containerFacade.selectImages$ | async as images"
+  fxLayout="column"
+  fxLayoutAlign="space-between"
+  fxLayoutGap="8px"
+>
+  <div fxLayout="row" fxLayoutAlign="space-between start">
+    <div *ngIf="uploadSettings.local.enabled">
+      <b>LOCAL: </b> {{ calculateUploadedLocalCount(images) }}/{{
+        images.length
+      }}
+    </div>
+    <div *ngIf="uploadSettings.ftp.enabled">
+      <b>FTP: </b> {{ calculateUploadedFtpCount(images) }}/{{ images.length }}
+    </div>
+    <div *ngIf="uploadSettings.cloudinary.enabled">
+      <b>CLOUD: </b> {{ calculateUploadedCloudCount(images) }}/{{
+        images.length
+      }}
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+  <div fxLayout="column" fxLayoutAlign="space-between start">
+    <div *ngFor="let image of images">
+      <b>{{ image.name }}</b>
+      <span
+        *ngIf="uploadSettings.local.enabled"
+        flexLayout="row"
+        fxLayoutAlign="space-between center"
+        >Local Server
+        <mat-icon *ngIf="image.isUploadedLocal" color="primary"
+          >check_circle</mat-icon
+        >
+        <mat-spinner
+          *ngIf="!image.isUploadedLocal"
+          [diameter]="24"
+        ></mat-spinner>
+      </span>
+      <span
+        *ngIf="uploadSettings.ftp.enabled"
+        flexLayout="row"
+        fxLayoutAlign="space-between center"
+        >Cloud<mat-icon *ngIf="image.isUploadedFtp" color="primary"
+          >check_circle</mat-icon
+        >
+        <mat-spinner *ngIf="!image.isUploadedFtp" [diameter]="24"></mat-spinner>
+      </span>
+      <span
+        *ngIf="uploadSettings.cloudinary.enabled"
+        flexLayout="row"
+        fxLayoutAlign="space-between center"
+        >FTP<mat-icon *ngIf="image.isUploadedCloud" color="primary"
+          >check_circle</mat-icon
+        >
+        <mat-spinner
+          *ngIf="!image.isUploadedCloud"
+          [diameter]="24"
+        ></mat-spinner>
+      </span>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions flexLayout="row" fxLayoutAlign="space-between center">
+  <button
+    mat-button
+    mat-dialog-close
+    color="primary"
+    (click)="backToHomePage()"
+  >
+    VỀ TRANG CHỦ
+  </button>
+  <button
+    mat-button
+    color="primary"
+    mat-dialog-close
+    (click)="continueCapture()"
+  >
+    CHỤP TIẾP
+  </button>
+  <button mat-button mat-dialog-close color="primary" (click)="closeDialog()">
+    THOÁT
+  </button>
+</mat-dialog-actions>

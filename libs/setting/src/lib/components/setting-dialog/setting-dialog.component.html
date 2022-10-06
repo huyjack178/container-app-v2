@@ -1,0 +1,59 @@
+<h1 mat-dialog-title>Cấu hình Upload</h1>
+<form
+  #settingForm="ngForm"
+  (ngSubmit)="onSubmit(settingForm)"
+  *ngIf="uploadSettings$ | async as uploadSettings"
+>
+  <mat-dialog-content class="mat-typography">
+    <mat-accordion>
+      <mat-expansion-panel
+        (opened)="panelOpenState = true"
+        (closed)="panelOpenState = false"
+      >
+        <mat-expansion-panel-header>
+          <mat-panel-title> Upload Local </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-slide-toggle
+          color="primary"
+          name="local"
+          [(ngModel)]="uploadSettings.local.enabled"
+        >
+          <span>{{ uploadSettings.local.enabled ? 'Tắt' : 'Bật' }}</span>
+        </mat-slide-toggle>
+      </mat-expansion-panel>
+      <mat-expansion-panel
+        (opened)="panelOpenState = true"
+        (closed)="panelOpenState = false"
+      >
+        <mat-expansion-panel-header>
+          <mat-panel-title> Upload FTP </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-slide-toggle
+          color="primary"
+          name="ftp"
+          [(ngModel)]="uploadSettings.ftp.enabled"
+        >
+          <span>{{ uploadSettings.ftp.enabled ? 'Tắt' : 'Bật' }}</span>
+        </mat-slide-toggle>
+      </mat-expansion-panel>
+      <mat-expansion-panel
+        (opened)="panelOpenState = true"
+        (closed)="panelOpenState = false"
+      >
+        <mat-expansion-panel-header>
+          <mat-panel-title> Upload Cloudinary </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-slide-toggle
+          color="primary"
+          name="cloudinary"
+          [(ngModel)]="uploadSettings.cloudinary.enabled"
+        >
+          <span>{{ uploadSettings.cloudinary.enabled ? 'Tắt' : 'Bật' }}</span>
+        </mat-slide-toggle>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button color="primary">OK</button>
+  </mat-dialog-actions>
+</form>

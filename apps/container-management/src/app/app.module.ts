@@ -1,17 +1,21 @@
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
 import { RouterModule } from '@angular/router';
 import {
-  AuthenticationModule,
   AuthGuard,
   DefaultGuard,
+  HeaderInterceptor,
 } from '@container-management/authentication';
+import { CommonModule } from '@container-management/common';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { CookieService } from 'ngx-cookie-service';
 import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
+import { routerReducer, StoreRouterConnectingModule } from '@ngrx/router-store';
 
 @NgModule({
   declarations: [AppComponent],
@@ -19,9 +23,9 @@ import { AppComponent } from './app.component';
     BrowserModule,
     HttpClientModule,
     RouterModule.forRoot([
-      { path: '', redirectTo: 'camera', pathMatch: 'full' },
+      { path: '', redirectTo: 'container', pathMatch: 'full' },
       {
-        path: 'camera',
+        path: 'container',
         canActivate: [AuthGuard],
         loadChildren: () =>
           import('@container-management/container-camera').then(
@@ -37,13 +41,22 @@ import { AppComponent } from './app.component';
           ),
       },
     ]),
+    StoreModule.forRoot({ router: routerReducer }),
+    EffectsModule.forRoot([]),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25, // Retains last 25 states
+      logOnly: environment.production, // Restrict extension to log-only mode
+    }),
+    StoreRouterConnectingModule.forRoot(),
     BrowserAnimationsModule,
+    CommonModule,
   ],
   providers: [
     AuthGuard,
     DefaultGuard,
     CookieService,
     { provide: 'environment', useValue: environment },
+    { provide: HTTP_INTERCEPTORS, useClass: HeaderInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
 })

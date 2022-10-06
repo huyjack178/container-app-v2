@@ -21,9 +21,11 @@
       "@container-management/authentication": [
         "libs/authentication/src/index.ts"
       ],
+      "@container-management/common": ["libs/common/src/index.ts"],
       "@container-management/container-camera": [
         "libs/container-camera/src/index.ts"
-      ]
+      ],
+      "@container-management/setting": ["libs/setting/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
