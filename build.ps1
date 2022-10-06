@@ -3,7 +3,7 @@ write-host "`n  ## NODEJS INSTALLER ## `n"
 ### CONFIGURATION
 
 # nodejs
-$version = "16.13.2-x64"
+$version = "v16.13.2"
 $url = "https://nodejs.org/dist/v16.13.2/node-v16.13.2-x64.msi"
 
 # activate / desactivate any install
@@ -26,7 +26,9 @@ if (Get-Command node -errorAction SilentlyContinue) {
     $current_version = (node -v)
 }
 
-if ($current_version) {
+echo $current_version
+echo $version
+if ($current_version -eq $version) {
     write-host "[NODE] nodejs $current_version already installed"
     $install_node = $FALSE
 }
@@ -71,28 +73,27 @@ write-host "`n----------------------------"
 write-host " npm packages installation  "
 write-host "----------------------------`n"
 
-write-host "Installing pm2"
-npm install --global pm2
-npm install pm2-windows-startup -g
 npm install --global yarn
-pm2-startup install
 
 write-host "`n----------------------------"
 write-host " Build source  "
 write-host "----------------------------`n"
 
 $source = '.\'
+$dest = '..\build\' + $(Get-Date -format "MMddyyyyHHmmss")
 $IP = Read-Host 'User server IP. Ex: 192.0.0.1?'
 $expired_date = Read-Host 'Expired Date (YYYY-MM-DD). Ex: 2020-01-01?'
 $serial_id = Read-Host 'Serial ID. For Windows, run command [wmic bios get serialnumber] to get the serial number.'
 
-# Copy-Item -Path $source -exclude 'node_modules*' -Destination  $dest -recurse -Verbose
+Copy-Item -Path $source -exclude 'node_modules*' -Destination  $dest -recurse -Verbose
 
+Set-Location $dest
 
-(Get-Content '.\apps\container-management\src\environments\environments.prod.ts') | Foreach-Object {
+(Get-Content '.\apps\container-management\src\environments\environment.prod.ts') | Foreach-Object {
     $_.replace('$IP', $IP.Trim()).replace('$EXPIRED_DATE', $expired_date.Trim()).replace('$SERIAL_ID', $serial_id.Trim())
-} | Set-Content '.\apps\container-management\src\environments\environments.prod.ts'
+} | Set-Content '.\apps\container-management\src\environments\environment.prod.ts'
 
+yarn
 yarn build:web
 
 Remove-Item -Recurse -Force ./libs

@@ -3,7 +3,7 @@ write-host "`n  ## NODEJS INSTALLER ## `n"
 ### CONFIGURATION
 
 # nodejs
-$version = "16.13.2-x64"
+$version = "v16.13.2"
 $url = "https://nodejs.org/dist/v16.13.2/node-v16.13.2-x64.msi"
 
 # activate / desactivate any install
@@ -26,7 +26,9 @@ if (Get-Command node -errorAction SilentlyContinue) {
     $current_version = (node -v)
 }
 
-if ($current_version) {
+echo $current_version
+echo $version
+if ($current_version -eq $version) {
     write-host "[NODE] nodejs $current_version already installed"
     $install_node = $FALSE
 }
@@ -78,6 +80,6 @@ npm install --global yarn
 pm2-startup install
 
 yarn install
-pm2 start ./apps/api/src/server.js --name server3001
+pm2 start ./apps/api/src/server.js --name server3000
 pm2 save
 pm2 resurrect
