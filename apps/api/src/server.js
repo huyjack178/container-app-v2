@@ -1,6 +1,13 @@
+const fs = require('fs')
 const fastify = require('fastify');
 const path = require('path');
-const server = fastify();
+const server = fastify({
+  https: {
+    allowHTTP1: true,
+    key: fs.readFileSync(path.join(__dirname, '..', 'https', 'server.key')),
+    cert: fs.readFileSync(path.join(__dirname, '..', 'https', 'server.cert'))
+  }
+});
 const multer = require('fastify-multer');
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
