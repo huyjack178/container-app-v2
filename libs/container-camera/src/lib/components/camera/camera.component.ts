@@ -33,6 +33,11 @@ export class CameraComponent implements AfterViewInit {
   }
 
   capturePhoto() {
+    const audio = new Audio();
+    audio.src = '/assets/camera-shutter.wav';
+    audio.load();
+    audio.play();
+
     const dataUri = this.cameraPhoto?.getDataUri({
       sizeFactor: 1,
       imageType: IMAGE_TYPES.JPG,

@@ -43,7 +43,7 @@
         *ngIf="uploadSettings.ftp.enabled"
         flexLayout="row"
         fxLayoutAlign="space-between center"
-        >Cloud<mat-icon *ngIf="image.isUploadedFtp" color="primary"
+        >FTP<mat-icon *ngIf="image.isUploadedFtp" color="primary"
           >check_circle</mat-icon
         >
         <mat-spinner *ngIf="!image.isUploadedFtp" [diameter]="24"></mat-spinner>
@@ -52,7 +52,7 @@
         *ngIf="uploadSettings.cloudinary.enabled"
         flexLayout="row"
         fxLayoutAlign="space-between center"
-        >FTP<mat-icon *ngIf="image.isUploadedCloud" color="primary"
+        >Cloud<mat-icon *ngIf="image.isUploadedCloud" color="primary"
           >check_circle</mat-icon
         >
         <mat-spinner

@@ -100,14 +100,10 @@ const reducer = createReducer(
     return {
       ...state,
       images: [],
+      date: moment(),
     };
   }),
-  on(ContainerActions.resetState, (state) => {
-    return {
-      ...state,
-      initialContainerState,
-    };
-  })
+  on(ContainerActions.resetState, () => initialContainerState)
 );
 
 export const containerFeature = createFeature({
