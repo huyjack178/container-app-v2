@@ -21,6 +21,7 @@ import { GalleryModule } from 'ng-gallery';
 import { LightboxModule } from 'ng-gallery/lightbox';
 import { ImageViewerComponent } from './components/image-viewer/image-viewer.component';
 import { MatDividerModule } from '@angular/material/divider';
+import { FtpViewerComponent } from './components/ftp-viewer/ftp-viewer.component';
 
 @NgModule({
   imports: [
@@ -63,6 +64,7 @@ import { MatDividerModule } from '@angular/material/divider';
     UploadDialogComponent,
     ContainerIdConfirmDialogComponent,
     ImageViewerComponent,
+    FtpViewerComponent,
   ],
   exports: [ContainerCameraComponent, ContainerInputComponent],
   providers: [ContainerFacade],

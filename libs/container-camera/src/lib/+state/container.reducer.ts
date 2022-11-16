@@ -7,6 +7,7 @@ export interface ContainerState {
   readonly loaded: boolean;
   readonly date: moment.Moment;
   readonly images: ContainerImage[];
+  readonly ftpPath: string;
   readonly error: string | null;
 }
 
@@ -14,6 +15,7 @@ const initialContainerState: ContainerState = {
   loaded: true,
   date: moment(),
   images: [],
+  ftpPath: '',
   error: null,
 };
 
@@ -103,7 +105,11 @@ const reducer = createReducer(
       date: moment(),
     };
   }),
-  on(ContainerActions.resetState, () => initialContainerState)
+  on(ContainerActions.resetState, () => initialContainerState),
+  on(ContainerActions.getFtpPathSuccessfully, (state, { ftpPath }) => ({
+    ...state,
+    ftpPath,
+  }))
 );
 
 export const containerFeature = createFeature({

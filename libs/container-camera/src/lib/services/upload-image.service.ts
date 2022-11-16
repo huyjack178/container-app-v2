@@ -27,6 +27,22 @@ export class UploadImageService {
     @Inject('environment') private readonly environment: any
   ) {}
 
+  getFtpPath$(
+    containerId: string,
+    containerDate: moment.Moment,
+    userName: string
+  ): Observable<string> {
+    const data = new FormData();
+    data.append('fileId', containerId);
+    data.append('fileDate', containerDate.toISOString());
+    data.append('userName', userName.toUpperCase());
+
+    return this.http.post<string>(
+      `${this.environment.serverUrl}/ftpPath`,
+      data
+    );
+  }
+
   uploadToLocalServer$(payload: UploadImagePayload): Observable<void> {
     return this.http.post<void>(
       `${this.environment.serverUrl}/uploadLocal`,

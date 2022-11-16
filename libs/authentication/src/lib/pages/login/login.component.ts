@@ -40,7 +40,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     this.errorMessage$
       .pipe(
-        switchMap(() => interval(2000)),
+        switchMap(() => interval(10000)),
         tap(() => this.errorMessage$.next('')),
         takeUntil(this.unsubscribe$)
       )
@@ -65,7 +65,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       })
       .pipe(first())
       .subscribe({
-        error: (error) => this.errorMessage$.next(error.error),
+        error: (error) => this.errorMessage$.next(JSON.stringify(error)),
       });
   }
 

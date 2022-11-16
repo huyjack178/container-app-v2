@@ -100,6 +100,34 @@ export class ContainerEffects {
     }
   );
 
+  getFtpFolderPath$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(ContainerActions.getFtpPath),
+        withLatestFrom(
+          this.store$.select(ContainerSelectors.selectDate),
+          this.store$.select(RouterSelectors.selectContainerId)
+        ),
+        mergeMap(([a, date, containerId]) =>
+          this.uploadService
+            .getFtpPath$(
+              containerId ?? '',
+              date,
+              this.settingService.getUserName()
+            )
+            .pipe(
+              map((ftpPath) => {
+                ContainerActions.getFtpPathSuccessfully({ ftpPath });
+              })
+            )
+        ),
+        catchError((error) => {
+          throw new Error(error);
+        })
+      ),
+    { dispatch: false }
+  );
+
   constructor(
     private readonly actions$: Actions,
     private readonly uploadService: UploadImageService,

@@ -16,6 +16,8 @@ export class SettingDialogComponent implements OnInit {
   public readonly uploadSettings$: BehaviorSubject<UploadSettings> =
     new BehaviorSubject<UploadSettings>(defaultUploadSettings);
 
+  public readonly serverSettings = this.settingService.getServerSettings();
+
   constructor(
     private readonly dialog: MatDialog,
     public readonly settingService: SettingService

@@ -4,6 +4,7 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  OnDestroy,
   Output,
   ViewChild,
 } from '@angular/core';
@@ -21,7 +22,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
   styleUrls: ['./camera.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CameraComponent implements AfterViewInit {
+export class CameraComponent implements AfterViewInit, OnDestroy {
   @ViewChild('camera') cameraElement!: ElementRef;
   @Output() photoCaptured = new EventEmitter<string>();
   @Output() captureFinished = new EventEmitter<void>();
@@ -32,12 +33,11 @@ export class CameraComponent implements AfterViewInit {
     this.startCameraVideo();
   }
 
-  capturePhoto() {
-    const audio = new Audio();
-    audio.src = '/assets/camera-shutter.wav';
-    audio.load();
-    audio.play();
+  ngOnDestroy(): void {
+    this.cameraPhoto?.stopCamera();
+  }
 
+  capturePhoto() {
     const dataUri = this.cameraPhoto?.getDataUri({
       sizeFactor: 1,
       imageType: IMAGE_TYPES.JPG,

@@ -6,7 +6,7 @@
     "ng": "nx",
     "postinstall": "node ./decorate-angular-cli.js && ngcc --properties es2020 browser module main",
     "format": "nx format:write --uncommitted",
-    "start": "nx serve container-management",
+    "start": "nx serve container-management --host=0.0.0.0",
     "build:web": "nx build --prod --configuration=production --output-path ./apps/api/src/web",
     "test": "nx test",
     "server:dev": "cd ./apps/api/src && nodemon --watch ./ server.js"

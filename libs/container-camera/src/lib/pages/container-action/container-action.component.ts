@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { ContainerFacade } from '../../+state';
 import { ImageViewerComponent, UploadDialogComponent } from '../../components';
 import { map } from 'rxjs';
+import { SettingService } from '@container-management/setting';
 
 @Component({
   selector: 'container-management-container-action',
@@ -27,7 +28,8 @@ export class ContainerActionComponent {
   constructor(
     readonly facade: ContainerFacade,
     private readonly dialog: MatDialog,
-    private readonly router: Router
+    private readonly router: Router,
+    public readonly settingService: SettingService
   ) {}
 
   viewImages() {

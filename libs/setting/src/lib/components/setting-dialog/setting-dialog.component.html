@@ -7,6 +7,9 @@
   <mat-dialog-content class="mat-typography">
     <mat-accordion>
       <mat-expansion-panel
+        *ngIf="
+          serverSettings.local.enabledHigh || serverSettings.local.enabledLow
+        "
         (opened)="panelOpenState = true"
         (closed)="panelOpenState = false"
       >
@@ -22,6 +25,7 @@
         </mat-slide-toggle>
       </mat-expansion-panel>
       <mat-expansion-panel
+        *ngIf="serverSettings.ftp.enabled"
         (opened)="panelOpenState = true"
         (closed)="panelOpenState = false"
       >
@@ -37,6 +41,7 @@
         </mat-slide-toggle>
       </mat-expansion-panel>
       <mat-expansion-panel
+        *ngIf="serverSettings.cloudinary.enabled"
         (opened)="panelOpenState = true"
         (closed)="panelOpenState = false"
       >

@@ -37,7 +37,9 @@
   <button
     mat-stroked-button
     color="primary"
-    [disabled]="hasNoImage$ | async"
+    [disabled]="
+      (hasNoImage$ | async) || !settingService.getUploadSettings().ftp.enabled
+    "
     (click)="viewFtpImages()"
   >
     <mat-icon>insert_drive_file</mat-icon>

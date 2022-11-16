@@ -29,7 +29,7 @@
             {
               "type": "initial",
               "maximumWarning": "500kb",
-              "maximumError": "1mb"
+              "maximumError": "5mb"
             },
             {
               "type": "anyComponentStyle",
@@ -68,7 +68,8 @@
       },
       "defaultConfiguration": "development",
       "options": {
-        "proxyConfig": "apps/container-management/proxy.conf.json"
+        "proxyConfig": "apps/container-management/proxy.conf.json",
+        "ssl": true
       }
     },
     "extract-i18n": {

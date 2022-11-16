@@ -41,3 +41,4 @@ Thumbs.db
 .angular
 high
 low
+apps/api/src/web/*

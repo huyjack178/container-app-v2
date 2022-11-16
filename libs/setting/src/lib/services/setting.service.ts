@@ -29,6 +29,13 @@ export class SettingService {
     );
   }
 
+  getServerSettings(): ServerSetting {
+    return JSON.parse(
+      localStorage.getItem('serverSettings') ??
+        JSON.stringify(defaultServerSettings)
+    );
+  }
+
   getUserName() {
     return localStorage.getItem('userName') ?? '';
   }

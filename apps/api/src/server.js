@@ -1,12 +1,12 @@
-const fs = require('fs')
+const fs = require('fs');
 const fastify = require('fastify');
 const path = require('path');
 const server = fastify({
   https: {
     allowHTTP1: true,
     key: fs.readFileSync(path.join(__dirname, '..', 'https', 'server.key')),
-    cert: fs.readFileSync(path.join(__dirname, '..', 'https', 'server.cert'))
-  }
+    cert: fs.readFileSync(path.join(__dirname, '..', 'https', 'server.cert')),
+  },
 });
 const multer = require('fastify-multer');
 const storage = multer.memoryStorage();
@@ -53,6 +53,18 @@ server.register(require('./jwt-auth')).after(() => {
   });
 
   server.get('/login', function (req, res) {
+    res.sendFile('index.html');
+  });
+
+  server.get('/container', function (req, res) {
+    res.sendFile('index.html');
+  });
+
+  server.get('/container/camera', function (req, res) {
+    res.sendFile('index.html');
+  });
+
+  server.get('/container/action', function (req, res) {
     res.sendFile('index.html');
   });
 

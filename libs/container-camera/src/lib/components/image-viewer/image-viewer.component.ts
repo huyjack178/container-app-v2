@@ -40,7 +40,7 @@ export class ImageViewerComponent implements OnInit, AfterViewInit {
 
       imageItems.length > 0
         ? this.getLightBoxRef().load(imageItems)
-        : this.lightbox.close();
+        : this.lightbox?.close();
     });
   }
 

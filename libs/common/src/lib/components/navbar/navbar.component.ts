@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from '@container-management/authentication';
 import { SettingDialogComponent } from '@container-management/setting';
 import { Router } from '@angular/router';
+import { ContainerFacade } from '@container-management/container-camera';
 
 @Component({
   selector: 'container-management-navbar',
@@ -13,7 +14,8 @@ export class NavbarComponent {
   constructor(
     public readonly authService: AuthService,
     private readonly dialog: MatDialog,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly containerFacade: ContainerFacade
   ) {}
 
   openSettingDialog() {
@@ -27,6 +29,7 @@ export class NavbarComponent {
   }
 
   backToHome() {
+    this.containerFacade.resetState();
     return this.router.navigateByUrl('/');
   }
 }

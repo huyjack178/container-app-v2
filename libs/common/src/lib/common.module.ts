@@ -6,6 +6,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { ContainerCameraModule } from '@container-management/container-camera';
 
 @NgModule({
   imports: [
@@ -16,6 +17,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
     FormsModule,
     MatDialogModule,
     ReactiveFormsModule,
+    ContainerCameraModule,
   ],
   declarations: [NavbarComponent],
   exports: [NavbarComponent],
