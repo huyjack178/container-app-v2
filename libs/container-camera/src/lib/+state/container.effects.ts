@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as ContainerActions from './container.actions';
-import { catchError, mergeMap } from 'rxjs/operators';
+import { catchError, mergeMap, tap } from 'rxjs/operators';
 import {
   UploadImagePayload,
   UploadImageService,
@@ -100,32 +100,72 @@ export class ContainerEffects {
     }
   );
 
-  getFtpFolderPath$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(ContainerActions.getFtpPath),
-        withLatestFrom(
-          this.store$.select(ContainerSelectors.selectDate),
-          this.store$.select(RouterSelectors.selectContainerId)
-        ),
-        mergeMap(([a, date, containerId]) =>
-          this.uploadService
-            .getFtpPath$(
-              containerId ?? '',
-              date,
-              this.settingService.getUserName()
-            )
-            .pipe(
-              map((ftpPath) => {
-                ContainerActions.getFtpPathSuccessfully({ ftpPath });
+  getFtpFolderPath$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ContainerActions.getFtpPath),
+      withLatestFrom(
+        this.store$.select(ContainerSelectors.selectDate),
+        this.store$.select(RouterSelectors.selectContainerId)
+      ),
+      mergeMap(([a, date, containerId]) =>
+        this.uploadService
+          .getFtpPath$(
+            containerId ?? '',
+            date,
+            this.settingService.getUserName()
+          )
+          .pipe(
+            map((response) =>
+              ContainerActions.getFtpPathSuccessfully({
+                ftpPath: response.folderPath,
               })
             )
-        ),
-        catchError((error) => {
-          throw new Error(error);
-        })
+          )
       ),
-    { dispatch: false }
+      catchError((error) => {
+        throw new Error(error);
+      })
+    )
+  );
+
+  getImagesFromFtp$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ContainerActions.getFtpImages),
+      withLatestFrom(this.store$.select(ContainerSelectors.selectFtpPath)),
+      mergeMap(([a, ftpPath]) =>
+        this.uploadService
+          .getFtpImages$(ftpPath)
+          .pipe(
+            map((ftpImages) =>
+              ContainerActions.getFtpImagesSuccessfully({ ftpImages })
+            )
+          )
+      ),
+      catchError((error) => {
+        throw new Error(error);
+      })
+    )
+  );
+
+  downloadFtpImage$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ContainerActions.downloadFtpImage),
+      withLatestFrom(this.store$.select(ContainerSelectors.selectFtpPath)),
+      mergeMap(([action, ftpPath]) =>
+        this.uploadService
+          .downloadFtpImage$(ftpPath + action.fileName)
+          .pipe(
+            map((ftpImage) =>
+              ContainerActions.downloadFtpImageSuccessfully({
+                ftpImageSrc: ftpImage.src,
+              })
+            )
+          )
+      ),
+      catchError((error) => {
+        throw new Error(error);
+      })
+    )
   );
 
   constructor(

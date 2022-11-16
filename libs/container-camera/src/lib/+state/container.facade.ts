@@ -42,6 +42,18 @@ export class ContainerFacade {
     )
   );
 
+  readonly ftpPath$: Observable<string> = this.store.select(
+    ContainerSelectors.selectFtpPath
+  );
+
+  readonly ftpImages$: Observable<string[]> = this.store.select(
+    ContainerSelectors.selectFtpImages
+  );
+
+  readonly ftpImageSrc$: Observable<string> = this.store.select(
+    ContainerSelectors.selectFtpImageSrc
+  );
+
   constructor(
     private readonly store: Store,
     private readonly settingService: SettingService
@@ -67,10 +79,13 @@ export class ContainerFacade {
         })
       );
 
-    uploadSettings.ftp.enabled &&
+    if (uploadSettings.ftp.enabled) {
       this.store.dispatch(
         ContainerActions.uploadImagesToFtp({ isHighResolution: false })
       );
+
+      this.store.dispatch(ContainerActions.getFtpPath());
+    }
 
     uploadSettings.cloudinary.enabled &&
       this.store.dispatch(
@@ -92,5 +107,14 @@ export class ContainerFacade {
 
   resetState() {
     this.store.dispatch(ContainerActions.resetState());
+  }
+
+  getFtpImages() {
+    this.store.dispatch(ContainerActions.getFtpImages());
+  }
+
+  downloadFtpImage(fileName: string) {
+    this.store.dispatch(ContainerActions.setLoadingFtpImage());
+    this.store.dispatch(ContainerActions.downloadFtpImage({ fileName }));
   }
 }

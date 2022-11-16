@@ -22,6 +22,8 @@ import { LightboxModule } from 'ng-gallery/lightbox';
 import { ImageViewerComponent } from './components/image-viewer/image-viewer.component';
 import { MatDividerModule } from '@angular/material/divider';
 import { FtpViewerComponent } from './components/ftp-viewer/ftp-viewer.component';
+import { MatListModule } from '@angular/material/list';
+import { FtpImageViewerComponent } from './components/ftp-image-viewer/ftp-image-viewer.component';
 
 @NgModule({
   imports: [
@@ -55,6 +57,7 @@ import { FtpViewerComponent } from './components/ftp-viewer/ftp-viewer.component
     GalleryModule,
     LightboxModule,
     MatDividerModule,
+    MatListModule,
   ],
   declarations: [
     CameraComponent,
@@ -65,6 +68,7 @@ import { FtpViewerComponent } from './components/ftp-viewer/ftp-viewer.component
     ContainerIdConfirmDialogComponent,
     ImageViewerComponent,
     FtpViewerComponent,
+    FtpImageViewerComponent,
   ],
   exports: [ContainerCameraComponent, ContainerInputComponent],
   providers: [ContainerFacade],

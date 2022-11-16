@@ -1,7 +1,14 @@
-<!--<mat-dialog-content class="mat-typography">-->
-<!--  <div fxLayout="column" fxLayoutAlign="space-between start">-->
-<!--    <div *ngFor="let image of imageFileNames">-->
-<!--      <b>{{ image.name }}</b>-->
-<!--    </div>-->
-<!--  </div>-->
-<!--</mat-dialog-content>-->
+<h1>FTP Images</h1>
+<mat-dialog-content class="mat-typography">
+  <mat-selection-list [multiple]="false">
+    <mat-list-option
+      *ngFor="let image of ftpImages$ | async"
+      (click)="openFtpImage(image)"
+    >
+      {{ image }}
+    </mat-list-option>
+  </mat-selection-list>
+</mat-dialog-content>
+<mat-dialog-actions flexLayout="row" fxLayoutAlign="space-between center">
+  <button mat-button mat-dialog-close color="primary">THOÁT</button>
+</mat-dialog-actions>

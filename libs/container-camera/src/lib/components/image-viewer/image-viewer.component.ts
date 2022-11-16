@@ -2,13 +2,14 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  Inject,
   OnInit,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
 import { Lightbox } from 'ng-gallery/lightbox';
 import { ContainerFacade } from '../../+state';
-import { Gallery, GalleryItem, ImageItem, ImageSize } from 'ng-gallery';
+import { Gallery, ImageItem, ImageSize } from 'ng-gallery';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 @UntilDestroy()

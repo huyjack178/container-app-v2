@@ -35,10 +35,11 @@
     XEM
   </button>
   <button
+    *ngIf="settingService.getServerSettings().ftp.enabled"
     mat-stroked-button
     color="primary"
     [disabled]="
-      (hasNoImage$ | async) || !settingService.getUploadSettings().ftp.enabled
+      !settingService.getUploadSettings().ftp.enabled || !(ftpPath$ | async)
     "
     (click)="viewFtpImages()"
   >

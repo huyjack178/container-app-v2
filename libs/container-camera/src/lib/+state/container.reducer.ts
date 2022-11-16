@@ -8,6 +8,8 @@ export interface ContainerState {
   readonly date: moment.Moment;
   readonly images: ContainerImage[];
   readonly ftpPath: string;
+  readonly ftpImages: string[];
+  readonly ftpImageSrc: string;
   readonly error: string | null;
 }
 
@@ -16,6 +18,8 @@ const initialContainerState: ContainerState = {
   date: moment(),
   images: [],
   ftpPath: '',
+  ftpImages: [],
+  ftpImageSrc: '',
   error: null,
 };
 
@@ -109,6 +113,23 @@ const reducer = createReducer(
   on(ContainerActions.getFtpPathSuccessfully, (state, { ftpPath }) => ({
     ...state,
     ftpPath,
+    ftpImages: [],
+  })),
+  on(ContainerActions.getFtpImagesSuccessfully, (state, { ftpImages }) => ({
+    ...state,
+    ftpImages,
+  })),
+  on(
+    ContainerActions.downloadFtpImageSuccessfully,
+    (state, { ftpImageSrc }) => ({
+      ...state,
+      ftpImageSrc,
+    })
+  ),
+  on(ContainerActions.setLoadingFtpImage, (state, {}) => ({
+    ...state,
+    ftpImageSrc:
+      'https://media.tenor.com/guhB4PpjrmUAAAAM/loading-loading-gif.gif',
   }))
 );
 

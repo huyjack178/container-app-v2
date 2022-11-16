@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { from, map, Observable } from 'rxjs';
 import * as moment from 'moment';
 import { CookieService } from 'ngx-cookie-service';
@@ -14,6 +14,14 @@ export interface UploadImagePayload {
   readonly imageFileDate: moment.Moment;
   readonly userName: string;
   readonly isHighResolution: boolean;
+}
+
+export interface FtpPath {
+  readonly folderPath: string;
+}
+
+export interface FtpImage {
+  readonly src: string;
 }
 
 @Injectable({
@@ -31,15 +39,26 @@ export class UploadImageService {
     containerId: string,
     containerDate: moment.Moment,
     userName: string
-  ): Observable<string> {
-    const data = new FormData();
-    data.append('fileId', containerId);
-    data.append('fileDate', containerDate.toISOString());
-    data.append('userName', userName.toUpperCase());
+  ): Observable<FtpPath> {
+    return this.http.post<FtpPath>(`${this.environment.serverUrl}/ftpPath`, {
+      fileId: containerId,
+      fileDate: containerDate.toISOString(),
+      userName: userName.toUpperCase(),
+    });
+  }
 
-    return this.http.post<string>(
-      `${this.environment.serverUrl}/ftpPath`,
-      data
+  getFtpImages$(ftpPath: string): Observable<string[]> {
+    return this.http.post<string[]>(`${this.environment.serverUrl}/ftpImages`, {
+      folderPath: ftpPath,
+    });
+  }
+
+  downloadFtpImage$(filePath: string): Observable<FtpImage> {
+    return this.http.post<FtpImage>(
+      `${this.environment.serverUrl}/ftpDownload`,
+      {
+        filePath,
+      }
     );
   }
 

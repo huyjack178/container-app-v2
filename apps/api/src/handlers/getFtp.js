@@ -2,15 +2,20 @@ const ftp = require('basic-ftp');
 const configs = require('../configs');
 const moment = require('moment/moment');
 const fs = require('fs');
-const { Readable } = require('stream')
+const { Readable } = require('stream');
 
 const getFtpFolderPath = async (req, res) => {
+  console.log(req.body);
   const date = req.body.fileDate;
   const fileId = req.body.fileId;
   const userName = req.body.userName;
-  const folderPath = `${configs.ftp.rootFolder}/${moment(date).format('YYYY')}/${moment(date).format('MM')}/${moment(date).format('YYYYMMDD')}/${userName.toUpperCase()}/${fileId}/`;
-  console.log(folderPath)
-  res.code(200).send(folderPath);
+  const folderPath = `${configs.ftp.rootFolder}/${moment(date).format(
+    'YYYY'
+  )}/${moment(date).format('MM')}/${moment(date).format(
+    'YYYYMMDD'
+  )}/${userName.toUpperCase()}/${fileId}/`;
+  console.log(folderPath);
+  res.code(200).send({ folderPath });
 };
 
 const getImagesFromFtp = async (req, res) => {
@@ -21,7 +26,7 @@ const getImagesFromFtp = async (req, res) => {
   try {
     await ftpClient.access(configs.ftp);
     const fileInfos = await ftpClient.list(folderPath);
-    res.code(200).send(fileInfos.map(file => file.name));
+    res.code(200).send(fileInfos.map((file) => file.name));
     console.log('Get FTP Success ');
     ftpClient.close();
   } catch (err) {
@@ -30,35 +35,33 @@ const getImagesFromFtp = async (req, res) => {
     });
     console.log(err);
   }
-}
+};
 
 const downloadFile = async (req, res) => {
   const filePath = req.body.filePath;
   const client = new ftp.Client();
-  const tempFile = 'temp.jpg'
+  const tempFile = 'temp.jpg';
   try {
-    console.log(filePath)
+    console.log(filePath);
 
     await client.access(configs.ftp);
     await client.downloadTo(tempFile, filePath);
-    const buffer = fs.readFileSync(tempFile) // sync just for DEMO
+    const buffer = fs.readFileSync(tempFile); // sync just for DEMO
     const myStream = new Readable({
-      read () {
-        this.push(buffer)
-        this.push(null)
-      }
-    })
+      read() {
+        this.push(buffer);
+        this.push(null);
+      },
+    });
 
-    res.send('data:image/jpeg;base64,'  + buffer.toString('base64'))
-  }
-  catch(err) {
-    console.log(err)
+    res.send({ src: 'data:image/jpeg;base64,' + buffer.toString('base64') });
+  } catch (err) {
+    console.log(err);
     res.code(500).send({
       err,
     });
   }
-  client.close()
-}
-
+  client.close();
+};
 
 module.exports = { getImagesFromFtp, getFtpFolderPath, downloadFile };

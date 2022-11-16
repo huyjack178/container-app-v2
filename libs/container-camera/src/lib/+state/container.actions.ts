@@ -70,6 +70,35 @@ export const getFtpPathSuccessfully = createAction(
   }>()
 );
 
+export const getFtpImages = createAction(
+  '[Container] Ftp Images is retrieving'
+);
+
+export const getFtpImagesSuccessfully = createAction(
+  '[Container] Ftp Images is retrieved successfully',
+  props<{
+    ftpImages: string[];
+  }>()
+);
+
+export const downloadFtpImage = createAction(
+  '[Container] Ftp Image is opening',
+  props<{
+    fileName: string;
+  }>()
+);
+
+export const setLoadingFtpImage = createAction(
+  '[Container] Ftp Image is loading'
+);
+
+export const downloadFtpImageSuccessfully = createAction(
+  '[Container] Ftp Image is downloaded successfully',
+  props<{
+    ftpImageSrc: string;
+  }>()
+);
+
 export const clearImages = createAction('[Container] Images are cleared');
 
 export const resetState = createAction('[Container] State is reset');

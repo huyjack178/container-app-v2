@@ -10,6 +10,7 @@ import { ContainerFacade } from '../../+state';
 import { ImageViewerComponent, UploadDialogComponent } from '../../components';
 import { map } from 'rxjs';
 import { SettingService } from '@container-management/setting';
+import { FtpViewerComponent } from '../../components/ftp-viewer/ftp-viewer.component';
 
 @Component({
   selector: 'container-management-container-action',
@@ -24,6 +25,8 @@ export class ContainerActionComponent {
   readonly hasNoImage$ = this.facade.selectImages$.pipe(
     map((images) => images.length === 0)
   );
+
+  readonly ftpPath$ = this.facade.ftpPath$;
 
   constructor(
     readonly facade: ContainerFacade,
@@ -54,5 +57,14 @@ export class ContainerActionComponent {
     this.facade.downloadImagesToLocal();
   }
 
-  viewFtpImages() {}
+  viewFtpImages() {
+    this.facade.getFtpImages();
+    this.dialog.open(FtpViewerComponent, {
+      maxWidth: '100vw',
+      maxHeight: '100vh',
+      height: '100%',
+      width: '100%',
+      panelClass: 'full-screen-modal',
+    });
+  }
 }
