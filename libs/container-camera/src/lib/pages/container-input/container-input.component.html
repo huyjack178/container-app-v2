@@ -20,14 +20,31 @@
       <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
       <mat-hint>Required 11 characters</mat-hint>
     </mat-form-field>
-    <button
-      mat-stroked-button
-      color="primary"
-      class="login-button"
-      [disabled]="!containerInputForm.valid"
-    >
-      CHỤP
-      <mat-icon>camera_alt</mat-icon>
-    </button>
+    <div fxLayout="row" fxLayoutAlign="space-evenly center">
+      <button
+        mat-stroked-button
+        color="primary"
+        class="login-button"
+        [disabled]="!containerInputForm.valid"
+      >
+        CHỤP
+        <mat-icon>camera_alt</mat-icon>
+      </button>
+      <button
+        type="button"
+        *ngIf="settingService.getServerSettings().ftp.enabled"
+        mat-stroked-button
+        color="primary"
+        style="margin-left: 8px"
+        [disabled]="
+          !settingService.getUploadSettings().ftp.enabled ||
+          !containerInputForm.valid
+        "
+        (click)="viewFtpImages(containerInputForm)"
+      >
+        XEM FTP
+        <mat-icon>insert_drive_file</mat-icon>
+      </button>
+    </div>
   </form>
 </div>

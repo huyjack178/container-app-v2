@@ -74,10 +74,18 @@ export const getFtpImages = createAction(
   '[Container] Ftp Images is retrieving'
 );
 
+export const getFtpImagesWithContainerId = createAction(
+  '[Container] Ftp Images is retrieving with path',
+  props<{
+    containerId: string;
+  }>()
+);
+
 export const getFtpImagesSuccessfully = createAction(
   '[Container] Ftp Images is retrieved successfully',
   props<{
     ftpImages: string[];
+    ftpPath?: string;
   }>()
 );
 

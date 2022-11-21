@@ -1,7 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as ContainerActions from './container.actions';
-import { catchError, mergeMap, tap } from 'rxjs/operators';
+import {
+  catchError,
+  combineLatest,
+  mergeMap,
+  switchMap,
+  tap,
+} from 'rxjs/operators';
 import {
   UploadImagePayload,
   UploadImageService,
@@ -11,6 +17,7 @@ import { Store } from '@ngrx/store';
 import * as ContainerSelectors from './container.selectors';
 import * as RouterSelectors from './router.selectors';
 import { SettingService } from '@container-management/setting';
+import * as moment from 'moment';
 
 @Injectable()
 export class ContainerEffects {
@@ -147,20 +154,47 @@ export class ContainerEffects {
     )
   );
 
+  getImagesFromFtpWithContainerId$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ContainerActions.getFtpImagesWithContainerId),
+      mergeMap((action) =>
+        this.uploadService
+          .getFtpPath$(
+            action.containerId,
+            moment(),
+            this.settingService.getUserName()
+          )
+          .pipe(
+            switchMap((ftpPath) =>
+              this.uploadService.getFtpImages$(ftpPath.folderPath).pipe(
+                map((ftpImages) =>
+                  ContainerActions.getFtpImagesSuccessfully({
+                    ftpImages,
+                    ftpPath: ftpPath.folderPath,
+                  })
+                )
+              )
+            )
+          )
+      ),
+      catchError((error) => {
+        throw new Error(error);
+      })
+    )
+  );
+
   downloadFtpImage$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ContainerActions.downloadFtpImage),
       withLatestFrom(this.store$.select(ContainerSelectors.selectFtpPath)),
       mergeMap(([action, ftpPath]) =>
-        this.uploadService
-          .downloadFtpImage$(ftpPath + action.fileName)
-          .pipe(
-            map((ftpImage) =>
-              ContainerActions.downloadFtpImageSuccessfully({
-                ftpImageSrc: ftpImage.src,
-              })
-            )
+        this.uploadService.downloadFtpImage$(ftpPath + action.fileName).pipe(
+          map((ftpImage) =>
+            ContainerActions.downloadFtpImageSuccessfully({
+              ftpImageSrc: ftpImage.src,
+            })
           )
+        )
       ),
       catchError((error) => {
         throw new Error(error);

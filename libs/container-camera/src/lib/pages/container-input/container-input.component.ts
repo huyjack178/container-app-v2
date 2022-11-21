@@ -3,7 +3,10 @@ import { Router } from '@angular/router';
 import { isValid } from '../../utils';
 import { NgForm } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { ContainerIdConfirmDialogComponent } from '../../components/container-id-confirm-dialog/container-id-confirm-dialog.component';
+import { ContainerIdConfirmDialogComponent } from '../../components';
+import { SettingService } from '@container-management/setting';
+import { FtpViewerComponent } from '../../components/ftp-viewer/ftp-viewer.component';
+import { ContainerFacade } from '@container-management/container-camera';
 
 @Component({
   selector: 'container-management-container-input',
@@ -16,7 +19,9 @@ export class ContainerInputComponent {
 
   constructor(
     private readonly router: Router,
-    private readonly dialog: MatDialog
+    private readonly dialog: MatDialog,
+    readonly settingService: SettingService,
+    readonly containerFacade: ContainerFacade
   ) {}
 
   openCamera(form: NgForm) {
@@ -35,6 +40,17 @@ export class ContainerInputComponent {
       queryParams: {
         containerId,
       },
+    });
+  }
+
+  viewFtpImages(form: NgForm) {
+    this.containerFacade.getFtpImagesWithContainerId(form.value.containerId);
+    this.dialog.open(FtpViewerComponent, {
+      maxWidth: '100vw',
+      maxHeight: '100vh',
+      height: '100%',
+      width: '100%',
+      panelClass: 'full-screen-modal',
     });
   }
 }

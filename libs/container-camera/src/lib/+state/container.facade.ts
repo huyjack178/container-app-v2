@@ -113,6 +113,12 @@ export class ContainerFacade {
     this.store.dispatch(ContainerActions.getFtpImages());
   }
 
+  getFtpImagesWithContainerId(containerId: string) {
+    this.store.dispatch(
+      ContainerActions.getFtpImagesWithContainerId({ containerId })
+    );
+  }
+
   downloadFtpImage(fileName: string) {
     this.store.dispatch(ContainerActions.setLoadingFtpImage());
     this.store.dispatch(ContainerActions.downloadFtpImage({ fileName }));

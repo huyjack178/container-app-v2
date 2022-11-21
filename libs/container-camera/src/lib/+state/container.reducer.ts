@@ -115,10 +115,14 @@ const reducer = createReducer(
     ftpPath,
     ftpImages: [],
   })),
-  on(ContainerActions.getFtpImagesSuccessfully, (state, { ftpImages }) => ({
-    ...state,
-    ftpImages,
-  })),
+  on(
+    ContainerActions.getFtpImagesSuccessfully,
+    (state, { ftpImages, ftpPath }) => ({
+      ...state,
+      ftpImages,
+      ftpPath: ftpPath ?? state.ftpPath,
+    })
+  ),
   on(
     ContainerActions.downloadFtpImageSuccessfully,
     (state, { ftpImageSrc }) => ({

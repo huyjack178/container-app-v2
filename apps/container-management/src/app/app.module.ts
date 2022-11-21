@@ -20,7 +20,6 @@ import { routerReducer, StoreRouterConnectingModule } from '@ngrx/router-store';
 @NgModule({
   declarations: [AppComponent],
   imports: [
-    CommonModule,
     BrowserModule,
     HttpClientModule,
     RouterModule.forRoot([
@@ -50,6 +49,7 @@ import { routerReducer, StoreRouterConnectingModule } from '@ngrx/router-store';
     }),
     StoreRouterConnectingModule.forRoot(),
     BrowserAnimationsModule,
+    CommonModule,
   ],
   providers: [
     AuthGuard,
