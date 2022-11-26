@@ -24,6 +24,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { FtpViewerComponent } from './components/ftp-viewer/ftp-viewer.component';
 import { MatListModule } from '@angular/material/list';
 import { FtpImageViewerComponent } from './components/ftp-image-viewer/ftp-image-viewer.component';
+import { NativeCameraComponent } from './components/native-camera/native-camera.component';
 
 @NgModule({
   imports: [
@@ -69,6 +70,7 @@ import { FtpImageViewerComponent } from './components/ftp-image-viewer/ftp-image
     ImageViewerComponent,
     FtpViewerComponent,
     FtpImageViewerComponent,
+    NativeCameraComponent,
   ],
   exports: [ContainerCameraComponent, ContainerInputComponent],
   providers: [ContainerFacade],

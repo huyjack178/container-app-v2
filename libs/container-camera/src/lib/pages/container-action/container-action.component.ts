@@ -1,16 +1,18 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  Inject,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ContainerFacade } from '../../+state';
 import { ImageViewerComponent, UploadDialogComponent } from '../../components';
 import { map } from 'rxjs';
 import { SettingService } from '@container-management/setting';
 import { FtpViewerComponent } from '../../components/ftp-viewer/ftp-viewer.component';
+import { NativeCameraComponent } from '../../components/native-camera/native-camera.component';
 
 @Component({
   selector: 'container-management-container-action',
@@ -21,6 +23,8 @@ import { FtpViewerComponent } from '../../components/ftp-viewer/ftp-viewer.compo
 })
 export class ContainerActionComponent {
   @ViewChild('imageViewer') imageViewer!: ImageViewerComponent;
+  @ViewChild('nativeCameraComponent')
+  nativeCameraComponent!: NativeCameraComponent;
 
   readonly hasNoImage$ = this.facade.selectImages$.pipe(
     map((images) => images.length === 0)
@@ -32,7 +36,9 @@ export class ContainerActionComponent {
     readonly facade: ContainerFacade,
     private readonly dialog: MatDialog,
     private readonly router: Router,
-    public readonly settingService: SettingService
+    public readonly settingService: SettingService,
+    private readonly activatedRoute: ActivatedRoute,
+    @Inject('environment') private readonly environment: any
   ) {}
 
   viewImages() {
@@ -48,6 +54,12 @@ export class ContainerActionComponent {
   }
 
   capture() {
+    if (this.environment.useNativeCamera) {
+      return this.nativeCameraComponent.openCamera(
+        this.activatedRoute.snapshot.queryParamMap.get('containerId') ?? ''
+      );
+    }
+
     return this.router.navigate(['/container', 'camera'], {
       queryParamsHandling: 'preserve',
     });

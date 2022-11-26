@@ -22,6 +22,8 @@
     </mat-form-field>
     <div fxLayout="row" fxLayoutAlign="space-evenly center">
       <button
+        type="button"
+        (click)="openCamera(containerInputForm)"
         mat-stroked-button
         color="primary"
         class="login-button"
@@ -30,6 +32,8 @@
         CHỤP
         <mat-icon>camera_alt</mat-icon>
       </button>
+      <container-management-native-camera #nativeCameraComponent>
+      </container-management-native-camera>
       <button
         type="button"
         *ngIf="settingService.getServerSettings().ftp.enabled"
