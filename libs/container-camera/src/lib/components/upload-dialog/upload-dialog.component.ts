@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ContainerFacade, ContainerImage } from '../../+state';
 import { SettingService } from '@container-management/setting';
 import { Router } from '@angular/router';
@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./upload-dialog.component.scss'],
 })
 export class UploadDialogComponent implements OnInit {
+  @Output() keepCapture = new EventEmitter();
   readonly uploadSettings = this.settingService.getUploadSettings();
 
   constructor(
@@ -37,9 +38,7 @@ export class UploadDialogComponent implements OnInit {
 
   continueCapture() {
     this.containerFacade.clearImages();
-    return this.router.navigate(['/container', 'camera'], {
-      queryParamsHandling: 'preserve',
-    });
+    this.keepCapture.emit();
   }
 
   backToHomePage() {

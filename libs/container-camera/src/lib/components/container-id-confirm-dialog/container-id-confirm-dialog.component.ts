@@ -1,10 +1,13 @@
-import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Inject,
+  OnInit,
+  Output,
+  ViewEncapsulation,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-
-export interface ContainerIdConfirmDialogData {
-  readonly containerId: string;
-}
 
 @Component({
   selector: 'container-management-container-id-confirm-dialog',
@@ -13,18 +16,13 @@ export interface ContainerIdConfirmDialogData {
   encapsulation: ViewEncapsulation.Emulated,
 })
 export class ContainerIdConfirmDialogComponent implements OnInit {
-  constructor(
-    private readonly router: Router,
-    @Inject(MAT_DIALOG_DATA) public data: ContainerIdConfirmDialogData
-  ) {}
+  @Output() clickOk: EventEmitter<void> = new EventEmitter<void>();
+
+  constructor() {}
 
   ngOnInit(): void {}
 
   onOk() {
-    return this.router.navigate([this.router.url, 'camera'], {
-      queryParams: {
-        containerId: this.data.containerId,
-      },
-    });
+    this.clickOk.emit();
   }
 }

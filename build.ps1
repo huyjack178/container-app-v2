@@ -82,15 +82,17 @@ write-host "----------------------------`n"
 $source = '.\'
 $dest = '..\build\' + $(Get-Date -format "MMddyyyyHHmmss")
 $IP = Read-Host 'User server IP. Ex: 192.0.0.1?'
+$PORT = Read-Host 'User server port. Ex: 3000?'
 $expired_date = Read-Host 'Expired Date (YYYY-MM-DD). Ex: 2020-01-01?'
 $serial_id = Read-Host 'Serial ID. For Windows, run command [wmic bios get serialnumber] to get the serial number.'
+$use_native_camera = Read-Host 'Using native phone camera. [yes | no]'
 
 Copy-Item -Path $source -exclude 'node_modules*' -Destination  $dest -recurse -Verbose
 
 Set-Location $dest
 
 (Get-Content '.\apps\container-management\src\environments\environment.prod.ts') | Foreach-Object {
-    $_.replace('$IP', $IP.Trim()).replace('$EXPIRED_DATE', $expired_date.Trim()).replace('$SERIAL_ID', $serial_id.Trim())
+    $_.replace('$IP', $IP.Trim()).replace('$PORT', $PORT.Trim())..replace('$EXPIRED_DATE', $expired_date.Trim()).replace('$SERIAL_ID', $serial_id.Trim()).replace('$USE_NATIVE_CAMERA', $use_native_camera.Trim())
 } | Set-Content '.\apps\container-management\src\environments\environment.prod.ts'
 
 yarn

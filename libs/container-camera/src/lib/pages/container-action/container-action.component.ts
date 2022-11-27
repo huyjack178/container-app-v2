@@ -46,15 +46,19 @@ export class ContainerActionComponent {
   }
 
   upload() {
-    this.dialog.open(UploadDialogComponent, {
+    const dialogRef = this.dialog.open(UploadDialogComponent, {
       width: '100%',
+    });
+
+    dialogRef.componentInstance.keepCapture.subscribe(() => {
+      this.capture();
     });
 
     return this.facade.uploadImages();
   }
 
   capture() {
-    if (this.environment.useNativeCamera) {
+    if (this.environment.useNativeCamera == 'yes') {
       return this.nativeCameraComponent.openCamera(
         this.activatedRoute.snapshot.queryParamMap.get('containerId') ?? ''
       );
