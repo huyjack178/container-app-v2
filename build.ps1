@@ -92,7 +92,7 @@ Copy-Item -Path $source -exclude 'node_modules*' -Destination  $dest -recurse -V
 Set-Location $dest
 
 (Get-Content '.\apps\container-management\src\environments\environment.prod.ts') | Foreach-Object {
-    $_.replace('$IP', $IP.Trim()).replace('$PORT', $PORT.Trim())..replace('$EXPIRED_DATE', $expired_date.Trim()).replace('$SERIAL_ID', $serial_id.Trim()).replace('$USE_NATIVE_CAMERA', $use_native_camera.Trim())
+    $_.replace('$IP', $IP.Trim()).replace('$PORT', $PORT.Trim()).replace('$EXPIRED_DATE', $expired_date.Trim()).replace('$SERIAL_ID', $serial_id.Trim()).replace('$USE_NATIVE_CAMERA', $use_native_camera.Trim())
 } | Set-Content '.\apps\container-management\src\environments\environment.prod.ts'
 
 yarn
