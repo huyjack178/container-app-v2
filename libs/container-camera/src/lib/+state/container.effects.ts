@@ -1,13 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as ContainerActions from './container.actions';
-import {
-  catchError,
-  combineLatest,
-  mergeMap,
-  switchMap,
-  tap,
-} from 'rxjs/operators';
+import { catchError, mergeMap, switchMap } from 'rxjs/operators';
 import {
   UploadImagePayload,
   UploadImageService,
@@ -25,7 +19,7 @@ export class ContainerEffects {
     this.actions$.pipe(
       ofType(ContainerActions.uploadImagesToLocal),
       map((action) => action.isHighResolution),
-      mapUploadImages(this.store$, this.settingService.getUserName()),
+      mapUploadImages(this.store$),
       mergeMap((uploadImage) =>
         this.uploadService.uploadToLocalServer$(uploadImage).pipe(
           map(() =>
@@ -46,7 +40,7 @@ export class ContainerEffects {
     this.actions$.pipe(
       ofType(ContainerActions.uploadImagesToFtp),
       map((action) => action.isHighResolution),
-      mapUploadImages(this.store$, this.settingService.getUserName()),
+      mapUploadImages(this.store$),
       mergeMap((uploadImage) =>
         this.uploadService.uploadToFtpServer$(uploadImage).pipe(
           map(() =>
@@ -57,6 +51,7 @@ export class ContainerEffects {
         )
       ),
       catchError((error) => {
+        console.log(error);
         throw new Error(error);
       })
     )
@@ -66,7 +61,7 @@ export class ContainerEffects {
     this.actions$.pipe(
       ofType(ContainerActions.uploadImagesToCloud),
       map((action) => action.isHighResolution),
-      mapUploadImages(this.store$, this.settingService.getUserName()),
+      mapUploadImages(this.store$),
       mergeMap((uploadImage) =>
         this.uploadService.uploadToCloud$(uploadImage).pipe(
           map(() =>
@@ -119,7 +114,7 @@ export class ContainerEffects {
           .getFtpPath$(
             containerId ?? '',
             date,
-            this.settingService.getUserName()
+            localStorage.getItem('userName') ?? ''
           )
           .pipe(
             map((response) =>
@@ -162,7 +157,7 @@ export class ContainerEffects {
           .getFtpPath$(
             action.containerId,
             moment(),
-            this.settingService.getUserName()
+            localStorage.getItem('userName') ?? ''
           )
           .pipe(
             switchMap((ftpPath) =>
@@ -211,8 +206,7 @@ export class ContainerEffects {
 }
 
 const mapUploadImages = (
-  store$: Store,
-  userName: string
+  store$: Store
 ): UnaryFunction<Observable<boolean>, Observable<UploadImagePayload>> =>
   pipe(
     withLatestFrom(
@@ -229,7 +223,7 @@ const mapUploadImages = (
         imageFileDate: date,
         imageFileName: image.name,
         isHighResolution: isHighResolution,
-        userName,
+        userName: localStorage.getItem('userName') ?? '',
       }))
     )
   );

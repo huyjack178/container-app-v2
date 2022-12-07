@@ -36,10 +36,6 @@ export class SettingService {
     );
   }
 
-  getUserName() {
-    return localStorage.getItem('userName') ?? '';
-  }
-
   initUploadSettings(serverSettings: ServerSetting) {
     try {
       localStorage.setItem('serverSettings', JSON.stringify(serverSettings));

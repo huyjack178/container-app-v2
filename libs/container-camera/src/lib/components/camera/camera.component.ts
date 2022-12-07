@@ -14,6 +14,7 @@ import CameraPhoto, {
 } from 'jslib-html5-camera-photo';
 import { BehaviorSubject, from } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { ContainerFacade } from '../../+state/container.facade';
 
 @UntilDestroy()
 @Component({
@@ -23,9 +24,10 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CameraComponent implements AfterViewInit, OnDestroy {
-  @ViewChild('camera') cameraElement!: ElementRef;
-  @Output() photoCaptured = new EventEmitter<string>();
-  @Output() captureFinished = new EventEmitter<void>();
+  @ViewChild('camera') readonly cameraElement!: ElementRef;
+  @Output() readonly photoCaptured = new EventEmitter<string>();
+  @Output() readonly captureFinished = new EventEmitter<void>();
+
   readonly capturedPhoto$ = new BehaviorSubject<string | undefined>('');
   private cameraPhoto?: CameraPhoto;
 

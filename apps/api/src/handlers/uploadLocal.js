@@ -12,12 +12,18 @@ const uploadLocal = async (req, res) => {
   let rootFolderPath;
 
   if (req.body.isHighResolution === 'true') {
-    rootFolderPath = `${configs.uploadDirectoryPath.high}/${moment(date).format('YYYY')}`;
+    rootFolderPath = `${configs.uploadDirectoryPath.high}/${moment(date).format(
+      'YYYY'
+    )}`;
   } else {
-    rootFolderPath = `${configs.uploadDirectoryPath.low}/${moment(date).format('YYYY')}_GIAM`;
+    rootFolderPath = `${configs.uploadDirectoryPath.low}/${moment(date).format(
+      'YYYY'
+    )}_GIAM`;
   }
 
-  const folderPath = `${rootFolderPath}/${moment(date).format('MM')}/${moment(date).format('YYYYMMDD')}/${req.body.userName.toUpperCase()}/${req.body.fileId}`;
+  const folderPath = `${rootFolderPath}/${moment(date).format('MM')}/${moment(
+    date
+  ).format('YYYYMMDD')}/${req.body.userName.toUpperCase()}/${req.body.fileId}`;
   const photoFolderPath = mkDirByPathSync(folderPath);
 
   uploadToLocal(file.buffer, fileName, photoFolderPath, (err) => {
@@ -26,7 +32,10 @@ const uploadLocal = async (req, res) => {
     if (err) {
       response = { error: err, success: false };
     } else {
-      response = { success: true, path: `${address.ip()}\\\\${photoFolderPath}` };
+      response = {
+        success: true,
+        path: `${address.ip()}\\\\${photoFolderPath}`,
+      };
     }
 
     res.code(200).send({
@@ -35,7 +44,12 @@ const uploadLocal = async (req, res) => {
   });
 };
 
-const uploadToLocal = async (fileContent, fileName, photoFolderPath, callback) => {
+const uploadToLocal = async (
+  fileContent,
+  fileName,
+  photoFolderPath,
+  callback
+) => {
   try {
     fs.writeFileSync(`${photoFolderPath}/${fileName}`, fileContent);
   } catch (err) {
@@ -53,7 +67,7 @@ const mkDirByPathSync = (targetDir, { isRelativeToScript = false } = {}) => {
 
   return targetDir.split(sep).reduce((parentDir, childDir) => {
     const curDir = path.resolve(baseDir, parentDir, childDir);
-    console.log(curDir)
+    console.log(curDir);
     try {
       fs.mkdirSync(curDir, { recursive: true });
     } catch (err) {

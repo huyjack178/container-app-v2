@@ -25,6 +25,7 @@ export class NavbarComponent {
   }
 
   logout() {
+    this.containerFacade.resetState();
     return this.authService.logout();
   }
 

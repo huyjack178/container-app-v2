@@ -11,15 +11,17 @@ import { StoreModule } from '@ngrx/store';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ContainerEffects, ContainerFacade, containerFeature } from './+state';
-import { CameraComponent } from './components/camera/camera.component';
+import {
+  CameraComponent,
+  ContainerIdConfirmDialogComponent,
+  ImageViewerComponent,
+  UploadDialogComponent,
+} from './components';
 import { ContainerActionComponent } from './pages/container-action/container-action.component';
 import { ContainerCameraComponent } from './pages/container-camera/container-camera.component';
 import { ContainerInputComponent } from './pages/container-input/container-input.component';
-import { UploadDialogComponent } from './components/upload-dialog/upload-dialog.component';
-import { ContainerIdConfirmDialogComponent } from './components/container-id-confirm-dialog/container-id-confirm-dialog.component';
 import { GalleryModule } from 'ng-gallery';
 import { LightboxModule } from 'ng-gallery/lightbox';
-import { ImageViewerComponent } from './components/image-viewer/image-viewer.component';
 import { MatDividerModule } from '@angular/material/divider';
 import { FtpViewerComponent } from './components/ftp-viewer/ftp-viewer.component';
 import { MatListModule } from '@angular/material/list';
@@ -72,7 +74,7 @@ import { NativeCameraComponent } from './components/native-camera/native-camera.
     FtpImageViewerComponent,
     NativeCameraComponent,
   ],
-  exports: [ContainerCameraComponent, ContainerInputComponent],
+  exports: [],
   providers: [ContainerFacade],
 })
 export class ContainerCameraModule {}

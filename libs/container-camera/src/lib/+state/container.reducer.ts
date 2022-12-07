@@ -109,7 +109,10 @@ const reducer = createReducer(
       date: moment(),
     };
   }),
-  on(ContainerActions.resetState, () => initialContainerState),
+  on(ContainerActions.resetState, () => ({
+    ...initialContainerState,
+    date: moment(),
+  })),
   on(ContainerActions.getFtpPathSuccessfully, (state, { ftpPath }) => ({
     ...state,
     ftpPath,

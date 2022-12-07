@@ -14,7 +14,11 @@ const uploadFTP = async (req, res) => {
     if (result.error) {
       response = { error: result.error, success: false };
     } else {
-      response = { success: true, host: configs.ftp.host, folderPath: result.folderPath };
+      response = {
+        success: true,
+        host: configs.ftp.host,
+        folderPath: result.folderPath,
+      };
     }
 
     res.code(200).send({
@@ -26,13 +30,21 @@ const uploadFTP = async (req, res) => {
 const uploadToFTP = async (fileContent, fileName, req, onFinishedUpload) => {
   const ftpClient = new ftp.Client();
   let folderPath;
+  console.log(req.body);
 
   try {
     await ftpClient.access(configs.ftp);
     const date = req.body.fileDate;
-    folderPath = `/${moment(date).format('YYYY')}/${moment(date).format('MM')}/${moment(date).format('YYYYMMDD')}/${req.body.userName.toUpperCase()}/${req.body.fileId}/`;
+    folderPath = `/${moment(date).format('YYYY')}/${moment(date).format(
+      'MM'
+    )}/${moment(date).format('YYYYMMDD')}/${req.body.userName.toUpperCase()}/${
+      req.body.fileId
+    }/`;
     await ftpClient.ensureDir(configs.ftp.rootFolder + folderPath);
-    await ftpClient.uploadFrom(fileContent, configs.ftp.rootFolder + folderPath + fileName);
+    await ftpClient.uploadFrom(
+      fileContent,
+      configs.ftp.rootFolder + folderPath + fileName
+    );
   } catch (err) {
     onFinishedUpload({ error: err });
     console.log(err);
