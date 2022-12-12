@@ -20,7 +20,9 @@ const {
   getFtpFolderPath,
   downloadFile,
 } = require('./handlers/getFtp');
+
 const serialNumber = require('serial-number');
+const { getExternalUrls } = require('./handlers/getExternalUrls');
 
 server
   .register(multer.contentParser)
@@ -75,6 +77,8 @@ server.register(require('./jwt-auth')).after(() => {
   server.post('/ftpDownload', (req, res) => downloadFile(req, res));
 
   server.post('/login', (req, res) => loginHandler(req, res, server));
+
+  server.get('/externalUrls', (req, res) => getExternalUrls(req, res));
 });
 
 server.listen(3000, '0.0.0.0', (err, address) => {

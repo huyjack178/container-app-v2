@@ -1,5 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { ProcessedImage } from '../utils/image-processor';
+import { ExternalUrls } from '../services/external-urls.service';
 
 export const deleteImage = createAction(
   '[Container] Image is deleted',
@@ -110,3 +111,14 @@ export const downloadFtpImageSuccessfully = createAction(
 export const clearImages = createAction('[Container] Images are cleared');
 
 export const resetState = createAction('[Container] State is reset');
+
+export const getExternalUrls = createAction(
+  '[Container] External Urls are retrieving'
+);
+
+export const getExternalUrlsSuccessfully = createAction(
+  '[Container] External Urls are retrieved',
+  props<{
+    externalUrls: ExternalUrls;
+  }>()
+);

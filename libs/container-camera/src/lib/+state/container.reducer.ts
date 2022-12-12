@@ -10,6 +10,9 @@ export interface ContainerState {
   readonly ftpPath: string;
   readonly ftpImages: string[];
   readonly ftpImageSrc: string;
+  readonly externalUrls: {
+    [key: string]: string;
+  };
   readonly error: string | null;
 }
 
@@ -20,6 +23,10 @@ const initialContainerState: ContainerState = {
   ftpPath: '',
   ftpImages: [],
   ftpImageSrc: '',
+  externalUrls: {
+    remarkUrl: 'https://wikipedia.org/wiki/Main_Page',
+    estimateUrl: 'https://wikipedia.org/wiki/Main_Page',
+  },
   error: null,
 };
 
@@ -137,7 +144,14 @@ const reducer = createReducer(
     ...state,
     ftpImageSrc:
       'https://media.tenor.com/guhB4PpjrmUAAAAM/loading-loading-gif.gif',
-  }))
+  })),
+  on(
+    ContainerActions.getExternalUrlsSuccessfully,
+    (state, { externalUrls }) => ({
+      ...state,
+      externalUrls,
+    })
+  )
 );
 
 export const containerFeature = createFeature({

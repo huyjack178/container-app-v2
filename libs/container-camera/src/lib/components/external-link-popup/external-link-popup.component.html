@@ -1,0 +1,4 @@
+<div *ngIf="url$ | async as url">
+  <iframe [src]="sanitizer.bypassSecurityTrustResourceUrl(url)"></iframe>
+</div>
+<button mat-button mat-dialog-close color="primary">THOÁT</button>

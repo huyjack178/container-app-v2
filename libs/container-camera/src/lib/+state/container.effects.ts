@@ -12,6 +12,7 @@ import * as ContainerSelectors from './container.selectors';
 import * as RouterSelectors from './router.selectors';
 import { SettingService } from '@container-management/setting';
 import * as moment from 'moment';
+import { ExternalUrlsService } from '../services/external-urls.service';
 
 @Injectable()
 export class ContainerEffects {
@@ -197,9 +198,28 @@ export class ContainerEffects {
     )
   );
 
+  getExternalUrls$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ContainerActions.getExternalUrls),
+      mergeMap((action) =>
+        this.externalUrlsService.getExternalUrls$().pipe(
+          map((externalUrls) =>
+            ContainerActions.getExternalUrlsSuccessfully({
+              externalUrls,
+            })
+          )
+        )
+      ),
+      catchError((error) => {
+        throw new Error(error);
+      })
+    )
+  );
+
   constructor(
     private readonly actions$: Actions,
     private readonly uploadService: UploadImageService,
+    private readonly externalUrlsService: ExternalUrlsService,
     private readonly settingService: SettingService,
     private readonly store$: Store
   ) {}

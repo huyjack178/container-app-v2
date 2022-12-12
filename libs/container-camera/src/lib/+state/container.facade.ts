@@ -8,6 +8,7 @@ import { ProcessedImage } from '../utils/image-processor';
 import { SettingService } from '@container-management/setting';
 import { combineLatest, map, Observable } from 'rxjs';
 import { ContainerImage } from './container.models';
+import { ExternalUrls } from '../services/external-urls.service';
 
 @Injectable()
 export class ContainerFacade {
@@ -53,6 +54,12 @@ export class ContainerFacade {
   readonly ftpImageSrc$: Observable<string> = this.store.select(
     ContainerSelectors.selectFtpImageSrc
   );
+
+  readonly externalUrls$: Observable<ExternalUrls> = this.store.select(
+    ContainerSelectors.selectExternalUrls
+  );
+
+  readonly containerDate$ = this.store.select(ContainerSelectors.selectDate);
 
   constructor(
     private readonly store: Store,
@@ -122,5 +129,9 @@ export class ContainerFacade {
   downloadFtpImage(fileName: string) {
     this.store.dispatch(ContainerActions.setLoadingFtpImage());
     this.store.dispatch(ContainerActions.downloadFtpImage({ fileName }));
+  }
+
+  getExternalUrls() {
+    this.store.dispatch(ContainerActions.getExternalUrls());
   }
 }

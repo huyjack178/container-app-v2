@@ -27,6 +27,7 @@ import { FtpViewerComponent } from './components/ftp-viewer/ftp-viewer.component
 import { MatListModule } from '@angular/material/list';
 import { FtpImageViewerComponent } from './components/ftp-image-viewer/ftp-image-viewer.component';
 import { NativeCameraComponent } from './components/native-camera/native-camera.component';
+import { ExternalLinkPopupComponent } from './components/external-link-popup/external-link-popup.component';
 
 @NgModule({
   imports: [
@@ -73,6 +74,7 @@ import { NativeCameraComponent } from './components/native-camera/native-camera.
     FtpViewerComponent,
     FtpImageViewerComponent,
     NativeCameraComponent,
+    ExternalLinkPopupComponent,
   ],
   exports: [],
   providers: [ContainerFacade],

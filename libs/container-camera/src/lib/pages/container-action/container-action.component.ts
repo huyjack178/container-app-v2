@@ -9,11 +9,14 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ContainerFacade } from '../../+state';
 import { ImageViewerComponent, UploadDialogComponent } from '../../components';
-import { map } from 'rxjs';
+import { map, tap } from 'rxjs';
 import { SettingService } from '@container-management/setting';
 import { FtpViewerComponent } from '../../components/ftp-viewer/ftp-viewer.component';
 import { NativeCameraComponent } from '../../components/native-camera/native-camera.component';
+import { ExternalLinkPopupComponent } from '../../components/external-link-popup/external-link-popup.component';
+import { UntilDestroy } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Component({
   selector: 'container-management-container-action',
   templateUrl: './container-action.component.html',
@@ -81,6 +84,32 @@ export class ContainerActionComponent {
       height: '100%',
       width: '100%',
       panelClass: 'full-screen-modal',
+    });
+  }
+
+  openRemarkPopup() {
+    this.dialog.open(ExternalLinkPopupComponent, {
+      maxWidth: '100vw',
+      maxHeight: '100vh',
+      height: '100%',
+      width: '100%',
+      panelClass: 'full-screen-modal',
+      data: {
+        urlName: 'remarkUrl',
+      },
+    });
+  }
+
+  openEstimatePopup() {
+    this.dialog.open(ExternalLinkPopupComponent, {
+      maxWidth: '100vw',
+      maxHeight: '100vh',
+      height: '100%',
+      width: '100%',
+      panelClass: 'full-screen-modal',
+      data: {
+        urlName: 'estimateUrl',
+      },
     });
   }
 }

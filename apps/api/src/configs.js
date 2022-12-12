@@ -63,4 +63,8 @@ module.exports = {
   //   user: '',
   //   password: '',
   // },
+  externalUrls: {
+    remarkUrl: 'https://fr.wikipedia.org/wiki/Main_Page',
+    estimateUrl: 'https://wikipedia.org/wiki/Main_Page',
+  },
 };
