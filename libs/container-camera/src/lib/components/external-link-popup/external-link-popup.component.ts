@@ -28,7 +28,7 @@ export class ExternalLinkPopupComponent implements OnInit {
     (externalUrls, containerId, containerDate) => {
       return `${
         externalUrls[this.data.urlName]
-      }?containerId=${containerId}&containerDate=${containerDate}`;
+      }?containerId=${containerId}&containerDate=${containerDate.format()}`;
     }
   );
 
