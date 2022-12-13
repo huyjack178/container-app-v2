@@ -18,7 +18,8 @@ import { DomSanitizer } from '@angular/platform-browser';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ExternalLinkPopupComponent implements OnInit {
-  test = 'remark';
+  private static readonly secret: string = 'ContainerAppSecret_*xHnMx(QLIl#8PMF8"$|K-I2xsY;pU';
+
   url$ = combineLatest(
     [
       this.facade.externalUrls$,
@@ -28,7 +29,7 @@ export class ExternalLinkPopupComponent implements OnInit {
     (externalUrls, containerId, containerDate) => {
       return `${
         externalUrls[this.data.urlName]
-      }?containerId=${containerId}&containerDate=${containerDate.format()}`;
+      }?containerId=${containerId}&containerDate=${containerDate.format()}&secret=${ExternalLinkPopupComponent.secret}`;
     }
   );
 
