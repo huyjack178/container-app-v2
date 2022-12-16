@@ -18,7 +18,7 @@ import { DomSanitizer } from '@angular/platform-browser';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ExternalLinkPopupComponent implements OnInit {
-  private static readonly secret: string = 'ContainerAppSecret_*xHnMx(QLIl#8PMF8"$|K-I2xsY;pU';
+  private static readonly secret: string = 'ContainerAppSecretxHnMxQLIl8PMF8KI2xsYpU';
 
   url$ = combineLatest(
     [
