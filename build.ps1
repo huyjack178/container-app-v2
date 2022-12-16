@@ -100,4 +100,5 @@ yarn build:web
 
 Remove-Item -Recurse -Force ./libs
 Remove-Item -Recurse -Force ./apps/container-management
+Remove-Item -Recurse -Force ./node_modules
 

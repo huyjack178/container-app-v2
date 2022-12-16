@@ -79,7 +79,7 @@ npm install pm2-windows-startup -g
 npm install --global yarn
 pm2-startup install
 
-yarn install
+yarn install --production --frozen-lockfile
 pm2 start ./apps/api/src/server.js --name server3000
 pm2 save
 pm2 resurrect
