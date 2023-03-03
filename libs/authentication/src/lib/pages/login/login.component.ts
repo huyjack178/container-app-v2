@@ -65,7 +65,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       })
       .pipe(first())
       .subscribe({
-        error: (error) => this.errorMessage$.next(JSON.stringify(error)),
+        error: (error) => this.errorMessage$.next(error?.error),
       });
   }
 

@@ -9,7 +9,7 @@
     "start": "nx serve container-management --host=0.0.0.0",
     "build:web": "nx build --prod --configuration=production --output-path ./apps/api/src/web",
     "test": "nx test",
-    "server:dev": "cd ./apps/api/src && nodemon --watch ./ server.js"
+    "server:dev": "cd ./apps/api/src && SSL_DISABLED=true nodemon --watch ./ server.js"
   },
   "private": true,
   "dependencies": {

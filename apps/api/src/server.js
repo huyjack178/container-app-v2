@@ -1,7 +1,8 @@
 const fs = require('fs');
 const fastify = require('fastify');
 const path = require('path');
-const server = fastify({
+
+server = fastify({
   https: {
     allowHTTP1: true,
     key: fs.readFileSync(path.join(__dirname, '..', 'https', 'server.key')),

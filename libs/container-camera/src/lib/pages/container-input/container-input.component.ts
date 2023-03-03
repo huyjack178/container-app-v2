@@ -37,17 +37,23 @@ export class ContainerInputComponent {
       });
 
       dialogRef.componentInstance.clickOk.subscribe(() => {
-        if (this.environment.useNativeCamera === 'no') {
-          return this.router.navigate([this.router.url, 'camera'], {
-            queryParams: {
-              containerId,
-            },
-          });
-        }
+        return this.startCamera(containerId);
+      });
+    } else {
+      this.startCamera(containerId);
+    }
+  }
 
-        return this.nativeCameraComponent.openCamera(containerId);
+  private startCamera(containerId: string) {
+    if (this.environment.useNativeCamera === 'no') {
+      return this.router.navigate([this.router.url, 'camera'], {
+        queryParams: {
+          containerId,
+        },
       });
     }
+
+    return this.nativeCameraComponent.openCamera(containerId);
   }
 
   viewFtpImages(form: NgForm) {

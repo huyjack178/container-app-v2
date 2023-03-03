@@ -69,7 +69,7 @@
       "defaultConfiguration": "development",
       "options": {
         "proxyConfig": "apps/container-management/proxy.conf.json",
-        "ssl": true
+        "ssl": false
       }
     },
     "extract-i18n": {
