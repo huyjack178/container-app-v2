@@ -1,0 +1,43 @@
+<container-management-native-camera #nativeCameraComponent>
+</container-management-native-camera>
+<div class="container-input-wrapper" fxLayout="column" fxLayoutGap="8px">
+  <div class="photo-grid" fxFlex="70">
+    <container-management-photo-grid></container-management-photo-grid>
+  </div>
+  <form
+    fxLayout="row"
+    fxLayoutAlign="center end"
+    #containerInputForm="ngForm"
+    fxLayoutGap="4px"
+    (submit)="openCamera(containerInputForm)"
+  >
+    <mat-form-field appearance="outline" [style.width.%]="100">
+      <mat-label>Container ID</mat-label>
+      <input
+        matInput
+        name="containerId"
+        required
+        minlength="11"
+        maxlength="11"
+        [ngModel]="containerId$ | async"
+        (ngModelChange)="containerIdChange($event)"
+      />
+    </mat-form-field>
+    <div>
+      <button
+        class="camera-btn"
+        mat-stroked-button
+        color="primary"
+        (click)="openCamera(containerInputForm)"
+        [disabled]="!containerInputForm.valid"
+      >
+        <mat-icon>camera_alt</mat-icon>
+        Chụp
+      </button>
+    </div>
+  </form>
+  <container-management-container-action-panel
+    (capturePhoto)="capture()"
+    [containerInputForm]="containerInputForm"
+  ></container-management-container-action-panel>
+</div>

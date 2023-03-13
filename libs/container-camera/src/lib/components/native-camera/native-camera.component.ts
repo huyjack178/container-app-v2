@@ -1,18 +1,8 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  Input,
-  OnInit,
-  ViewChild,
-  ViewEncapsulation,
-} from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { process$ } from '../../utils/image-processor';
-import { first } from 'rxjs';
-import { SettingService } from '@container-management/setting';
-import { ContainerFacade } from '@container-management/container-camera';
-import { Router } from '@angular/router';
+import {ChangeDetectionStrategy, Component, ElementRef, OnInit, ViewChild, ViewEncapsulation,} from '@angular/core';
+import {process$} from '../../utils/image-processor';
+import {first} from 'rxjs';
+import {SettingService} from '@container-management/setting';
+import {ContainerFacade} from '@container-management/container-camera';
 
 @Component({
   selector: 'container-management-native-camera',
@@ -28,10 +18,11 @@ export class NativeCameraComponent implements OnInit {
   constructor(
     readonly settingService: SettingService,
     readonly containerFacade: ContainerFacade,
-    private readonly router: Router
-  ) {}
+  ) {
+  }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 
   openCamera(containerId: string) {
     this.nativeCamera.nativeElement.click();
@@ -52,12 +43,6 @@ export class NativeCameraComponent implements OnInit {
             .subscribe((processImage) => {
               this.containerFacade.addImage(processImage, this.containerId);
             });
-
-          this.router.navigate(['container', 'action'], {
-            queryParams: {
-              containerId: this.containerId,
-            },
-          });
         }
       };
     }

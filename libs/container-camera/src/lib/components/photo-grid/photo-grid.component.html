@@ -1,0 +1,10 @@
+<virtual-scroller [scrollbarWidth]="20" [scrollbarHeight]="100" [bufferAmount]="10">
+  <mat-grid-list cols="2" rowHeight="2:1" gutterSize="8px">
+    <mat-grid-tile *ngFor="let image of containerFacade.selectImages$ | async; let i = index">
+      <button class="delete-btn" mat-icon-button color="warn" (click)="deleteImage(i)">
+        <mat-icon>delete</mat-icon>
+      </button>
+      <img (click)="viewImage(convertBlobToUrl(image.data.lowResolution))" [src]="convertBlobToUrl(image.data.lowResolution)"/>
+    </mat-grid-tile>
+  </mat-grid-list>
+</virtual-scroller>

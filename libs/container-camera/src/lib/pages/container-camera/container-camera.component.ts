@@ -40,8 +40,6 @@ export class ContainerCameraComponent implements OnInit {
   }
 
   onCaptureFinished() {
-    this.router.navigate(['container', 'action'], {
-      queryParamsHandling: 'preserve',
-    });
+    return this.router.navigate(['/container']);
   }
 }

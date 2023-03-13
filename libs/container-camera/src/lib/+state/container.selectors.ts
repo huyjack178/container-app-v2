@@ -8,4 +8,5 @@ export const {
   selectFtpImages,
   selectFtpImageSrc,
   selectExternalUrls,
+  selectContainerId,
 } = containerFeature;

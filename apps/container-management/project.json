@@ -18,7 +18,7 @@
           "apps/container-management/src/assets"
         ],
         "styles": [
-          "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
+          "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
           "apps/container-management/src/styles.scss"
         ],
         "scripts": []
@@ -68,8 +68,7 @@
       },
       "defaultConfiguration": "development",
       "options": {
-        "proxyConfig": "apps/container-management/proxy.conf.json",
-        "ssl": false
+        "proxyConfig": "apps/container-management/proxy.conf.json"
       }
     },
     "extract-i18n": {

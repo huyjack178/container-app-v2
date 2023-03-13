@@ -27,7 +27,7 @@ export class FtpViewerComponent implements OnInit {
 
   openFtpImage(fileName: string) {
     this.containerFacade.downloadFtpImage(fileName);
-    const ref = this.dialog.open(FtpImageViewerComponent, {
+    this.dialog.open(FtpImageViewerComponent, {
       maxWidth: '100vw',
       maxHeight: '100vh',
       height: '100%',

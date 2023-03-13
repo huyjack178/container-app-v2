@@ -3,7 +3,6 @@ import { select, Store } from '@ngrx/store';
 
 import * as ContainerActions from './container.actions';
 import * as ContainerSelectors from './container.selectors';
-import * as RouterSelectors from './router.selectors';
 import { ProcessedImage } from '../utils/image-processor';
 import { SettingService } from '@container-management/setting';
 import { combineLatest, map, Observable } from 'rxjs';
@@ -17,7 +16,11 @@ export class ContainerFacade {
     ContainerSelectors.selectImages
   );
   readonly selectContainerId$ = this.store.select(
-    RouterSelectors.selectQueryParam('containerId')
+    ContainerSelectors.selectContainerId
+  );
+
+  readonly hasNoImage$ = this.selectImages$.pipe(
+    map((images) => images.length === 0)
   );
 
   readonly uploadedAllImagesToLocal$: Observable<boolean> = this.store
@@ -133,5 +136,9 @@ export class ContainerFacade {
 
   getExternalUrls() {
     this.store.dispatch(ContainerActions.getExternalUrls());
+  }
+
+  setContainerId(containerId: string) {
+    this.store.dispatch(ContainerActions.setContainerId({ containerId }));
   }
 }

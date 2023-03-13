@@ -4,6 +4,7 @@ import { ContainerImage } from './container.models';
 import * as moment from 'moment';
 
 export interface ContainerState {
+  readonly containerId: string;
   readonly loaded: boolean;
   readonly date: moment.Moment;
   readonly images: ContainerImage[];
@@ -17,6 +18,7 @@ export interface ContainerState {
 }
 
 const initialContainerState: ContainerState = {
+  containerId: '',
   loaded: true,
   date: moment(),
   images: [],
@@ -24,8 +26,10 @@ const initialContainerState: ContainerState = {
   ftpImages: [],
   ftpImageSrc: '',
   externalUrls: {
-    remarkUrl: 'https://wikipedia.org/wiki/Main_Page',
-    estimateUrl: 'https://wikipedia.org/wiki/Main_Page',
+    remarkUrl1: 'https://wikipedia.org/wiki/Main_Page',
+    remarkUrl2: 'https://wikipedia.org/wiki/Main_Page',
+    remarkUrl3: 'https://wikipedia.org/wiki/Main_Page',
+    remarkUrl4: 'https://wikipedia.org/wiki/Main_Page',
   },
   error: null,
 };
@@ -151,7 +155,11 @@ const reducer = createReducer(
       ...state,
       externalUrls,
     })
-  )
+  ),
+  on(ContainerActions.setContainerId, (state, { containerId }) => ({
+    ...state,
+    containerId,
+  }))
 );
 
 export const containerFeature = createFeature({

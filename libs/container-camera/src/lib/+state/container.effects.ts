@@ -85,7 +85,7 @@ export class ContainerEffects {
         withLatestFrom(
           this.store$.select(ContainerSelectors.selectImages),
           this.store$.select(ContainerSelectors.selectDate),
-          this.store$.select(RouterSelectors.selectContainerId)
+          this.store$.select(ContainerSelectors.selectContainerId)
         ),
         mergeMap(([a, images, date, containerId]) =>
           this.uploadService.downloadToLocalStorage(
@@ -108,7 +108,7 @@ export class ContainerEffects {
       ofType(ContainerActions.getFtpPath),
       withLatestFrom(
         this.store$.select(ContainerSelectors.selectDate),
-        this.store$.select(RouterSelectors.selectContainerId)
+        this.store$.select(ContainerSelectors.selectContainerId)
       ),
       mergeMap(([a, date, containerId]) =>
         this.uploadService
@@ -232,7 +232,7 @@ const mapUploadImages = (
     withLatestFrom(
       store$.select(ContainerSelectors.selectImages),
       store$.select(ContainerSelectors.selectDate),
-      store$.select(RouterSelectors.selectContainerId)
+      store$.select(ContainerSelectors.selectContainerId)
     ),
     mergeMap(([isHighResolution, images, date, containerId]) =>
       images.map((image) => ({

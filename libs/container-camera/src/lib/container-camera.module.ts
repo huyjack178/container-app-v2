@@ -28,6 +28,12 @@ import { MatListModule } from '@angular/material/list';
 import { FtpImageViewerComponent } from './components/ftp-image-viewer/ftp-image-viewer.component';
 import { NativeCameraComponent } from './components/native-camera/native-camera.component';
 import { ExternalLinkPopupComponent } from './components/external-link-popup/external-link-popup.component';
+import { ContainerInputActionComponent } from './pages/container-input-action/container-input-action.component';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { VirtualScrollerModule } from 'ngx-virtual-scroller';
+import { ContainerActionPanelComponent } from './components/container-action-panel/container-action-panel.component';
+import { PhotoGridComponent } from './components/photo-grid/photo-grid.component';
+import { ImageViewerDialogComponent } from './components/image-viewer-dialog/image-viewer-dialog.component';
 
 @NgModule({
   imports: [
@@ -36,7 +42,7 @@ import { ExternalLinkPopupComponent } from './components/external-link-popup/ext
       {
         path: '',
         pathMatch: 'full',
-        component: ContainerInputComponent,
+        component: ContainerInputActionComponent,
       },
       {
         path: 'camera',
@@ -62,6 +68,8 @@ import { ExternalLinkPopupComponent } from './components/external-link-popup/ext
     LightboxModule,
     MatDividerModule,
     MatListModule,
+    MatGridListModule,
+    VirtualScrollerModule,
   ],
   declarations: [
     CameraComponent,
@@ -75,6 +83,10 @@ import { ExternalLinkPopupComponent } from './components/external-link-popup/ext
     FtpImageViewerComponent,
     NativeCameraComponent,
     ExternalLinkPopupComponent,
+    ContainerInputActionComponent,
+    ContainerActionPanelComponent,
+    PhotoGridComponent,
+    ImageViewerDialogComponent,
   ],
   exports: [],
   providers: [ContainerFacade],

@@ -6,14 +6,14 @@
     "ng": "nx",
     "postinstall": "node ./decorate-angular-cli.js && ngcc --properties es2020 browser module main",
     "format": "nx format:write --uncommitted",
-    "start": "nx serve container-management --host=0.0.0.0",
+    "start:web": "nx serve container-management --host=0.0.0.0",
+    "start:server": "cd ./apps/api/src && SSL=false && nodemon --watch ./ server.js",
     "build:web": "nx build --prod --configuration=production --output-path ./apps/api/src/web",
     "test": "nx test",
     "server:dev": "cd ./apps/api/src && SSL_DISABLED=true nodemon --watch ./ server.js"
   },
   "private": true,
   "dependencies": {
-
     "address": "^1.2.1",
     "basic-ftp": "^5.0.2",
     "cloudinary": "^1.32.0",
@@ -28,6 +28,7 @@
     "jszip": "^3.10.1",
     "moment": "^2.29.4",
     "ngx-cookie-service": "^14.0.1",
+    "ngx-virtual-scroller": "^4.0.3",
     "postcss-url": "^10.1.3",
     "reflect-metadata": "^0.1.13",
     "serial-number": "^1.3.0",

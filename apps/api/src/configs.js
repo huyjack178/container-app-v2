@@ -47,11 +47,11 @@ module.exports = {
   //   password: 'Solog2022#',
   // },
   ftp: {
-    host: '125.212.249.206',
+    host: 'ftp.dlptest.com',
     port: '21',
-    user: 'test',
-    rootFolder: '/ftp',
-    password: 'test@123',
+    user: 'dlpuser',
+    rootFolder: '/',
+    password: 'rNrKYTX9g7z3RgJRmxWuGHbeu',
   },
   cloudinary: {
     cloud_name: '',
@@ -64,7 +64,9 @@ module.exports = {
   //   password: '',
   // },
   externalUrls: {
-    remarkUrl: 'https://fr.wikipedia.org/wiki/Main_Page',
-    estimateUrl: 'https://wikipedia.org/wiki/Main_Page',
+    remarkUrl1: 'https://fr.wikipedia.org/wiki/Main_Page',
+    remarkUrl2: 'https://wikipedia.org/wiki/Main_Page',
+    remarkUrl3: 'https://commons.wikimedia.org/wiki/Commons:Welcome',
+    remarkUrl4: 'https://wikipedia.org/wiki/Main_Page',
   },
 };

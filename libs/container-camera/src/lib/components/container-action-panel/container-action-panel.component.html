@@ -1,0 +1,104 @@
+<div class="actions-panel" fxLayout="row" fxLayoutAlign="space-between">
+  <button
+    fxFlex="24"
+    type="button"
+    mat-stroked-button
+    color="primary"
+    [disabled]="containerFacade.hasNoImage$ | async"
+    (click)="upload()"
+  >
+    <mat-icon>cloud_upload</mat-icon>
+    Lưu server
+  </button>
+  <button
+    fxFlex="24"
+    type="button"
+    mat-stroked-button
+    color="primary"
+    (click)="downloadToLocal()"
+    [disabled]="containerFacade.hasNoImage$ | async"
+  >
+    <mat-icon>download</mat-icon>
+    Lưu vào máy
+  </button>
+  <button
+    fxFlex="24"
+    type="button"
+    mat-stroked-button
+    color="primary"
+    [disabled]="
+      !settingService.getUploadSettings().ftp.enabled ||
+      !containerInputForm.valid
+    "
+    (click)="viewFtpImages(containerInputForm)"
+  >
+    <mat-icon>insert_drive_file</mat-icon>
+    Xem nhanh
+  </button>
+  <button
+    fxFlex="24"
+    type="file"
+    mat-stroked-button
+    color="primary"
+    [disabled]="!containerInputForm.valid"
+    (click)="fileInput.click()"
+  >
+    <mat-icon>folder</mat-icon>
+    Chọn từ máy
+  </button>
+  <input
+    #fileSelector
+    style="display: none"
+    type="file"
+    multiple="multiple"
+    accept="image/*"
+    (change)="onSelectFiles()"
+    #fileInput
+  />
+</div>
+<div class="remark-panel" fxLayout="row" fxLayoutAlign="space-between">
+  <button
+    fxFlex="24"
+    type="button"
+    mat-stroked-button
+    color="primary"
+    [disabled]="!containerInputForm.valid"
+    (click)="openRemarkPopup('remarkUrl1')"
+  >
+    <mat-icon>open_in_new</mat-icon>
+    Remark 1
+  </button>
+  <button
+    fxFlex="24"
+    type="button"
+    mat-stroked-button
+    color="primary"
+    [disabled]="!containerInputForm.valid"
+    (click)="openRemarkPopup('remarkUrl2')"
+  >
+    <mat-icon>open_in_new</mat-icon>
+    Remark 2
+  </button>
+  <button
+    fxFlex="24"
+    type="button"
+    mat-stroked-button
+    color="primary"
+    [disabled]="!containerInputForm.valid"
+    (click)="openRemarkPopup('remarkUrl3')"
+  >
+    <mat-icon>open_in_new</mat-icon>
+    Remark 3
+  </button>
+  <button
+    fxFlex="24"
+    type="button"
+    mat-stroked-button
+    color="primary"
+    [disabled]="!containerInputForm.valid"
+    (click)="openRemarkPopup('remarkUrl4')"
+  >
+    <mat-icon>open_in_new</mat-icon>
+    Remark 4
+  </button>
+</div>
