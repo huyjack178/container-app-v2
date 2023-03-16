@@ -1,4 +1,4 @@
-const characterNumberMapper: { [char: string]: number } = {
+const characterNumberMapper = {
   A: 10,
   B: 12,
   C: 13,
@@ -32,16 +32,18 @@ const isLetter = (char: string) => {
 };
 
 export const isValid = (containerId = '') => {
-  const containerIdChars = [
-    ...containerId.substring(0, containerId.length - 1),
-  ];
+  const containerIdChars = [...containerId.substr(0, containerId.length - 1)];
   const lastChar = containerId.slice(containerId.length - 1);
   let total = 0;
 
-  containerIdChars.forEach((char: string, index) => {
-    total += isLetter(char)
-      ? characterNumberMapper[char]
-      : (char as unknown as number) * Math.pow(2, index);
+  containerIdChars.forEach((char, index) => {
+    if (isLetter(char)) {
+      // @ts-ignore
+      char = characterNumberMapper[char];
+    }
+
+    // @ts-ignore
+    total += char * Math.pow(2, index);
   });
 
   const checkNumber = total % 11;
@@ -50,5 +52,9 @@ export const isValid = (containerId = '') => {
     return true;
   }
 
-  return checkNumber.toString() === lastChar;
+  if (checkNumber.toString() === lastChar) {
+    return true;
+  }
+
+  return false;
 };

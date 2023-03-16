@@ -27,7 +27,9 @@ const login = async (req, res, server) => {
       res.code(400).send('Username hoặc password không hợp lệ');
     }
 
-    const currentUser = configs.users.find((user) => user.userName.toUpperCase() === userName.toUpperCase());
+    const currentUser = configs.users.find(
+      (user) => user.userName.toUpperCase() === userName.toUpperCase()
+    );
 
     if (currentUser && currentUser.password === password) {
       const token = server.jwt.sign({ payload: req.query.payload });
@@ -35,9 +37,12 @@ const login = async (req, res, server) => {
         token,
         imageMaxSizes: JSON.stringify(configs.imageMaxSizes),
         settings: JSON.stringify({
-          ftp: { enabled: !!configs.ftp.host },
-          cloudinary: { enabled: !!configs.cloudinary.cloud_name },
-          local: { enabledLow: !!configs.uploadDirectoryPath.low, enabledHigh: !!configs.uploadDirectoryPath.high },
+          ftp: { enabled: !!configs?.ftp?.host },
+          cloudinary: { enabled: !!configs?.cloudinary?.cloud_name },
+          local: {
+            enabledLow: !!configs?.uploadDirectoryPath?.low,
+            enabledHigh: !!configs?.uploadDirectoryPath?.high,
+          },
         }),
       });
     } else {

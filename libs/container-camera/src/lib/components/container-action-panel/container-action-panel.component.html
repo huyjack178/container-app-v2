@@ -4,7 +4,9 @@
     type="button"
     mat-stroked-button
     color="primary"
-    [disabled]="containerFacade.hasNoImage$ | async"
+    [disabled]="
+      !containerInputForm.valid || (containerFacade.hasNoImage$ | async)
+    "
     (click)="upload()"
   >
     <mat-icon>cloud_upload</mat-icon>
@@ -16,7 +18,9 @@
     mat-stroked-button
     color="primary"
     (click)="downloadToLocal()"
-    [disabled]="containerFacade.hasNoImage$ | async"
+    [disabled]="
+      !containerInputForm.valid || (containerFacade.hasNoImage$ | async)
+    "
   >
     <mat-icon>download</mat-icon>
     Lưu vào máy
@@ -41,7 +45,7 @@
     mat-stroked-button
     color="primary"
     [disabled]="!containerInputForm.valid"
-    (click)="fileInput.click()"
+    (click)="selectFiles()"
   >
     <mat-icon>folder</mat-icon>
     Chọn từ máy
@@ -52,7 +56,7 @@
     type="file"
     multiple="multiple"
     accept="image/*"
-    (change)="onSelectFiles()"
+    (change)="selectedFiles()"
     #fileInput
   />
 </div>

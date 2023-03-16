@@ -19,7 +19,7 @@ export class ContainerCameraComponent implements OnInit {
   constructor(
     readonly facade: ContainerFacade,
     private readonly router: Router,
-    settingsService: SettingService
+    readonly settingsService: SettingService
   ) {
     this.#imageSettings = settingsService.getImageSettings();
   }

@@ -9,11 +9,12 @@
     fxLayoutAlign="center end"
     #containerInputForm="ngForm"
     fxLayoutGap="4px"
-    (submit)="openCamera(containerInputForm)"
+    (submit)="openCamera()"
   >
     <mat-form-field appearance="outline" [style.width.%]="100">
       <mat-label>Container ID</mat-label>
       <input
+        class="container-input"
         matInput
         name="containerId"
         required
@@ -28,7 +29,6 @@
         class="camera-btn"
         mat-stroked-button
         color="primary"
-        (click)="openCamera(containerInputForm)"
         [disabled]="!containerInputForm.valid"
       >
         <mat-icon>camera_alt</mat-icon>

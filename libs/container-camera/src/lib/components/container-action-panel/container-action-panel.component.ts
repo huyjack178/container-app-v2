@@ -4,7 +4,6 @@ import {
   EventEmitter,
   Inject,
   Input,
-  OnInit,
   Output,
   ViewChild,
   ViewEncapsulation,
@@ -25,7 +24,7 @@ import { ExternalLinkPopupComponent } from '../external-link-popup/external-link
   styleUrls: ['./container-action-panel.component.scss'],
   encapsulation: ViewEncapsulation.Emulated,
 })
-export class ContainerActionPanelComponent implements OnInit {
+export class ContainerActionPanelComponent {
   @ViewChild('fileSelector') fileSelector!: ElementRef<HTMLInputElement>;
 
   @Input() containerInputForm!: NgForm;
@@ -38,8 +37,6 @@ export class ContainerActionPanelComponent implements OnInit {
     private readonly dialog: MatDialog,
     @Inject('environment') private readonly environment: any
   ) {}
-
-  ngOnInit(): void {}
 
   upload() {
     const dialogRef = this.dialog.open(UploadDialogComponent, {
@@ -68,7 +65,11 @@ export class ContainerActionPanelComponent implements OnInit {
     });
   }
 
-  onSelectFiles() {
+  selectFiles() {
+    this.fileSelector.nativeElement.click();
+  }
+
+  selectedFiles() {
     this.containerFacade.setContainerId(
       this.containerInputForm.value.containerId
     );

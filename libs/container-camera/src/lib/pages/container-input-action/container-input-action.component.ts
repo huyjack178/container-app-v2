@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   Inject,
   OnDestroy,
@@ -15,7 +16,13 @@ import { NgForm } from '@angular/forms';
 import { isValid } from '../../utils';
 import { ContainerIdConfirmDialogComponent } from '../../components';
 import { DomSanitizer } from '@angular/platform-browser';
-import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
+import {
+  BehaviorSubject,
+  distinctUntilChanged,
+  filter,
+  Subject,
+  takeUntil,
+} from 'rxjs';
 
 @Component({
   selector: 'container-management-container-input-action',
@@ -23,13 +30,15 @@ import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
   styleUrls: ['./container-input-action.component.scss'],
   encapsulation: ViewEncapsulation.Emulated,
 })
-export class ContainerInputActionComponent implements OnInit, OnDestroy {
+export class ContainerInputActionComponent
+  implements OnInit, AfterViewInit, OnDestroy
+{
   @ViewChild('nativeCameraComponent')
   nativeCameraComponent!: NativeCameraComponent;
   @ViewChild('containerInputForm') containerInputForm!: NgForm;
 
-  containerIdSubject = new BehaviorSubject('');
-  containerId$ = this.containerIdSubject.asObservable();
+  readonly containerIdSubject = new BehaviorSubject('');
+  readonly containerId$ = this.containerIdSubject.asObservable();
 
   private readonly unsubscribe$ = new Subject<void>();
 
@@ -51,32 +60,40 @@ export class ContainerInputActionComponent implements OnInit, OnDestroy {
       });
   }
 
+  ngAfterViewInit(): void {
+    if (this.containerInputForm) {
+      this.containerInputForm.statusChanges
+        ?.pipe(
+          distinctUntilChanged(),
+          takeUntil(this.unsubscribe$),
+          filter((status) => status === 'VALID')
+        )
+        .subscribe((status) => {
+          const containerId = this.containerIdSubject.value;
+
+          if (!isValid(containerId)) {
+            this.dialog.open(ContainerIdConfirmDialogComponent, {
+              width: '250px',
+            });
+          }
+
+          this.containerFacade.setContainerId(containerId);
+        });
+    }
+  }
+
   containerIdChange(input: string) {
     this.containerIdSubject.next(input.toUpperCase());
   }
 
-  openCamera(form: NgForm) {
-    const containerId = form.value.containerId;
-
-    if (!isValid(containerId)) {
-      const dialogRef = this.dialog.open(ContainerIdConfirmDialogComponent, {
-        width: '250px',
-      });
-
-      dialogRef.componentInstance.clickOk.subscribe(() => {
-        return this.startCamera(containerId);
-      });
-    } else {
-      this.startCamera(containerId);
-    }
-
-    this.containerFacade.setContainerId(containerId);
+  openCamera() {
+    this.startCamera();
   }
 
   capture() {
     if (this.environment.useNativeCamera == 'yes') {
       return this.nativeCameraComponent.openCamera(
-        this.activatedRoute.snapshot.queryParamMap.get('containerId') ?? ''
+        this.containerIdSubject.value
       );
     }
 
@@ -90,15 +107,15 @@ export class ContainerInputActionComponent implements OnInit, OnDestroy {
     this.unsubscribe$.complete();
   }
 
-  private startCamera(containerId: string) {
+  private startCamera() {
     if (this.environment.useNativeCamera === 'no') {
       return this.router.navigate([this.router.url, 'camera'], {
         queryParams: {
-          containerId,
+          containerId: this.containerIdSubject.value,
         },
       });
     }
 
-    return this.nativeCameraComponent.openCamera(containerId);
+    return this.nativeCameraComponent.openCamera(this.containerIdSubject.value);
   }
 }
