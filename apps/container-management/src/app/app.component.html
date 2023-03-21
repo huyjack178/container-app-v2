@@ -1,4 +1,6 @@
-<container-management-navbar></container-management-navbar>
+<container-management-navbar
+  [userName]="settingService.getUserName()"
+></container-management-navbar>
 <div class="router-container">
   <router-outlet></router-outlet>
 </div>

@@ -58,6 +58,10 @@ export class SettingService {
     localStorage.setItem('imageSetting', imageSetting);
   }
 
+  getUserName(): string {
+    return (localStorage.getItem('userName') ?? '').toUpperCase();
+  }
+
   storeUserName(userName: string) {
     localStorage.setItem('userName', userName);
   }

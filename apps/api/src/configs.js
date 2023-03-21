@@ -46,23 +46,23 @@ module.exports = {
   //   rootFolder: '/DataMNR_PL',
   //   password: 'Solog2022#',
   // },
-  ftp: {
-    host: 'ftp.dlptest.com',
-    port: '21',
-    user: 'dlpuser',
-    rootFolder: '/',
-    password: 'rNrKYTX9g7z3RgJRmxWuGHbeu',
-  },
+  // ftp: {
+  //   host: 'ftp.dlptest.com',
+  //   port: '21',
+  //   user: 'dlpuser',
+  //   rootFolder: '/',
+  //   password: 'rNrKYTX9g7z3RgJRmxWuGHbeu',
+  // },
   cloudinary: {
     cloud_name: '',
     api_key: '',
     api_secret: '',
   },
-  // ftp: {
-  //   host: '',
-  //   user: '',
-  //   password: '',
-  // },
+  ftp: {
+    host: '',
+    user: '',
+    password: '',
+  },
   externalUrls: {
     remarkUrl1: 'https://fr.wikipedia.org/wiki/Main_Page',
     remarkUrl2: 'https://wikipedia.org/wiki/Main_Page',

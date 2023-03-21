@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from '@container-management/authentication';
 import { SettingDialogComponent } from '@container-management/setting';
@@ -11,6 +11,8 @@ import { ContainerFacade } from '@container-management/container-camera';
   styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent {
+  @Input() userName: string = '';
+
   constructor(
     public readonly authService: AuthService,
     private readonly dialog: MatDialog,
