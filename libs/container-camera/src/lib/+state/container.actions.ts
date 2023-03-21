@@ -64,30 +64,23 @@ export const downloadToLocal = createAction(
 
 export const getFtpPath = createAction('[Container] Ftp path is retrieving');
 
-export const getFtpPathSuccessfully = createAction(
-  '[Container] Ftp path is retrieved successfully',
+export const getUploadedPathSuccessfully = createAction(
+  '[Container] Uploaded path is retrieved successfully',
   props<{
-    ftpPath: string;
+    path: string;
   }>()
 );
 
-export const getFtpImages = createAction(
-  '[Container] Ftp Images is retrieving'
+export const getFtpImagesWithPath = createAction(
+  '[Container] Ftp Images is retrieving with path'
+);
+
+export const getLocalImages = createAction(
+  '[Container] Local Images is retrieving'
 );
 
 export const getFtpImagesWithContainerId = createAction(
-  '[Container] Ftp Images is retrieving with path',
-  props<{
-    containerId: string;
-  }>()
-);
-
-export const getFtpImagesSuccessfully = createAction(
-  '[Container] Ftp Images is retrieved successfully',
-  props<{
-    ftpImages: string[];
-    ftpPath?: string;
-  }>()
+  '[Container] Ftp Images is retrieving with container id'
 );
 
 export const downloadFtpImage = createAction(
@@ -97,14 +90,27 @@ export const downloadFtpImage = createAction(
   }>()
 );
 
-export const setLoadingFtpImage = createAction(
-  '[Container] Ftp Image is loading'
+export const downloadLocalImage = createAction(
+  '[Container] Local Image is opening',
+  props<{
+    fileName: string;
+  }>()
 );
 
-export const downloadFtpImageSuccessfully = createAction(
-  '[Container] Ftp Image is downloaded successfully',
+export const setLoadingImage = createAction('[Container] Image is loading');
+
+export const getUploadedImagesSuccessfully = createAction(
+  '[Container] Uploaded Images is retrieved successfully',
   props<{
-    ftpImageSrc: string;
+    images: string[];
+    path?: string;
+  }>()
+);
+
+export const getUploadedImageSuccessfully = createAction(
+  '[Container] Uploaded Image is downloaded successfully',
+  props<{
+    uploadedImageSrc: string;
   }>()
 );
 
@@ -123,6 +129,9 @@ export const getExternalUrlsSuccessfully = createAction(
   }>()
 );
 
-export const setContainerId = createAction('[Container] Container Id is set', props<{
-  containerId: string;
-}>())
+export const setContainerId = createAction(
+  '[Container] Container Id is set',
+  props<{
+    containerId: string;
+  }>()
+);

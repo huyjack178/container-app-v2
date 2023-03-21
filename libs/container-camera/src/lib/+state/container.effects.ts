@@ -9,7 +9,6 @@ import {
 import { map, Observable, pipe, UnaryFunction, withLatestFrom } from 'rxjs';
 import { Store } from '@ngrx/store';
 import * as ContainerSelectors from './container.selectors';
-import * as RouterSelectors from './router.selectors';
 import { SettingService } from '@container-management/setting';
 import * as moment from 'moment';
 import { ExternalUrlsService } from '../services/external-urls.service';
@@ -119,8 +118,8 @@ export class ContainerEffects {
           )
           .pipe(
             map((response) =>
-              ContainerActions.getFtpPathSuccessfully({
-                ftpPath: response.folderPath,
+              ContainerActions.getUploadedPathSuccessfully({
+                path: response.folderPath,
               })
             )
           )
@@ -131,16 +130,16 @@ export class ContainerEffects {
     )
   );
 
-  getImagesFromFtp$ = createEffect(() =>
+  getImagesFromFtpWithPath$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(ContainerActions.getFtpImages),
-      withLatestFrom(this.store$.select(ContainerSelectors.selectFtpPath)),
-      mergeMap(([a, ftpPath]) =>
+      ofType(ContainerActions.getFtpImagesWithPath),
+      withLatestFrom(this.store$.select(ContainerSelectors.selectUploadedPath)),
+      mergeMap(([a, path]) =>
         this.uploadService
-          .getFtpImages$(ftpPath)
+          .getFtpImages$(path)
           .pipe(
-            map((ftpImages) =>
-              ContainerActions.getFtpImagesSuccessfully({ ftpImages })
+            map((images) =>
+              ContainerActions.getUploadedImagesSuccessfully({ path, images })
             )
           )
       ),
@@ -153,20 +152,21 @@ export class ContainerEffects {
   getImagesFromFtpWithContainerId$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ContainerActions.getFtpImagesWithContainerId),
-      mergeMap((action) =>
+      withLatestFrom(this.store$.select(ContainerSelectors.selectContainerId)),
+      mergeMap(([a, containerId]) =>
         this.uploadService
           .getFtpPath$(
-            action.containerId,
+            containerId,
             moment(),
             localStorage.getItem('userName') ?? ''
           )
           .pipe(
-            switchMap((ftpPath) =>
-              this.uploadService.getFtpImages$(ftpPath.folderPath).pipe(
-                map((ftpImages) =>
-                  ContainerActions.getFtpImagesSuccessfully({
-                    ftpImages,
-                    ftpPath: ftpPath.folderPath,
+            switchMap(({ folderPath }) =>
+              this.uploadService.getFtpImages$(folderPath).pipe(
+                map((images) =>
+                  ContainerActions.getUploadedImagesSuccessfully({
+                    images,
+                    path: folderPath,
                   })
                 )
               )
@@ -182,15 +182,63 @@ export class ContainerEffects {
   downloadFtpImage$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ContainerActions.downloadFtpImage),
-      withLatestFrom(this.store$.select(ContainerSelectors.selectFtpPath)),
-      mergeMap(([action, ftpPath]) =>
-        this.uploadService.downloadFtpImage$(ftpPath + action.fileName).pipe(
+      withLatestFrom(this.store$.select(ContainerSelectors.selectUploadedPath)),
+      mergeMap(([action, path]) =>
+        this.uploadService.downloadFtpImage$(path + action.fileName).pipe(
           map((ftpImage) =>
-            ContainerActions.downloadFtpImageSuccessfully({
-              ftpImageSrc: ftpImage.src,
+            ContainerActions.getUploadedImageSuccessfully({
+              uploadedImageSrc: ftpImage.src,
             })
           )
         )
+      ),
+      catchError((error) => {
+        throw new Error(error);
+      })
+    )
+  );
+
+  getImagesFromLocal$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ContainerActions.getLocalImages),
+      withLatestFrom(
+        this.store$.select(ContainerSelectors.selectContainerId),
+        this.store$.select(ContainerSelectors.selectDate)
+      ),
+      mergeMap(([a, containerId, containerDate]) =>
+        this.uploadService
+          .getLocalImages$(
+            containerId,
+            containerDate,
+            localStorage.getItem('userName') ?? '',
+            this.settingService.getUploadSettings().local.enabledHigh
+          )
+          .pipe(
+            map(({ images, path }) =>
+              ContainerActions.getUploadedImagesSuccessfully({ images, path })
+            )
+          )
+      ),
+      catchError((error) => {
+        throw new Error(error);
+      })
+    )
+  );
+
+  getLocalImage$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ContainerActions.downloadLocalImage),
+      withLatestFrom(this.store$.select(ContainerSelectors.selectUploadedPath)),
+      mergeMap(([action, path]) =>
+        this.uploadService
+          .downloadLocalImage$(path + '/' + action.fileName)
+          .pipe(
+            map(({ src }) =>
+              ContainerActions.getUploadedImageSuccessfully({
+                uploadedImageSrc: src,
+              })
+            )
+          )
       ),
       catchError((error) => {
         throw new Error(error);

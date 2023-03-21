@@ -42,20 +42,24 @@ export class ContainerFacade {
   ]).pipe(
     map(
       ([uploadAllToLocal, uploadAllToFtp, uploadAllToCloud]) =>
-        uploadAllToCloud && uploadAllToLocal && uploadAllToFtp
+        (!this.settingService.getUploadSettings().cloudinary.enabled ||
+          uploadAllToCloud) &&
+        (!this.settingService.getUploadSettings().local.enabled ||
+          uploadAllToLocal) &&
+        (!this.settingService.getUploadSettings().ftp.enabled || uploadAllToFtp)
     )
   );
 
-  readonly ftpPath$: Observable<string> = this.store.select(
-    ContainerSelectors.selectFtpPath
+  readonly uploadedPath$: Observable<string> = this.store.select(
+    ContainerSelectors.selectUploadedPath
   );
 
-  readonly ftpImages$: Observable<string[]> = this.store.select(
-    ContainerSelectors.selectFtpImages
+  readonly uploadedImages$: Observable<string[]> = this.store.select(
+    ContainerSelectors.selectUploadedImages
   );
 
-  readonly ftpImageSrc$: Observable<string> = this.store.select(
-    ContainerSelectors.selectFtpImageSrc
+  readonly uploadedImageSrc$: Observable<string> = this.store.select(
+    ContainerSelectors.selectUploadedImageSrc
   );
 
   readonly externalUrls$: Observable<ExternalUrls> = this.store.select(
@@ -120,18 +124,25 @@ export class ContainerFacade {
   }
 
   getFtpImages() {
-    this.store.dispatch(ContainerActions.getFtpImages());
+    this.store.dispatch(ContainerActions.getFtpImagesWithPath());
   }
 
-  getFtpImagesWithContainerId(containerId: string) {
-    this.store.dispatch(
-      ContainerActions.getFtpImagesWithContainerId({ containerId })
-    );
+  getLocalImages() {
+    this.store.dispatch(ContainerActions.getLocalImages());
+  }
+
+  getFtpImagesWithContainerId() {
+    this.store.dispatch(ContainerActions.getFtpImagesWithContainerId());
   }
 
   downloadFtpImage(fileName: string) {
-    this.store.dispatch(ContainerActions.setLoadingFtpImage());
+    this.store.dispatch(ContainerActions.setLoadingImage());
     this.store.dispatch(ContainerActions.downloadFtpImage({ fileName }));
+  }
+
+  downloadLocalImage(fileName: string) {
+    this.store.dispatch(ContainerActions.setLoadingImage());
+    this.store.dispatch(ContainerActions.downloadLocalImage({ fileName }));
   }
 
   getExternalUrls() {
@@ -139,6 +150,10 @@ export class ContainerFacade {
   }
 
   setContainerId(containerId: string) {
-    this.store.dispatch(ContainerActions.setContainerId({ containerId }));
+    this.store.dispatch(
+      ContainerActions.setContainerId({
+        containerId: containerId.toUpperCase(),
+      })
+    );
   }
 }

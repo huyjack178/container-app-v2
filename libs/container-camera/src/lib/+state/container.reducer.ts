@@ -8,9 +8,9 @@ export interface ContainerState {
   readonly loaded: boolean;
   readonly date: moment.Moment;
   readonly images: ContainerImage[];
-  readonly ftpPath: string;
-  readonly ftpImages: string[];
-  readonly ftpImageSrc: string;
+  readonly uploadedPath: string;
+  readonly uploadedImages: string[];
+  readonly uploadedImageSrc: string;
   readonly externalUrls: {
     [key: string]: string;
   };
@@ -22,9 +22,9 @@ const initialContainerState: ContainerState = {
   loaded: true,
   date: moment(),
   images: [],
-  ftpPath: '',
-  ftpImages: [],
-  ftpImageSrc: '',
+  uploadedPath: '',
+  uploadedImages: [],
+  uploadedImageSrc: '',
   externalUrls: {
     remarkUrl1: 'https://wikipedia.org/wiki/Main_Page',
     remarkUrl2: 'https://wikipedia.org/wiki/Main_Page',
@@ -124,29 +124,29 @@ const reducer = createReducer(
     ...initialContainerState,
     date: moment(),
   })),
-  on(ContainerActions.getFtpPathSuccessfully, (state, { ftpPath }) => ({
+  on(ContainerActions.getUploadedPathSuccessfully, (state, { path }) => ({
     ...state,
-    ftpPath,
-    ftpImages: [],
+    uploadedPath: path,
+    uploadedImages: [],
   })),
   on(
-    ContainerActions.getFtpImagesSuccessfully,
-    (state, { ftpImages, ftpPath }) => ({
+    ContainerActions.getUploadedImagesSuccessfully,
+    (state, { images, path }) => ({
       ...state,
-      ftpImages,
-      ftpPath: ftpPath ?? state.ftpPath,
+      uploadedImages: images,
+      uploadedPath: path ?? state.uploadedPath,
     })
   ),
   on(
-    ContainerActions.downloadFtpImageSuccessfully,
-    (state, { ftpImageSrc }) => ({
+    ContainerActions.getUploadedImageSuccessfully,
+    (state, { uploadedImageSrc }) => ({
       ...state,
-      ftpImageSrc,
+      uploadedImageSrc,
     })
   ),
-  on(ContainerActions.setLoadingFtpImage, (state, {}) => ({
+  on(ContainerActions.setLoadingImage, (state, {}) => ({
     ...state,
-    ftpImageSrc:
+    uploadedImageSrc:
       'https://media.tenor.com/guhB4PpjrmUAAAAM/loading-loading-gif.gif',
   })),
   on(

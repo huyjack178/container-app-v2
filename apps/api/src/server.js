@@ -1,20 +1,27 @@
 const fs = require('fs');
 const fastify = require('fastify');
 const path = require('path');
-console.log(process.env.ENV)
-const server = fastify(process.env.ENV !== "DEV" ? {
-  https: {
-    allowHTTP1: true,
-    key: fs.readFileSync(path.join(__dirname, '..', 'https', 'server.key')),
-    cert: fs.readFileSync(path.join(__dirname, '..', 'https', 'server.cert')),
-  },
-} : {});
+const server = fastify(
+  process.env.ENV !== 'DEV'
+    ? {
+        https: {
+          allowHTTP1: true,
+          key: fs.readFileSync(
+            path.join(__dirname, '..', 'https', 'server.key')
+          ),
+          cert: fs.readFileSync(
+            path.join(__dirname, '..', 'https', 'server.cert')
+          ),
+        },
+      }
+    : {}
+);
 const multer = require('fastify-multer');
 const storage = multer.memoryStorage();
-const upload = multer({storage: storage});
+const upload = multer({ storage: storage });
 const uploadFtpHandler = require('./handlers/uploadFTP');
 const uploadCloudHandler = require('./handlers/uploadCloud');
-const uploadLocalHandler = require('./handlers/uploadLocal');
+const { uploadLocal } = require('./handlers/uploadLocal');
 const loginHandler = require('./handlers/login');
 const {
   getImagesFromFtp,
@@ -23,7 +30,11 @@ const {
 } = require('./handlers/getFtp');
 
 const serialNumber = require('serial-number');
-const {getExternalUrls} = require('./handlers/getExternalUrls');
+const { getExternalUrls } = require('./handlers/getExternalUrls');
+const {
+  getImageFilesFromLocal,
+  downloadImageFilesFromLocal,
+} = require('./handlers/getLocal');
 
 server
   .register(multer.contentParser)
@@ -37,18 +48,18 @@ server
 server.register(require('./jwt-auth')).after(() => {
   server.post(
     '/uploadCloud',
-    {preValidation: [server.authenticate], preHandler: upload.single('file')},
+    { preValidation: [server.authenticate], preHandler: upload.single('file') },
     uploadCloudHandler
   );
   server.post(
     '/uploadFTP',
-    {preValidation: [server.authenticate], preHandler: upload.single('file')},
+    { preValidation: [server.authenticate], preHandler: upload.single('file') },
     uploadFtpHandler
   );
   server.post(
     '/uploadLocal',
-    {preValidation: [server.authenticate], preHandler: upload.single('file')},
-    uploadLocalHandler
+    { preValidation: [server.authenticate], preHandler: upload.single('file') },
+    uploadLocal
   );
 
   server.get('/', function (req, res) {
@@ -80,6 +91,12 @@ server.register(require('./jwt-auth')).after(() => {
   server.post('/login', (req, res) => loginHandler(req, res, server));
 
   server.get('/externalUrls', (req, res) => getExternalUrls(req, res));
+
+  server.post('/localImages', (req, res) => getImageFilesFromLocal(req, res));
+
+  server.post('/localDownload', (req, res) =>
+    downloadImageFilesFromLocal(req, res)
+  );
 });
 
 server.listen(3000, '0.0.0.0', (err, address) => {

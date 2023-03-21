@@ -44,6 +44,17 @@ export class ContainerInputComponent {
     }
   }
 
+  viewFtpImages(form: NgForm) {
+    this.containerFacade.getFtpImagesWithContainerId();
+    this.dialog.open(FtpViewerComponent, {
+      maxWidth: '100vw',
+      maxHeight: '100vh',
+      height: '100%',
+      width: '100%',
+      panelClass: 'full-screen-modal',
+    });
+  }
+
   private startCamera(containerId: string) {
     if (this.environment.useNativeCamera === 'no') {
       return this.router.navigate([this.router.url, 'camera'], {
@@ -54,16 +65,5 @@ export class ContainerInputComponent {
     }
 
     return this.nativeCameraComponent.openCamera(containerId);
-  }
-
-  viewFtpImages(form: NgForm) {
-    this.containerFacade.getFtpImagesWithContainerId(form.value.containerId);
-    this.dialog.open(FtpViewerComponent, {
-      maxWidth: '100vw',
-      maxHeight: '100vh',
-      height: '100%',
-      width: '100%',
-      panelClass: 'full-screen-modal',
-    });
   }
 }

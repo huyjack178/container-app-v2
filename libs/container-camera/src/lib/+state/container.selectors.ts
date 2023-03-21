@@ -4,9 +4,9 @@ export const {
   selectImages,
   selectLoaded,
   selectDate,
-  selectFtpPath,
-  selectFtpImages,
-  selectFtpImageSrc,
+  selectUploadedPath,
+  selectUploadedImages,
+  selectUploadedImageSrc,
   selectExternalUrls,
   selectContainerId,
 } = containerFeature;

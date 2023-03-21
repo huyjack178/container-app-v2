@@ -20,8 +20,14 @@ export interface FtpPath {
   readonly folderPath: string;
 }
 
-export interface FtpImage {
+export interface Image {
   readonly src: string;
+}
+
+export interface LocalImages {
+  readonly path: string;
+
+  readonly images: string[];
 }
 
 @Injectable({
@@ -47,15 +53,38 @@ export class UploadImageService {
     });
   }
 
+  getLocalImages$(
+    containerId: string,
+    containerDate: moment.Moment,
+    userName: string,
+    isHighResolution: boolean
+  ): Observable<LocalImages> {
+    return this.http.post<LocalImages>(
+      `${this.environment.serverUrl}/localImages`,
+      {
+        fileId: containerId,
+        fileDate: containerDate.toISOString(),
+        userName: userName.toUpperCase(),
+        isHighResolution: isHighResolution.toString(),
+      }
+    );
+  }
+
   getFtpImages$(ftpPath: string): Observable<string[]> {
     return this.http.post<string[]>(`${this.environment.serverUrl}/ftpImages`, {
       folderPath: ftpPath,
     });
   }
 
-  downloadFtpImage$(filePath: string): Observable<FtpImage> {
-    return this.http.post<FtpImage>(
-      `${this.environment.serverUrl}/ftpDownload`,
+  downloadFtpImage$(filePath: string): Observable<Image> {
+    return this.http.post<Image>(`${this.environment.serverUrl}/ftpDownload`, {
+      filePath,
+    });
+  }
+
+  downloadLocalImage$(filePath: string): Observable<Image> {
+    return this.http.post<Image>(
+      `${this.environment.serverUrl}/localDownload`,
       {
         filePath,
       }

@@ -54,8 +54,13 @@ export class ContainerActionPanelComponent {
     this.containerFacade.downloadImagesToLocal();
   }
 
-  viewFtpImages(form: NgForm) {
-    this.containerFacade.getFtpImagesWithContainerId(form.value.containerId);
+  viewUploadedImages() {
+    if (this.settingService.getUploadSettings().ftp.enabled) {
+      this.containerFacade.getFtpImagesWithContainerId();
+    } else {
+      this.containerFacade.getLocalImages();
+    }
+
     this.dialog.open(FtpViewerComponent, {
       maxWidth: '100vw',
       maxHeight: '100vh',

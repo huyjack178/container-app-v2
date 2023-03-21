@@ -1,9 +1,16 @@
-<h1>FTP Images</h1>
+<h1>
+  Hình trên
+  {{
+    settingService.getUploadSettings().ftp.enabled
+      ? 'FTP Server'
+      : 'LOCAL Server'
+  }}
+</h1>
 <mat-dialog-content class="mat-typography">
   <mat-selection-list [multiple]="false">
     <mat-list-option
-      *ngFor="let image of ftpImages$ | async"
-      (click)="openFtpImage(image)"
+      *ngFor="let image of images$ | async"
+      (click)="openImage(image)"
     >
       {{ image }}
     </mat-list-option>

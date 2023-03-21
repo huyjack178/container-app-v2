@@ -31,10 +31,12 @@
     mat-stroked-button
     color="primary"
     [disabled]="
-      !settingService.getUploadSettings().ftp.enabled ||
-      !containerInputForm.valid
+      !(
+        settingService.getUploadSettings().ftp.enabled ||
+        settingService.getUploadSettings().local.enabled
+      ) || !containerInputForm.valid
     "
-    (click)="viewFtpImages(containerInputForm)"
+    (click)="viewUploadedImages()"
   >
     <mat-icon>insert_drive_file</mat-icon>
     Xem nhanh

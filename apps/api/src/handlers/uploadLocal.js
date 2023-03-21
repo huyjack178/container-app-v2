@@ -5,25 +5,9 @@ const moment = require('moment');
 const address = require('address');
 
 const uploadLocal = async (req, res) => {
-  console.log('Uploading LOCAL ... ');
   const file = req.file;
-  const date = req.body.fileDate;
   const fileName = file.originalname + '.jpg';
-  let rootFolderPath;
-
-  if (req.body.isHighResolution === 'true') {
-    rootFolderPath = `${configs.uploadDirectoryPath.high}/${moment(date).format(
-      'YYYY'
-    )}`;
-  } else {
-    rootFolderPath = `${configs.uploadDirectoryPath.low}/${moment(date).format(
-      'YYYY'
-    )}_GIAM`;
-  }
-
-  const folderPath = `${rootFolderPath}/${moment(date).format('MM')}/${moment(
-    date
-  ).format('YYYYMMDD')}/${req.body.userName.toUpperCase()}/${req.body.fileId}`;
+  const folderPath = generateLocalFolderPath(req);
   const photoFolderPath = mkDirByPathSync(folderPath);
 
   uploadToLocal(file.buffer, fileName, photoFolderPath, (err) => {
@@ -53,7 +37,7 @@ const uploadToLocal = async (
   try {
     fs.writeFileSync(`${photoFolderPath}/${fileName}`, fileContent);
   } catch (err) {
-    console.log(err);
+    console.error(err);
     callback(err);
   }
 
@@ -91,4 +75,26 @@ const mkDirByPathSync = (targetDir, { isRelativeToScript = false } = {}) => {
   }, initDir);
 };
 
-module.exports = uploadLocal;
+const generateLocalFolderPath = (req) => {
+  const date = req.body.fileDate;
+  let rootFolderPath = '';
+  console.log(req.body);
+
+  if (req.body.isHighResolution === 'true') {
+    rootFolderPath = `${configs.uploadDirectoryPath.high}/${moment(date).format(
+      'YYYY'
+    )}`;
+    console.log(rootFolderPath);
+  } else {
+    rootFolderPath = `${configs.uploadDirectoryPath.low}/${moment(date).format(
+      'YYYY'
+    )}_GIAM`;
+  }
+
+  const folderPath = `${rootFolderPath}/${moment(date).format('MM')}/${moment(
+    date
+  ).format('YYYYMMDD')}/${req.body.userName.toUpperCase()}/${req.body.fileId}`;
+  return folderPath;
+};
+
+module.exports = { uploadLocal, generateLocalFolderPath };

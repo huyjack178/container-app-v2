@@ -1,12 +1,12 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  OnInit,
   ViewEncapsulation,
 } from '@angular/core';
 import { ContainerFacade } from '@container-management/container-camera';
 import { MatDialog } from '@angular/material/dialog';
 import { FtpImageViewerComponent } from '../ftp-image-viewer/ftp-image-viewer.component';
+import { SettingService } from '@container-management/setting';
 
 @Component({
   selector: 'container-management-ftp-viewer',
@@ -15,18 +15,22 @@ import { FtpImageViewerComponent } from '../ftp-image-viewer/ftp-image-viewer.co
   encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FtpViewerComponent implements OnInit {
-  readonly ftpImages$ = this.containerFacade.ftpImages$;
+export class FtpViewerComponent {
+  readonly images$ = this.containerFacade.uploadedImages$;
 
   constructor(
     private readonly containerFacade: ContainerFacade,
-    private readonly dialog: MatDialog
+    private readonly dialog: MatDialog,
+    readonly settingService: SettingService
   ) {}
 
-  ngOnInit(): void {}
+  openImage(fileName: string) {
+    if (this.settingService.getUploadSettings().ftp.enabled) {
+      this.containerFacade.downloadFtpImage(fileName);
+    } else {
+      this.containerFacade.downloadLocalImage(fileName);
+    }
 
-  openFtpImage(fileName: string) {
-    this.containerFacade.downloadFtpImage(fileName);
     this.dialog.open(FtpImageViewerComponent, {
       maxWidth: '100vw',
       maxHeight: '100vh',

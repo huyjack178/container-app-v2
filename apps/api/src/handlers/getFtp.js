@@ -20,14 +20,12 @@ const getFtpFolderPath = async (req, res) => {
 
 const getImagesFromFtp = async (req, res) => {
   const folderPath = req.body.folderPath;
-  console.log(folderPath);
   const ftpClient = new ftp.Client();
 
   try {
     await ftpClient.access(configs.ftp);
     const fileInfos = await ftpClient.list(folderPath);
     res.code(200).send(fileInfos.map((file) => file.name));
-    console.log('Get FTP Success ');
     ftpClient.close();
   } catch (err) {
     res.code(500).send({
@@ -42,21 +40,12 @@ const downloadFile = async (req, res) => {
   const client = new ftp.Client();
   const tempFile = 'temp.jpg';
   try {
-    console.log(filePath);
-
     await client.access(configs.ftp);
     await client.downloadTo(tempFile, filePath);
     const buffer = fs.readFileSync(tempFile); // sync just for DEMO
-    const myStream = new Readable({
-      read() {
-        this.push(buffer);
-        this.push(null);
-      },
-    });
-
     res.send({ src: 'data:image/jpeg;base64,' + buffer.toString('base64') });
   } catch (err) {
-    console.log(err);
+    console.error(err);
     res.code(500).send({
       err,
     });

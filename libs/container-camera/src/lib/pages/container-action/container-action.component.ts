@@ -33,7 +33,7 @@ export class ContainerActionComponent {
     map((images) => images.length === 0)
   );
 
-  readonly ftpPath$ = this.facade.ftpPath$;
+  readonly ftpPath$ = this.facade.uploadedPath$;
 
   constructor(
     readonly facade: ContainerFacade,
