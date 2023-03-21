@@ -69,7 +69,7 @@ export class ContainerInputActionComponent
           filter((status) => status === 'VALID')
         )
         .subscribe((status) => {
-          const containerId = this.containerIdSubject.value;
+          const containerId = this.containerInputForm.value.containerId;
 
           if (!isValid(containerId)) {
             this.dialog.open(ContainerIdConfirmDialogComponent, {
