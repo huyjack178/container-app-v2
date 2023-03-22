@@ -5,6 +5,10 @@
       ? 'FTP Server'
       : 'LOCAL Server'
   }}
+  :
+  {{
+  (images$ | async)?.length
+  }}
 </h1>
 <mat-dialog-content class="mat-typography">
   <mat-selection-list [multiple]="false">
