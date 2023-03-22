@@ -64,9 +64,37 @@ module.exports = {
     password: '',
   },
   externalUrls: {
-    remarkUrl1: 'https://fr.wikipedia.org/wiki/Main_Page',
-    remarkUrl2: 'https://wikipedia.org/wiki/Main_Page',
-    remarkUrl3: 'https://commons.wikimedia.org/wiki/Commons:Welcome',
-    remarkUrl4: 'https://wikipedia.org/wiki/Main_Page',
+    remarkUrl1: {
+      title: 'Estimate',
+      url: 'https://fr.wikipedia.org/wiki/Main_Page',
+    },
+    remarkUrl2: {
+      title: 'Output',
+      url: 'https://fr.wikipedia.org/wiki/Main_Page',
+    },
+    remarkUrl3: {
+      title: 'Remart 3',
+      url: 'https://fr.wikipedia.org/wiki/Main_Page',
+    },
+    remarkUrl4: {
+      title: 'Estimate',
+      url: 'https://fr.wikipedia.org/wiki/Main_Page',
+    },
+    // remarkUrl5: {
+    //   title: 'Estimate',
+    //   url: 'https://fr.wikipedia.org/wiki/Main_Page',
+    // },
+    // remarkUrl6: {
+    //   title: 'Estimate',
+    //   url: 'https://fr.wikipedia.org/wiki/Main_Page',
+    // },
+    // remarkUrl7: {
+    //   title: 'Estimate',
+    //   url: 'https://fr.wikipedia.org/wiki/Main_Page',
+    // },
+    // remarkUrl8: {
+    //   title: 'Estimate',
+    //   url: 'https://fr.wikipedia.org/wiki/Main_Page',
+    // },
   },
 };

@@ -1,8 +1,14 @@
-import {ChangeDetectionStrategy, Component, Inject, OnInit, ViewEncapsulation,} from '@angular/core';
-import {MAT_DIALOG_DATA} from '@angular/material/dialog';
-import {combineLatest} from 'rxjs';
-import {ContainerFacade} from '@container-management/container-camera';
-import {DomSanitizer} from '@angular/platform-browser';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Inject,
+  OnInit,
+  ViewEncapsulation,
+} from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { combineLatest } from 'rxjs';
+import { ContainerFacade } from '@container-management/container-camera';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'container-management-external-link-popup',
@@ -11,30 +17,24 @@ import {DomSanitizer} from '@angular/platform-browser';
   encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ExternalLinkPopupComponent implements OnInit {
-  private static readonly secret: string = 'ContainerAppSecretxHnMxQLIl8PMF8KI2xsYpU';
+export class ExternalLinkPopupComponent {
+  private static readonly secret: string =
+    'ContainerAppSecretxHnMxQLIl8PMF8KI2xsYpU';
 
   url$ = combineLatest(
-    [
-      this.facade.externalUrls$,
-      this.facade.selectContainerId$,
-      this.facade.containerDate$,
-    ],
-    (externalUrls, containerId, containerDate) => {
+    [this.facade.selectContainerId$, this.facade.containerDate$],
+    (containerId, containerDate) => {
       return `${
-        externalUrls[this.data.urlName]
-      }?containerId=${containerId}&containerDate=${containerDate.format()}&secret=${ExternalLinkPopupComponent.secret}&userName=${localStorage.getItem('userName')}`;
+        this.data.url
+      }?containerId=${containerId}&containerDate=${containerDate.format()}&secret=${
+        ExternalLinkPopupComponent.secret
+      }&userName=${localStorage.getItem('userName')}`;
     }
   );
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) readonly data: { urlName: string },
+    @Inject(MAT_DIALOG_DATA) readonly data: { url: string },
     readonly facade: ContainerFacade,
     readonly sanitizer: DomSanitizer
-  ) {
-  }
-
-  ngOnInit(): void {
-    this.facade.getExternalUrls();
-  }
+  ) {}
 }

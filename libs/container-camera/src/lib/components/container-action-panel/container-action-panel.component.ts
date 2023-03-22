@@ -4,6 +4,7 @@ import {
   EventEmitter,
   Inject,
   Input,
+  OnInit,
   Output,
   ViewChild,
   ViewEncapsulation,
@@ -17,6 +18,7 @@ import { UploadDialogComponent } from '../upload-dialog/upload-dialog.component'
 import { process$ } from '../../utils/image-processor';
 import { first } from 'rxjs';
 import { ExternalLinkPopupComponent } from '../external-link-popup/external-link-popup.component';
+import { ExternalUrls } from '../../services/external-urls.service';
 
 @Component({
   selector: 'container-management-container-action-panel',
@@ -24,7 +26,7 @@ import { ExternalLinkPopupComponent } from '../external-link-popup/external-link
   styleUrls: ['./container-action-panel.component.scss'],
   encapsulation: ViewEncapsulation.Emulated,
 })
-export class ContainerActionPanelComponent {
+export class ContainerActionPanelComponent implements OnInit {
   @ViewChild('fileSelector') fileSelector!: ElementRef<HTMLInputElement>;
 
   @Input() containerInputForm!: NgForm;
@@ -37,6 +39,10 @@ export class ContainerActionPanelComponent {
     private readonly dialog: MatDialog,
     @Inject('environment') private readonly environment: any
   ) {}
+
+  ngOnInit(): void {
+    this.containerFacade.getExternalUrls();
+  }
 
   upload() {
     const dialogRef = this.dialog.open(UploadDialogComponent, {
@@ -102,7 +108,7 @@ export class ContainerActionPanelComponent {
     }
   }
 
-  openRemarkPopup(remarkUrlName: string) {
+  openRemarkPopup(url: string) {
     this.dialog.open(ExternalLinkPopupComponent, {
       maxWidth: '100vw',
       maxHeight: '100vh',
@@ -110,8 +116,12 @@ export class ContainerActionPanelComponent {
       width: '100%',
       panelClass: 'full-screen-modal',
       data: {
-        urlName: remarkUrlName,
+        url,
       },
     });
+  }
+
+  getKeysOfExternalUrls(externalUrls: ExternalUrls): string[] {
+    return Object.keys(externalUrls);
   }
 }

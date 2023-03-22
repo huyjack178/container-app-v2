@@ -2,6 +2,7 @@ import { createFeature, createReducer, on } from '@ngrx/store';
 import * as ContainerActions from './container.actions';
 import { ContainerImage } from './container.models';
 import * as moment from 'moment';
+import { ExternalUrl, ExternalUrls } from '../services/external-urls.service';
 
 export interface ContainerState {
   readonly containerId: string;
@@ -11,9 +12,7 @@ export interface ContainerState {
   readonly uploadedPath: string;
   readonly uploadedImages: string[];
   readonly uploadedImageSrc: string;
-  readonly externalUrls: {
-    [key: string]: string;
-  };
+  readonly externalUrls: ExternalUrls;
   readonly error: string | null;
 }
 
@@ -26,10 +25,22 @@ const initialContainerState: ContainerState = {
   uploadedImages: [],
   uploadedImageSrc: '',
   externalUrls: {
-    remarkUrl1: 'https://wikipedia.org/wiki/Main_Page',
-    remarkUrl2: 'https://wikipedia.org/wiki/Main_Page',
-    remarkUrl3: 'https://wikipedia.org/wiki/Main_Page',
-    remarkUrl4: 'https://wikipedia.org/wiki/Main_Page',
+    remarkUrl1: {
+      title: 'Remark 1',
+      url: 'https://wikipedia.org/wiki/Main_Page',
+    },
+    remarkUrl2: {
+      title: 'Remark 1',
+      url: 'https://wikipedia.org/wiki/Main_Page',
+    },
+    remarkUrl3: {
+      title: 'Remark 1',
+      url: 'https://wikipedia.org/wiki/Main_Page',
+    },
+    remarkUrl4: {
+      title: 'Remark 1',
+      url: 'https://wikipedia.org/wiki/Main_Page',
+    },
   },
   error: null,
 };

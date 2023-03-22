@@ -62,49 +62,22 @@
     #fileInput
   />
 </div>
-<div class="remark-panel" fxLayout="row" fxLayoutAlign="space-between">
+<div
+  class="remark-panel"
+  fxLayout="row wrap"
+  fxLayoutAlign="space-between"
+  *ngIf="containerFacade.externalUrls$ | async as externalUrls"
+>
   <button
     fxFlex="24"
+    *ngFor="let externalUrlKey of getKeysOfExternalUrls(externalUrls)"
     type="button"
     mat-stroked-button
     color="primary"
-    [disabled]="!containerInputForm.valid"
-    (click)="openRemarkPopup('remarkUrl1')"
+    [disabled]="!externalUrls[externalUrlKey].title"
+    (click)="openRemarkPopup(externalUrls[externalUrlKey].url)"
   >
     <mat-icon>open_in_new</mat-icon>
-    Remark 1
-  </button>
-  <button
-    fxFlex="24"
-    type="button"
-    mat-stroked-button
-    color="primary"
-    [disabled]="!containerInputForm.valid"
-    (click)="openRemarkPopup('remarkUrl2')"
-  >
-    <mat-icon>open_in_new</mat-icon>
-    Remark 2
-  </button>
-  <button
-    fxFlex="24"
-    type="button"
-    mat-stroked-button
-    color="primary"
-    [disabled]="!containerInputForm.valid"
-    (click)="openRemarkPopup('remarkUrl3')"
-  >
-    <mat-icon>open_in_new</mat-icon>
-    Remark 3
-  </button>
-  <button
-    fxFlex="24"
-    type="button"
-    mat-stroked-button
-    color="primary"
-    [disabled]="!containerInputForm.valid"
-    (click)="openRemarkPopup('remarkUrl4')"
-  >
-    <mat-icon>open_in_new</mat-icon>
-    Remark 4
+    {{ externalUrls[externalUrlKey].title }}
   </button>
 </div>

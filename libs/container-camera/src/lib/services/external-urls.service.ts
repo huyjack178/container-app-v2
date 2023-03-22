@@ -2,8 +2,12 @@ import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
+export interface ExternalUrl {
+  readonly title: string;
+  readonly url: string;
+}
 export interface ExternalUrls {
-  [key: string]: string;
+  [key: string]: ExternalUrl;
 }
 
 @Injectable({
