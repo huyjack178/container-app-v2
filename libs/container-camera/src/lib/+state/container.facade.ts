@@ -121,6 +121,7 @@ export class ContainerFacade {
 
   resetState() {
     this.store.dispatch(ContainerActions.resetState());
+    this.getExternalUrls();
   }
 
   getFtpImages() {

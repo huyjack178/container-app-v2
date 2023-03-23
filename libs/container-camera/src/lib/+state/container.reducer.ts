@@ -2,13 +2,14 @@ import { createFeature, createReducer, on } from '@ngrx/store';
 import * as ContainerActions from './container.actions';
 import { ContainerImage } from './container.models';
 import * as moment from 'moment';
-import { ExternalUrl, ExternalUrls } from '../services/external-urls.service';
+import { ExternalUrls } from '../services/external-urls.service';
 
 export interface ContainerState {
   readonly containerId: string;
   readonly loaded: boolean;
   readonly date: moment.Moment;
   readonly images: ContainerImage[];
+  readonly imageCount: number;
   readonly uploadedPath: string;
   readonly uploadedImages: string[];
   readonly uploadedImageSrc: string;
@@ -21,6 +22,7 @@ const initialContainerState: ContainerState = {
   loaded: true,
   date: moment(),
   images: [],
+  imageCount: 0,
   uploadedPath: '',
   uploadedImages: [],
   uploadedImageSrc: '',
@@ -58,7 +60,7 @@ const reducer = createReducer(
   on(ContainerActions.addImage, (state, { processedImage, containerId }) => {
     const images = [...state.images];
     const imageName = `${containerId}_${state.date.format('YYMMDDHHmmss')}_${(
-      '0' + images.length
+      '0' + state.imageCount
     ).slice(-2)}`;
     const image: ContainerImage = {
       name: imageName,
@@ -70,8 +72,10 @@ const reducer = createReducer(
     };
 
     images.push(image);
+
     return {
       ...state,
+      imageCount: state.imageCount + 1,
       images,
     };
   }),
@@ -128,6 +132,7 @@ const reducer = createReducer(
     return {
       ...state,
       images: [],
+      imageCount: 0,
       date: moment(),
     };
   }),
