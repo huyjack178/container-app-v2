@@ -8989,6 +8989,13 @@ ng-packagr@^14.2.1:
   optionalDependencies:
     esbuild "^0.15.0"
 
+ngforage@^8.0.0:
+  version "8.0.1"
+  resolved "https://registry.yarnpkg.com/ngforage/-/ngforage-8.0.1.tgz#e0114a80b83ee2a66f46582b724dc55c4532a462"
+  integrity sha512-XKbCezplCwQlu+QQtwJ/gjkkD9Jo6E5Fvmb4BhsEzy+/sAE6vYs4fVD/t+0FCp2wFHNKZWELjZpTQLF3pVpkhg==
+  dependencies:
+    tslib "^2.0.0"
+
 ngx-cookie-service@^14.0.1:
   version "14.0.1"
   resolved "https://registry.yarnpkg.com/ngx-cookie-service/-/ngx-cookie-service-14.0.1.tgz#0c0f8a7ba91dbb68d3f8ad0f8808bbde4f6e55aa"
