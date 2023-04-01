@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as ContainerActions from './container.actions';
-import { catchError, mergeMap, switchMap } from 'rxjs/operators';
+import { catchError, mergeMap, switchMap, tap } from 'rxjs/operators';
 import {
   UploadImagePayload,
   UploadImageService,
@@ -19,7 +19,7 @@ export class ContainerEffects {
     this.actions$.pipe(
       ofType(ContainerActions.uploadImagesToLocal),
       map((action) => action.isHighResolution),
-      mapUploadImages(this.store$),
+      mapUploadImages(this.store$, this.settingService),
       mergeMap((uploadImage) =>
         this.uploadService.uploadToLocalServer$(uploadImage).pipe(
           map(() =>
@@ -40,7 +40,7 @@ export class ContainerEffects {
     this.actions$.pipe(
       ofType(ContainerActions.uploadImagesToFtp),
       map((action) => action.isHighResolution),
-      mapUploadImages(this.store$),
+      mapUploadImages(this.store$, this.settingService),
       mergeMap((uploadImage) =>
         this.uploadService.uploadToFtpServer$(uploadImage).pipe(
           map(() =>
@@ -61,7 +61,7 @@ export class ContainerEffects {
     this.actions$.pipe(
       ofType(ContainerActions.uploadImagesToCloud),
       map((action) => action.isHighResolution),
-      mapUploadImages(this.store$),
+      mapUploadImages(this.store$, this.settingService),
       mergeMap((uploadImage) =>
         this.uploadService.uploadToCloud$(uploadImage).pipe(
           map(() =>
@@ -114,7 +114,7 @@ export class ContainerEffects {
           .getFtpPath$(
             containerId ?? '',
             date,
-            localStorage.getItem('userName') ?? ''
+            this.settingService.getUserName()
           )
           .pipe(
             map((response) =>
@@ -210,7 +210,7 @@ export class ContainerEffects {
           .getLocalImages$(
             containerId,
             containerDate,
-            localStorage.getItem('userName') ?? '',
+            this.settingService.getUserName(),
             this.settingService.getUploadSettings().local.enabledHigh
           )
           .pipe(
@@ -274,9 +274,10 @@ export class ContainerEffects {
 }
 
 const mapUploadImages = (
-  store$: Store
-): UnaryFunction<Observable<boolean>, Observable<UploadImagePayload>> =>
-  pipe(
+  store$: Store,
+  settingService: SettingService
+): UnaryFunction<Observable<boolean>, Observable<UploadImagePayload>> => {
+  return pipe(
     withLatestFrom(
       store$.select(ContainerSelectors.selectImages),
       store$.select(ContainerSelectors.selectDate),
@@ -291,7 +292,8 @@ const mapUploadImages = (
         imageFileDate: date,
         imageFileName: image.name,
         isHighResolution: isHighResolution,
-        userName: localStorage.getItem('userName') ?? '',
+        userName: settingService.getUserName(),
       }))
     )
   );
+};

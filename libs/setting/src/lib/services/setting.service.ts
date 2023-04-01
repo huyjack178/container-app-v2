@@ -15,17 +15,32 @@ import {
   providedIn: 'root',
 })
 export class SettingService {
+  private userName: string = localStorage.getItem('userName') ?? '';
+  private uploadSettings: UploadSettings = JSON.parse(
+    localStorage.getItem('uploadSettings') ??
+      JSON.stringify(defaultUploadSettings)
+  );
+  private imageSettings: ImageSettings = JSON.parse(
+    localStorage.getItem('imageSetting') ?? JSON.stringify(defaultImageSettings)
+  );
+
   getUploadSettings(): UploadSettings {
-    return JSON.parse(
-      localStorage.getItem('uploadSettings') ??
-        JSON.stringify(defaultUploadSettings)
+    return (
+      this.uploadSettings ??
+      JSON.parse(
+        localStorage.getItem('uploadSettings') ??
+          JSON.stringify(defaultUploadSettings)
+      )
     );
   }
 
   getImageSettings(): ImageSettings {
-    return JSON.parse(
-      localStorage.getItem('imageSetting') ??
-        JSON.stringify(defaultImageSettings)
+    return (
+      this.imageSettings ??
+      JSON.parse(
+        localStorage.getItem('imageSetting') ??
+          JSON.stringify(defaultImageSettings)
+      )
     );
   }
 
@@ -48,22 +63,29 @@ export class SettingService {
         serverSettings.local.enabledHigh || serverSettings.local.enabledLow;
       settings.local.enabledHigh = serverSettings.local.enabledHigh;
       settings.local.enabledLow = serverSettings.local.enabledLow;
+
+      this.uploadSettings = settings;
       localStorage.setItem('uploadSettings', JSON.stringify(settings));
     } catch (error) {
       console.error(error);
     }
   }
 
-  storeImageSettings(imageSetting: string) {
-    localStorage.setItem('imageSetting', imageSetting);
+  storeImageSettings(imageSetting: ImageSettings) {
+    this.imageSettings = imageSetting;
+    localStorage.setItem('imageSetting', JSON.stringify(imageSetting));
   }
 
   getUserName(): string {
-    return (localStorage.getItem('userName') ?? '').toUpperCase();
+    const userName = (
+      this.userName ?? localStorage.getItem('userName')
+    ).toUpperCase();
+    return userName;
   }
 
   storeUserName(userName: string) {
-    localStorage.setItem('userName', userName);
+    this.userName = userName.toUpperCase();
+    localStorage.setItem('userName', userName.toUpperCase());
   }
 
   adjustUploadSettings(settingFormValue: SettingForm) {
@@ -72,5 +94,9 @@ export class SettingService {
     settings.ftp.enabled = settingFormValue.ftp;
     settings.cloudinary.enabled = settingFormValue.cloudinary;
     localStorage.setItem('uploadSettings', JSON.stringify(settings));
+  }
+
+  clear() {
+    localStorage.clear();
   }
 }

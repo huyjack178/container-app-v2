@@ -1,4 +1,6 @@
-<span class="title">Hình đã chụp: {{(containerFacade.selectImages$ | async)?.length}}</span>
+<span class="title"
+  >Hình đã chụp: {{ (containerFacade.selectImages$ | async)?.length }}</span
+>
 <virtual-scroller
   [scrollbarWidth]="20"
   [scrollbarHeight]="100"
@@ -6,13 +8,18 @@
 >
   <mat-grid-list cols="2" rowHeight="1.3:1" gutterSize="8px">
     <mat-grid-tile
-      *ngFor="let image of containerFacade.selectImages$ | async; let i = index"
+      *ngFor="
+        let image of (containerFacade.selectImages$ | async)
+          ?.slice()
+          ?.reverse() as images;
+        let i = index
+      "
     >
       <button
         class="delete-btn"
         mat-icon-button
         color="warn"
-        (click)="deleteImage(i)"
+        (click)="deleteImage(images.length - i - 1)"
       >
         <mat-icon>delete</mat-icon>
       </button>

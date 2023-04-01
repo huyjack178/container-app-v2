@@ -1,7 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { ServerSetting, SettingService } from '@container-management/setting';
+import {
+  ImageSettings,
+  ServerSetting,
+  SettingService,
+} from '@container-management/setting';
 import { CookieService } from 'ngx-cookie-service';
 import { BehaviorSubject, Observable, switchMap } from 'rxjs';
 import { Cookie } from '../constants';
@@ -38,7 +42,9 @@ export class AuthService {
             response.token,
             loginInfo.userName.toLowerCase()
           );
-          this.settingService.storeImageSettings(response.imageMaxSizes);
+          this.settingService.storeImageSettings(
+            JSON.parse(response.imageMaxSizes) as ImageSettings
+          );
           this.settingService.initUploadSettings(
             JSON.parse(response.settings) as ServerSetting
           );
@@ -49,7 +55,7 @@ export class AuthService {
       );
 
   logout() {
-    localStorage.clear();
+    this.settingService.clear();
     this.cookieService.delete(Cookie.TOKEN);
     this.isAuthenticated$.next(false);
     return this.router.navigate(['/', 'login']);

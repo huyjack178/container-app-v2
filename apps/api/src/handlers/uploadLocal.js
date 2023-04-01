@@ -5,6 +5,7 @@ const moment = require('moment');
 const address = require('address');
 
 const uploadLocal = async (req, res) => {
+  console.log(req.body);
   const file = req.file;
   const fileName = file.originalname + '.jpg';
   const folderPath = generateLocalFolderPath(req);
@@ -51,7 +52,6 @@ const mkDirByPathSync = (targetDir, { isRelativeToScript = false } = {}) => {
 
   return targetDir.split(sep).reduce((parentDir, childDir) => {
     const curDir = path.resolve(baseDir, parentDir, childDir);
-    console.log(curDir);
     try {
       fs.mkdirSync(curDir, { recursive: true });
     } catch (err) {
@@ -78,13 +78,10 @@ const mkDirByPathSync = (targetDir, { isRelativeToScript = false } = {}) => {
 const generateLocalFolderPath = (req) => {
   const date = req.body.fileDate;
   let rootFolderPath = '';
-  console.log(req.body);
-
   if (req.body.isHighResolution === 'true') {
     rootFolderPath = `${configs.uploadDirectoryPath.high}/${moment(date).format(
       'YYYY'
     )}`;
-    console.log(rootFolderPath);
   } else {
     rootFolderPath = `${configs.uploadDirectoryPath.low}/${moment(date).format(
       'YYYY'
