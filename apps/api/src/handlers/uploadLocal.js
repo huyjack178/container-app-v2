@@ -78,7 +78,10 @@ const mkDirByPathSync = (targetDir, { isRelativeToScript = false } = {}) => {
 const generateLocalFolderPath = (req) => {
   const date = req.body.fileDate;
   let rootFolderPath = '';
-  if (req.body.isHighResolution === 'true') {
+  if (
+    req.body.isHighResolution === true ||
+    req.body.isHighResolution === 'true'
+  ) {
     rootFolderPath = `${configs.uploadDirectoryPath.high}/${moment(date).format(
       'YYYY'
     )}`;

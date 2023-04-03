@@ -1,18 +1,18 @@
 import { Inject, Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { from, map, Observable } from 'rxjs';
 import * as moment from 'moment';
 import { CookieService } from 'ngx-cookie-service';
 import * as JSZip from 'jszip';
 import { ContainerImage } from '../+state';
 import { saveAs } from 'file-saver';
+import { SettingService } from '@container-management/setting';
 
 export interface UploadImagePayload {
   readonly image: Blob;
   readonly containerId: string;
   readonly imageFileName: string;
   readonly imageFileDate: moment.Moment;
-  readonly userName: string;
   readonly isHighResolution: boolean;
 }
 
@@ -37,35 +37,34 @@ export class UploadImageService {
   constructor(
     private readonly http: HttpClient,
     private readonly cookieService: CookieService,
+    private readonly settingService: SettingService,
     // TODO: Change to strong type
     @Inject('environment') private readonly environment: any
   ) {}
 
   getFtpPath$(
     containerId: string,
-    containerDate: moment.Moment,
-    userName: string
+    containerDate: moment.Moment
   ): Observable<FtpPath> {
     return this.http.post<FtpPath>(`${this.environment.serverUrl}/ftpPath`, {
       fileId: containerId,
       fileDate: containerDate.toISOString(),
-      userName: userName.toUpperCase(),
+      userName: this.settingService.getUserName(),
     });
   }
 
   getLocalImages$(
     containerId: string,
-    containerDate: moment.Moment,
-    userName: string,
-    isHighResolution: boolean
+    containerDate: moment.Moment
   ): Observable<LocalImages> {
     return this.http.post<LocalImages>(
       `${this.environment.serverUrl}/localImages`,
       {
         fileId: containerId,
         fileDate: containerDate.toISOString(),
-        userName: userName.toUpperCase(),
-        isHighResolution: isHighResolution.toString(),
+        userName: this.settingService.getUserName(),
+        isHighResolution:
+          this.settingService.getUploadSettings().local.enabledHigh,
       }
     );
   }
@@ -94,21 +93,21 @@ export class UploadImageService {
   uploadToLocalServer$(payload: UploadImagePayload): Observable<void> {
     return this.http.post<void>(
       `${this.environment.serverUrl}/uploadLocal`,
-      UploadImageService.createFormData(payload)
+      this.createFormData(payload)
     );
   }
 
   uploadToFtpServer$(payload: UploadImagePayload): Observable<void> {
     return this.http.post<void>(
       `${this.environment.serverUrl}/uploadFTP`,
-      UploadImageService.createFormData(payload)
+      this.createFormData(payload)
     );
   }
 
   uploadToCloud$(payload: UploadImagePayload): Observable<void> {
     return this.http.post<void>(
       `${this.environment.serverUrl}/uploadCloud`,
-      UploadImageService.createFormData(payload)
+      this.createFormData(payload)
     );
   }
 
@@ -133,7 +132,7 @@ export class UploadImageService {
     );
   }
 
-  private static createFormData(payload: UploadImagePayload) {
+  private createFormData(payload: UploadImagePayload) {
     const data = new FormData();
     data.append('file', payload.image, payload.imageFileName);
     data.append('fileId', payload.containerId);
@@ -142,10 +141,7 @@ export class UploadImageService {
       data.append('fileDate', payload.imageFileDate.toISOString());
     }
 
-    if (payload.userName) {
-      data.append('userName', payload.userName.toUpperCase());
-    }
-
+    data.append('userName', this.settingService.getUserName());
     data.append('isHighResolution', payload.isHighResolution.toString());
 
     return data;
