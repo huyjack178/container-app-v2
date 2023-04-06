@@ -6,32 +6,36 @@ module.exports = {
   },
   uploadDirectoryPath: {
     low: './low',
-    high: './high',
+    high: '',
   },
   users: [
     {
+      userName: 'OUT',
+      password: '1234',
+    },
+    {
       userName: 'KC',
-      password: 'KC1234aaAA',
+      password: '1234',
     },
     {
       userName: 'VS',
-      password: 'VS1234aaAA',
+      password: '1234',
     },
     {
       userName: 'SC',
-      password: 'VS1234aaAA',
+      password: '1234',
     },
     {
       userName: 'GD',
-      password: 'VS1234aaAA',
+      password: '1234',
     },
     {
       userName: 'VP',
-      password: 'VS1234aaAA',
+      password: '1234',
     },
     {
       userName: 'admin',
-      password: '1234aaAA',
+      password: '1234',
     },
   ],
   // cloudinary: {
@@ -60,7 +64,9 @@ module.exports = {
   },
   ftp: {
     host: '',
+    port: '',
     user: '',
+    rootFolder: '',
     password: '',
   },
   externalUrls: {
@@ -73,11 +79,11 @@ module.exports = {
       url: 'https://fr.wikipedia.org/wiki/Main_Page',
     },
     remarkUrl3: {
-      title: 'Remart 3',
+      title: 'Remark',
       url: 'https://fr.wikipedia.org/wiki/Main_Page',
     },
     remarkUrl4: {
-      title: 'Estimate',
+      title: 'Remark',
       url: 'https://fr.wikipedia.org/wiki/Main_Page',
     },
     // remarkUrl5: {
