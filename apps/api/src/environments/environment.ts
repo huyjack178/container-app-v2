@@ -7,32 +7,36 @@ export const environment = {
   },
   uploadDirectoryPath: {
     low: './low',
-    high: './high',
+    high: '',
   },
   users: [
     {
+      userName: 'OUT',
+      password: '1234',
+    },
+    {
       userName: 'KC',
-      password: 'KC1234aaAA',
+      password: '1234',
     },
     {
       userName: 'VS',
-      password: 'VS1234aaAA',
+      password: '1234',
     },
     {
       userName: 'SC',
-      password: 'VS1234aaAA',
+      password: '1234',
     },
     {
       userName: 'GD',
-      password: 'VS1234aaAA',
+      password: '1234',
     },
     {
       userName: 'VP',
-      password: 'VS1234aaAA',
+      password: '1234',
     },
     {
       userName: 'admin',
-      password: '1234aaAA',
+      password: '1234',
     },
   ],
   cloudinary: {
@@ -41,11 +45,11 @@ export const environment = {
     api_secret: '2gfT6Uar6u8in8Wky2a3D_6pC6s',
   },
   ftp: {
-    host: '115.78.128.218',
-    port: 5021,
-    user: 'baogia3',
-    rootFolder: '/DataMNR_PL',
-    password: 'Solog2022#',
+    host: '',
+    port: ,
+    user: '',
+    rootFolder: '',
+    password: '',
   },
   // cloudinary: {
   //   cloud_name: '',
