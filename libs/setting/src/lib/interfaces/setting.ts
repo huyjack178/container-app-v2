@@ -20,6 +20,7 @@ export type UploadSettings = {
 };
 
 export type ServerSetting = {
+  optList: string[];
   local: {
     enabledHigh: boolean;
     enabledLow: boolean;

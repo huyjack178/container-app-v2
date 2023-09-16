@@ -34,6 +34,7 @@ import { VirtualScrollerModule } from 'ngx-virtual-scroller';
 import { ContainerActionPanelComponent } from './components/container-action-panel/container-action-panel.component';
 import { PhotoGridComponent } from './components/photo-grid/photo-grid.component';
 import { ImageViewerDialogComponent } from './components/image-viewer-dialog/image-viewer-dialog.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   imports: [
@@ -70,6 +71,7 @@ import { ImageViewerDialogComponent } from './components/image-viewer-dialog/ima
     MatListModule,
     MatGridListModule,
     VirtualScrollerModule,
+    MatSnackBarModule,
   ],
   declarations: [
     CameraComponent,

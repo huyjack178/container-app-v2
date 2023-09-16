@@ -7,6 +7,20 @@
     (submit)="openCamera(containerInputForm)"
   >
     <mat-form-field appearance="outline" [style.width.%]="100">
+      <mat-label>OPT</mat-label>
+      <input
+        matInput
+        name="opt"
+        required
+        minlength="3"
+        maxlength="3"
+        [ngModel]="containerId"
+        (ngModelChange)="containerId = $event.toUpperCase()"
+      />
+      <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+      <mat-hint>Required 3 characters</mat-hint>
+    </mat-form-field>
+    <mat-form-field appearance="outline" [style.width.%]="100">
       <mat-label>Container ID</mat-label>
       <input
         matInput

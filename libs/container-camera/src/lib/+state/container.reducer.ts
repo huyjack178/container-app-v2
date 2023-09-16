@@ -5,6 +5,7 @@ import * as moment from 'moment';
 import { ExternalUrls } from '../services/external-urls.service';
 
 export interface ContainerState {
+  readonly opt: string;
   readonly containerId: string;
   readonly loaded: boolean;
   readonly date: moment.Moment;
@@ -18,6 +19,7 @@ export interface ContainerState {
 }
 
 const initialContainerState: ContainerState = {
+  opt: '',
   containerId: '',
   loaded: true,
   date: moment(),
@@ -172,8 +174,9 @@ const reducer = createReducer(
       externalUrls,
     })
   ),
-  on(ContainerActions.setContainerId, (state, { containerId }) => ({
+  on(ContainerActions.setContainerId, (state, { opt, containerId }) => ({
     ...state,
+    opt,
     containerId,
   }))
 );

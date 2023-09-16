@@ -132,6 +132,7 @@ export const getExternalUrlsSuccessfully = createAction(
 export const setContainerId = createAction(
   '[Container] Container Id is set',
   props<{
+    opt: string;
     containerId: string;
   }>()
 );

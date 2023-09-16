@@ -2,7 +2,6 @@ import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { from, map, Observable } from 'rxjs';
 import * as moment from 'moment';
-import { CookieService } from 'ngx-cookie-service';
 import * as JSZip from 'jszip';
 import { ContainerImage } from '../+state';
 import { saveAs } from 'file-saver';
@@ -10,6 +9,7 @@ import { SettingService } from '@container-management/setting';
 
 export interface UploadImagePayload {
   readonly image: Blob;
+  readonly opt: string;
   readonly containerId: string;
   readonly imageFileName: string;
   readonly imageFileDate: moment.Moment;
@@ -36,17 +36,18 @@ export interface LocalImages {
 export class UploadImageService {
   constructor(
     private readonly http: HttpClient,
-    private readonly cookieService: CookieService,
     private readonly settingService: SettingService,
     // TODO: Change to strong type
     @Inject('environment') private readonly environment: any
   ) {}
 
   getFtpPath$(
+    opt: string,
     containerId: string,
     containerDate: moment.Moment
   ): Observable<FtpPath> {
     return this.http.post<FtpPath>(`${this.environment.serverUrl}/ftpPath`, {
+      opt,
       fileId: containerId,
       fileDate: containerDate.toISOString(),
       userName: this.settingService.getUserName(),
@@ -54,12 +55,14 @@ export class UploadImageService {
   }
 
   getLocalImages$(
+    opt: string,
     containerId: string,
     containerDate: moment.Moment
   ): Observable<LocalImages> {
     return this.http.post<LocalImages>(
       `${this.environment.serverUrl}/localImages`,
       {
+        opt,
         fileId: containerId,
         fileDate: containerDate.toISOString(),
         userName: this.settingService.getUserName(),
@@ -136,6 +139,7 @@ export class UploadImageService {
     const data = new FormData();
     data.append('file', payload.image, payload.imageFileName);
     data.append('fileId', payload.containerId);
+    data.append('opt', payload.opt);
 
     if (payload.imageFileDate) {
       data.append('fileDate', payload.imageFileDate.toISOString());

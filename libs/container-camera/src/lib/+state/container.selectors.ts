@@ -9,4 +9,5 @@ export const {
   selectUploadedImageSrc,
   selectExternalUrls,
   selectContainerId,
+  selectOpt,
 } = containerFeature;

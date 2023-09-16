@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const moment = require('moment');
 const address = require('address');
+const { buildContainerFolder } = require('../utils/common');
 
 const uploadLocal = async (req, res) => {
   console.log(req.body);
@@ -77,6 +78,8 @@ const mkDirByPathSync = (targetDir, { isRelativeToScript = false } = {}) => {
 
 const generateLocalFolderPath = (req) => {
   const date = req.body.fileDate;
+  const opt = req.body.opt;
+
   let rootFolderPath = '';
   if (
     req.body.isHighResolution === true ||
@@ -91,10 +94,12 @@ const generateLocalFolderPath = (req) => {
     )}_GIAM`;
   }
 
-  const folderPath = `${rootFolderPath}/${moment(date).format('MM')}/${moment(
-    date
-  ).format('YYYYMMDD')}/${req.body.userName.toUpperCase()}/${req.body.fileId}`;
-  return folderPath;
+  return `${rootFolderPath}/${buildContainerFolder({
+    date,
+    opt,
+    userName: req.body.userName,
+    fileId: req.body.fileId,
+  })}`;
 };
 
 module.exports = { uploadLocal, generateLocalFolderPath };

@@ -11,7 +11,20 @@
     fxLayoutGap="4px"
     (submit)="openCamera()"
   >
-    <mat-form-field appearance="outline" [style.width.%]="100">
+    <mat-form-field appearance="outline" [style.width.%]="100" fxFlex="20">
+      <mat-label>OPT</mat-label>
+      <input
+        class="opt-input"
+        matInput
+        name="opt"
+        required
+        minlength="3"
+        maxlength="3"
+        [ngModel]="opt$ | async"
+        (ngModelChange)="optChange($event)"
+      />
+    </mat-form-field>
+    <mat-form-field appearance="outline" [style.width.%]="100" fxFlex="60">
       <mat-label>Container ID</mat-label>
       <input
         class="container-input"

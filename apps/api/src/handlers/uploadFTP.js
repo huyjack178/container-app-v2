@@ -2,6 +2,7 @@ const configs = require('../configs');
 const ftp = require('basic-ftp');
 const { Readable } = require('stream');
 const moment = require('moment');
+const { buildContainerFolder } = require('../utils/common');
 
 const uploadFTP = async (req, res) => {
   console.log('Uploading FTP ... ');
@@ -28,6 +29,7 @@ const uploadFTP = async (req, res) => {
 };
 
 const uploadToFTP = async (fileContent, fileName, req, onFinishedUpload) => {
+  const opt = req.body.opt;
   const ftpClient = new ftp.Client();
   let folderPath;
   console.log(req.body);
@@ -35,11 +37,12 @@ const uploadToFTP = async (fileContent, fileName, req, onFinishedUpload) => {
   try {
     await ftpClient.access(configs.ftp);
     const date = req.body.fileDate;
-    folderPath = `/${moment(date).format('YYYY')}/${moment(date).format(
-      'MM'
-    )}/${moment(date).format('YYYYMMDD')}/${req.body.userName.toUpperCase()}/${
-      req.body.fileId
-    }/`;
+    folderPath = `/${moment(date).format('YYYY')}/${buildContainerFolder({
+      date,
+      opt,
+      userName: req.body.userName,
+      fileId: req.body.fileId,
+    })}/`;
     await ftpClient.ensureDir(configs.ftp.rootFolder + folderPath);
     await ftpClient.uploadFrom(
       fileContent,

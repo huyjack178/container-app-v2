@@ -85,7 +85,7 @@ export class ContainerFacade {
 
   uploadImages() {
     const uploadSettings = this.settingService.getUploadSettings();
-
+    console.log(uploadSettings.ftp.enabled);
     uploadSettings.local.enabled &&
       this.store.dispatch(
         ContainerActions.uploadImagesToLocal({
@@ -150,10 +150,11 @@ export class ContainerFacade {
     this.store.dispatch(ContainerActions.getExternalUrls());
   }
 
-  setContainerId(containerId: string) {
+  setContainerId(params: { opt: string; containerId: string }) {
     this.store.dispatch(
       ContainerActions.setContainerId({
-        containerId: containerId.toUpperCase(),
+        opt: params.opt,
+        containerId: params.containerId.toUpperCase(),
       })
     );
   }

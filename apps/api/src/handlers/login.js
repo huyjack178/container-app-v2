@@ -37,6 +37,7 @@ const login = async (req, res, server) => {
         token,
         imageMaxSizes: JSON.stringify(configs.imageMaxSizes),
         settings: JSON.stringify({
+          optList: configs.dsHangTau,
           ftp: { enabled: !!configs?.ftp?.host },
           cloudinary: { enabled: !!configs?.cloudinary?.cloud_name },
           local: {

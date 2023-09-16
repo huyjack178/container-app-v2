@@ -2,19 +2,21 @@ const ftp = require('basic-ftp');
 const configs = require('../configs');
 const moment = require('moment/moment');
 const fs = require('fs');
-const { Readable } = require('stream');
+const { buildContainerFolder } = require('../utils/common');
 
 const getFtpFolderPath = async (req, res) => {
-  console.log(req.body);
   const date = req.body.fileDate;
   const fileId = req.body.fileId;
   const userName = req.body.userName;
+  const opt = req.body.opt;
   const folderPath = `${configs.ftp.rootFolder}/${moment(date).format(
     'YYYY'
-  )}/${moment(date).format('MM')}/${moment(date).format(
-    'YYYYMMDD'
-  )}/${userName.toUpperCase()}/${fileId}/`;
-  console.log(folderPath);
+  )}/${buildContainerFolder({
+    date,
+    opt,
+    userName,
+    fileId,
+  })}/`;
   res.code(200).send({ folderPath });
 };
 

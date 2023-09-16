@@ -46,11 +46,12 @@ export const environment = {
   },
   ftp: {
     host: '',
-    port: ,
+    port: '',
     user: '',
     rootFolder: '',
     password: '',
   },
+
   // cloudinary: {
   //   cloud_name: '',
   //   api_key: '',

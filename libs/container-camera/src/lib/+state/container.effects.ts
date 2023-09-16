@@ -9,7 +9,6 @@ import {
 import { map, Observable, pipe, UnaryFunction, withLatestFrom } from 'rxjs';
 import { Store } from '@ngrx/store';
 import * as ContainerSelectors from './container.selectors';
-import { SettingService } from '@container-management/setting';
 import * as moment from 'moment';
 import { ExternalUrlsService } from '../services/external-urls.service';
 
@@ -107,10 +106,11 @@ export class ContainerEffects {
       ofType(ContainerActions.getFtpPath),
       withLatestFrom(
         this.store$.select(ContainerSelectors.selectDate),
-        this.store$.select(ContainerSelectors.selectContainerId)
+        this.store$.select(ContainerSelectors.selectContainerId),
+        this.store$.select(ContainerSelectors.selectOpt)
       ),
-      mergeMap(([a, date, containerId]) =>
-        this.uploadService.getFtpPath$(containerId ?? '', date).pipe(
+      mergeMap(([a, date, containerId, opt]) =>
+        this.uploadService.getFtpPath$(opt, containerId ?? '', date).pipe(
           map((response) =>
             ContainerActions.getUploadedPathSuccessfully({
               path: response.folderPath,
@@ -146,9 +146,12 @@ export class ContainerEffects {
   getImagesFromFtpWithContainerId$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ContainerActions.getFtpImagesWithContainerId),
-      withLatestFrom(this.store$.select(ContainerSelectors.selectContainerId)),
-      mergeMap(([a, containerId]) =>
-        this.uploadService.getFtpPath$(containerId, moment()).pipe(
+      withLatestFrom(
+        this.store$.select(ContainerSelectors.selectContainerId),
+        this.store$.select(ContainerSelectors.selectOpt)
+      ),
+      mergeMap(([a, containerId, opt]) =>
+        this.uploadService.getFtpPath$(opt, containerId, moment()).pipe(
           switchMap(({ folderPath }) =>
             this.uploadService.getFtpImages$(folderPath).pipe(
               map((images) =>
@@ -191,11 +194,12 @@ export class ContainerEffects {
       ofType(ContainerActions.getLocalImages),
       withLatestFrom(
         this.store$.select(ContainerSelectors.selectContainerId),
-        this.store$.select(ContainerSelectors.selectDate)
+        this.store$.select(ContainerSelectors.selectDate),
+        this.store$.select(ContainerSelectors.selectOpt)
       ),
-      mergeMap(([a, containerId, containerDate]) =>
+      mergeMap(([a, containerId, containerDate, opt]) =>
         this.uploadService
-          .getLocalImages$(containerId, containerDate)
+          .getLocalImages$(opt, containerId, containerDate)
           .pipe(
             map(({ images, path }) =>
               ContainerActions.getUploadedImagesSuccessfully({ images, path })
@@ -251,7 +255,6 @@ export class ContainerEffects {
     private readonly actions$: Actions,
     private readonly uploadService: UploadImageService,
     private readonly externalUrlsService: ExternalUrlsService,
-    private readonly settingService: SettingService,
     private readonly store$: Store
   ) {}
 }
@@ -263,10 +266,12 @@ const mapUploadImages = (
     withLatestFrom(
       store$.select(ContainerSelectors.selectImages),
       store$.select(ContainerSelectors.selectDate),
-      store$.select(ContainerSelectors.selectContainerId)
+      store$.select(ContainerSelectors.selectContainerId),
+      store$.select(ContainerSelectors.selectOpt)
     ),
-    mergeMap(([isHighResolution, images, date, containerId]) =>
+    mergeMap(([isHighResolution, images, date, containerId, opt]) =>
       images.map((image) => ({
+        opt,
         containerId: containerId ?? '',
         image: isHighResolution
           ? image.data.highResolution

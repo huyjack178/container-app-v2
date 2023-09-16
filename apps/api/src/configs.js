@@ -43,25 +43,26 @@ module.exports = {
   //   api_key: '249396988716972',
   //   api_secret: '2gfT6Uar6u8in8Wky2a3D_6pC6s',
   // },
-  // ftp: {
-  //   host: 'ftp.dlptest.com',
-  //   port: '21',
-  //   user: 'dlpuser',
-  //   rootFolder: '/',
-  //   password: 'rNrKYTX9g7z3RgJRmxWuGHbeu',
-  // },
+  ftp: {
+    host: 'ftp.dlptest.com',
+    port: '21',
+    user: 'dlpuser',
+    rootFolder: '/',
+    password: 'rNrKYTX9g7z3RgJRmxWuGHbeu',
+  },
   cloudinary: {
     cloud_name: '',
     api_key: '',
     api_secret: '',
   },
-  ftp: {
-    host: '',
-    port: '',
-    user: '',
-    rootFolder: '',
-    password: '',
-  },
+  // ftp: {
+  //   host: '',
+  //   port: '',
+  //   user: '',
+  //   rootFolder: '',
+  //   password: '',
+  // },
+  dsHangTau: ['OCL', 'MSC', 'ONE', 'SML'],
   externalUrls: {
     remarkUrl1: {
       title: 'Estimate',

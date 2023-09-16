@@ -10,12 +10,11 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { SettingService } from '@container-management/setting';
 import { ContainerFacade } from '@container-management/container-camera';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { NativeCameraComponent } from '../../components/native-camera/native-camera.component';
 import { NgForm } from '@angular/forms';
 import { isValid } from '../../utils';
 import { ContainerIdConfirmDialogComponent } from '../../components';
-import { DomSanitizer } from '@angular/platform-browser';
 import {
   BehaviorSubject,
   distinctUntilChanged,
@@ -23,6 +22,7 @@ import {
   Subject,
   takeUntil,
 } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'container-management-container-input-action',
@@ -40,6 +40,9 @@ export class ContainerInputActionComponent
   readonly containerIdSubject = new BehaviorSubject('');
   readonly containerId$ = this.containerIdSubject.asObservable();
 
+  readonly optSubject = new BehaviorSubject('');
+  readonly opt$ = this.optSubject.asObservable();
+
   private readonly unsubscribe$ = new Subject<void>();
 
   constructor(
@@ -47,8 +50,7 @@ export class ContainerInputActionComponent
     readonly containerFacade: ContainerFacade,
     private readonly router: Router,
     private readonly dialog: MatDialog,
-    private readonly activatedRoute: ActivatedRoute,
-    private readonly sanitizer: DomSanitizer,
+    private readonly snackBar: MatSnackBar,
     @Inject('environment') private readonly environment: any
   ) {}
 
@@ -70,6 +72,7 @@ export class ContainerInputActionComponent
         )
         .subscribe((status) => {
           const containerId = this.containerInputForm.value.containerId;
+          const opt = this.containerInputForm.value.opt;
 
           if (!isValid(containerId)) {
             this.dialog.open(ContainerIdConfirmDialogComponent, {
@@ -77,7 +80,10 @@ export class ContainerInputActionComponent
             });
           }
 
-          this.containerFacade.setContainerId(containerId);
+          this.containerFacade.setContainerId({
+            opt,
+            containerId,
+          });
         });
     }
   }
@@ -86,7 +92,26 @@ export class ContainerInputActionComponent
     this.containerIdSubject.next(input.toUpperCase());
   }
 
+  optChange(input: string) {
+    this.optSubject.next(input.toUpperCase());
+  }
+
   openCamera() {
+    const serverSettings = this.settingService.getServerSettings();
+    if (serverSettings.optList.length > 0) {
+      if (!serverSettings.optList.includes(this.optSubject.value)) {
+        this.snackBar.open(
+          'OPT không tồn tại trong danh sách hàng tàu!',
+          'Đóng',
+          {
+            duration: 5000,
+          }
+        );
+
+        return;
+      }
+    }
+
     this.startCamera();
   }
 

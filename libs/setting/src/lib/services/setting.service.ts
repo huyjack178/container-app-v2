@@ -56,7 +56,9 @@ export class SettingService {
       localStorage.setItem('serverSettings', JSON.stringify(serverSettings));
 
       const settings = this.getUploadSettings();
-      settings.ftp.enabled = settings.ftp.enabled && serverSettings.ftp.enabled;
+      console.log(settings);
+      console.log(serverSettings);
+      settings.ftp.enabled = serverSettings.ftp.enabled;
       settings.cloudinary.enabled =
         settings.cloudinary.enabled && serverSettings.cloudinary.enabled;
       settings.local.enabled =
