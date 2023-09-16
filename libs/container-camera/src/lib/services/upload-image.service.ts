@@ -115,6 +115,7 @@ export class UploadImageService {
   }
 
   downloadToLocalStorage(
+    opt: string,
     containerId: string,
     images: ContainerImage[],
     imageFileDate: moment.Moment
@@ -129,7 +130,7 @@ export class UploadImageService {
       map((content) =>
         saveAs(
           content,
-          `${containerId}_${imageFileDate.format('YYMMDDHHmmss')}.zip`
+          `${opt}_${containerId}_${imageFileDate.format('YYMMDDHHmmss')}.zip`
         )
       )
     );

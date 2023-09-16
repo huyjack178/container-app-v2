@@ -83,10 +83,12 @@ export class ContainerEffects {
         withLatestFrom(
           this.store$.select(ContainerSelectors.selectImages),
           this.store$.select(ContainerSelectors.selectDate),
-          this.store$.select(ContainerSelectors.selectContainerId)
+          this.store$.select(ContainerSelectors.selectContainerId),
+          this.store$.select(ContainerSelectors.selectOpt)
         ),
-        mergeMap(([a, images, date, containerId]) =>
+        mergeMap(([a, images, date, containerId, opt]) =>
           this.uploadService.downloadToLocalStorage(
+            opt,
             containerId ?? '',
             images,
             date
