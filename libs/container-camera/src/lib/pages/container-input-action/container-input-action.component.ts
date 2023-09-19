@@ -101,7 +101,7 @@ export class ContainerInputActionComponent
     if (serverSettings.optList.length > 0) {
       if (!serverSettings.optList.includes(this.optSubject.value)) {
         this.snackBar.open(
-          'OPT không tồn tại trong danh sách hàng tàu!',
+          'Chưa khai báo hãng tàu!',
           'Đóng',
           {
             duration: 5000,

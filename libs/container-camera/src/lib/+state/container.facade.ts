@@ -153,7 +153,7 @@ export class ContainerFacade {
   setContainerId(params: { opt: string; containerId: string }) {
     this.store.dispatch(
       ContainerActions.setContainerId({
-        opt: params.opt,
+        opt: params.opt.toUpperCase(),
         containerId: params.containerId.toUpperCase(),
       })
     );
