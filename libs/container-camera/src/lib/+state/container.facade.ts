@@ -19,6 +19,8 @@ export class ContainerFacade {
     ContainerSelectors.selectContainerId
   );
 
+  readonly selectOpt$ = this.store.select(ContainerSelectors.selectOpt);
+
   readonly hasNoImage$ = this.selectImages$.pipe(
     map((images) => images.length === 0)
   );
@@ -151,11 +153,17 @@ export class ContainerFacade {
   }
 
   setContainerId(params: { opt: string; containerId: string }) {
+    console.log(params);
+
     this.store.dispatch(
       ContainerActions.setContainerId({
         opt: params.opt.toUpperCase(),
         containerId: params.containerId.toUpperCase(),
       })
     );
+  }
+
+  loadOptFromStorage() {
+    this.store.dispatch(ContainerActions.loadOptFromStorage());
   }
 }

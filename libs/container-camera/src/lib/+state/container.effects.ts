@@ -6,11 +6,12 @@ import {
   UploadImagePayload,
   UploadImageService,
 } from '../services/upload-image.service';
-import { map, Observable, pipe, UnaryFunction, withLatestFrom } from 'rxjs';
+import { map, Observable, of, pipe, UnaryFunction, withLatestFrom } from 'rxjs';
 import { Store } from '@ngrx/store';
 import * as ContainerSelectors from './container.selectors';
 import * as moment from 'moment';
 import { ExternalUrlsService } from '../services/external-urls.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable()
 export class ContainerEffects {
@@ -253,10 +254,38 @@ export class ContainerEffects {
     )
   );
 
+  storeContainerOpt$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(ContainerActions.setContainerId),
+        mergeMap((action) => {
+          action.opt && this.cookieService.set('OPT', action.opt);
+          return of(null);
+        })
+      ),
+    {
+      dispatch: false,
+    }
+  );
+
+  loadOpt$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ContainerActions.loadOptFromStorage),
+      map(() => {
+        const opt = this.cookieService.get('OPT');
+        return ContainerActions.setContainerId({
+          opt: opt ?? '',
+          containerId: '',
+        });
+      })
+    )
+  );
+
   constructor(
     private readonly actions$: Actions,
     private readonly uploadService: UploadImageService,
     private readonly externalUrlsService: ExternalUrlsService,
+    private readonly cookieService: CookieService,
     private readonly store$: Store
   ) {}
 }

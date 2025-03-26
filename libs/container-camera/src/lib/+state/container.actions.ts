@@ -136,3 +136,7 @@ export const setContainerId = createAction(
     containerId: string;
   }>()
 );
+
+export const loadOptFromStorage = createAction(
+  '[Container] Load OPT from storage'
+);

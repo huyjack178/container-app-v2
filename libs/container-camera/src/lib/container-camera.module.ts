@@ -35,6 +35,7 @@ import { ContainerActionPanelComponent } from './components/container-action-pan
 import { PhotoGridComponent } from './components/photo-grid/photo-grid.component';
 import { ImageViewerDialogComponent } from './components/image-viewer-dialog/image-viewer-dialog.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { CookieService } from 'ngx-cookie-service';
 
 @NgModule({
   imports: [
@@ -91,6 +92,6 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     ImageViewerDialogComponent,
   ],
   exports: [],
-  providers: [ContainerFacade],
+  providers: [ContainerFacade, CookieService],
 })
 export class ContainerCameraModule {}

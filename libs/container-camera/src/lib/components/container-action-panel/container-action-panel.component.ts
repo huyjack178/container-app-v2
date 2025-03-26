@@ -81,9 +81,13 @@ export class ContainerActionPanelComponent implements OnInit {
   }
 
   selectedFiles() {
-    this.containerFacade.setContainerId(
-      this.containerInputForm.value.containerId
-    );
+    const containerId = this.containerInputForm.value.containerId;
+    const opt = this.containerInputForm.value.opt;
+
+    this.containerFacade.setContainerId({
+      opt,
+      containerId,
+    });
 
     if (this.fileSelector?.nativeElement?.files) {
       const files = this.fileSelector.nativeElement.files;

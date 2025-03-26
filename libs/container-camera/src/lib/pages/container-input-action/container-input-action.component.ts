@@ -55,6 +55,13 @@ export class ContainerInputActionComponent
   ) {}
 
   ngOnInit(): void {
+    this.containerFacade.loadOptFromStorage();
+    this.containerFacade.selectOpt$
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((value) => {
+        this.optSubject.next(value);
+      });
+
     this.containerFacade.selectContainerId$
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((value) => {
@@ -74,7 +81,7 @@ export class ContainerInputActionComponent
           const containerId = this.containerInputForm.value.containerId;
           const opt = this.containerInputForm.value.opt;
 
-          if (!isValid(containerId)) {
+          if (containerId && !isValid(containerId)) {
             this.dialog.open(ContainerIdConfirmDialogComponent, {
               width: '250px',
             });
@@ -100,13 +107,9 @@ export class ContainerInputActionComponent
     const serverSettings = this.settingService.getServerSettings();
     if (serverSettings.optList.length > 0) {
       if (!serverSettings.optList.includes(this.optSubject.value)) {
-        this.snackBar.open(
-          'Chưa khai báo hãng tàu!',
-          'Đóng',
-          {
-            duration: 5000,
-          }
-        );
+        this.snackBar.open('Chưa khai báo OPT!', 'Đóng', {
+          duration: 5000,
+        });
 
         return;
       }

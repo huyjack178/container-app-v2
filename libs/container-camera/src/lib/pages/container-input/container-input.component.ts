@@ -1,4 +1,10 @@
-import { Component, Inject, ViewChild, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  Inject,
+  OnInit,
+  ViewChild,
+  ViewEncapsulation,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { isValid } from '../../utils';
 import { NgForm } from '@angular/forms';
@@ -9,6 +15,7 @@ import { FtpViewerComponent } from '../../components/ftp-viewer/ftp-viewer.compo
 import { ContainerFacade } from '@container-management/container-camera';
 import { NativeCameraComponent } from '../../components/native-camera/native-camera.component';
 
+// Deprecated
 @Component({
   selector: 'container-management-container-input',
   templateUrl: './container-input.component.html',
