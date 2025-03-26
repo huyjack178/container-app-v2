@@ -10,6 +10,7 @@ export interface ContainerImage {
   readonly isUploadedLocal?: boolean;
   readonly isUploadedFtp?: boolean;
   readonly isUploadedCloud?: boolean;
+  readonly isUploadedAfterCapture?: boolean;
 }
 
 export interface ContainerUploadedImages {

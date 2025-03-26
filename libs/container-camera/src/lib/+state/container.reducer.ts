@@ -85,7 +85,9 @@ const reducer = createReducer(
     ContainerActions.uploadImagesToLocalSuccessfully,
     (state, { imageName }) => {
       const updatedImages = state.images.map((image) =>
-        image.name === imageName ? { ...image, isUploadedLocal: true } : image
+        image.name === imageName
+          ? { ...image, isUploadedLocal: true, isUploadedAfterCapture: true }
+          : image
       );
 
       return {
@@ -96,7 +98,9 @@ const reducer = createReducer(
   ),
   on(ContainerActions.uploadImagesToFtpSuccessfully, (state, { imageName }) => {
     const updatedImages = state.images.map((image) =>
-      image.name === imageName ? { ...image, isUploadedFtp: true } : image
+      image.name === imageName
+        ? { ...image, isUploadedFtp: true, isUploadedAfterCapture: true }
+        : image
     );
 
     return {
@@ -108,7 +112,9 @@ const reducer = createReducer(
     ContainerActions.uploadImagesToCloudSuccessfully,
     (state, { imageName }) => {
       const updatedImages = state.images.map((image) =>
-        image.name === imageName ? { ...image, isUploadedCloud: true } : image
+        image.name === imageName
+          ? { ...image, isUploadedCloud: true, isUploadedAfterCapture: true }
+          : image
       );
 
       return {

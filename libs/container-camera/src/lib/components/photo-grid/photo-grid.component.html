@@ -23,6 +23,9 @@
       >
         <mat-icon>delete</mat-icon>
       </button>
+      <div class="center-absolute" *ngIf="!image.isUploadedAfterCapture">
+        <mat-spinner color="warn" diameter="40"></mat-spinner>
+      </div>
       <img
         (click)="viewImage(convertBlobToUrl(image.data.lowResolution))"
         [src]="convertBlobToUrl(image.data.lowResolution)"

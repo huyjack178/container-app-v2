@@ -53,7 +53,7 @@ export class ContainerActionPanelComponent implements OnInit {
       this.capturePhoto.emit();
     });
 
-    return this.containerFacade.uploadImages();
+    return this.containerFacade.uploadImages({ isForceUpload: true });
   }
 
   downloadToLocal() {

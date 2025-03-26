@@ -79,25 +79,29 @@ export class ContainerFacade {
     this.store.dispatch(
       ContainerActions.addImage({ processedImage, containerId })
     );
+    this.uploadImages({ isForceUpload: false });
   }
 
   deleteImage(index: number) {
     this.store.dispatch(ContainerActions.deleteImage({ index }));
   }
 
-  uploadImages() {
+  uploadImages(params: { isForceUpload?: boolean }) {
     const uploadSettings = this.settingService.getUploadSettings();
-    console.log(uploadSettings.ftp.enabled);
     uploadSettings.local.enabled &&
       this.store.dispatch(
         ContainerActions.uploadImagesToLocal({
           isHighResolution: uploadSettings.local.enabledHigh,
+          isForceUpload: params.isForceUpload,
         })
       );
 
     if (uploadSettings.ftp.enabled) {
       this.store.dispatch(
-        ContainerActions.uploadImagesToFtp({ isHighResolution: false })
+        ContainerActions.uploadImagesToFtp({
+          isHighResolution: false,
+          isForceUpload: params.isForceUpload,
+        })
       );
 
       this.store.dispatch(ContainerActions.getFtpPath());
@@ -105,7 +109,10 @@ export class ContainerFacade {
 
     uploadSettings.cloudinary.enabled &&
       this.store.dispatch(
-        ContainerActions.uploadImagesToCloud({ isHighResolution: false })
+        ContainerActions.uploadImagesToCloud({
+          isHighResolution: false,
+          isForceUpload: params.isForceUpload,
+        })
       );
   }
 
@@ -153,12 +160,10 @@ export class ContainerFacade {
   }
 
   setContainerId(params: { opt: string; containerId: string }) {
-    console.log(params);
-
     this.store.dispatch(
       ContainerActions.setContainerId({
-        opt: params.opt.toUpperCase(),
-        containerId: params.containerId.toUpperCase(),
+        opt: params.opt?.toUpperCase(),
+        containerId: params.containerId?.toUpperCase(),
       })
     );
   }

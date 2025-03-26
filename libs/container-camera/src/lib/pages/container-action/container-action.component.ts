@@ -57,7 +57,7 @@ export class ContainerActionComponent {
       this.capture();
     });
 
-    return this.facade.uploadImages();
+    return this.facade.uploadImages({ isForceUpload: true });
   }
 
   capture() {

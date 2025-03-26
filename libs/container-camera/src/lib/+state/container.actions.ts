@@ -16,6 +16,15 @@ export const uploadImagesToLocal = createAction(
   '[Container] Images are uploading to local server',
   props<{
     isHighResolution: boolean;
+    isForceUpload?: boolean;
+  }>()
+);
+
+export const uploadSingleImageToLocal = createAction(
+  '[Container] Image is uploading to local server',
+  props<{
+    processedImage: ProcessedImage;
+    isHighResolution: boolean;
   }>()
 );
 
@@ -30,6 +39,7 @@ export const uploadImagesToFtp = createAction(
   '[Container] Images are uploading to ftp server',
   props<{
     isHighResolution: boolean;
+    isForceUpload?: boolean;
   }>()
 );
 
@@ -44,6 +54,7 @@ export const uploadImagesToCloud = createAction(
   '[Container] Images are uploading to cloud',
   props<{
     isHighResolution: boolean;
+    isForceUpload?: boolean;
   }>()
 );
 

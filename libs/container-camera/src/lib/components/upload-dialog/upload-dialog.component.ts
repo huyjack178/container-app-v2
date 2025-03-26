@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ContainerFacade, ContainerImage } from '../../+state';
 import { SettingService } from '@container-management/setting';
 import { Router } from '@angular/router';
@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
   templateUrl: './upload-dialog.component.html',
   styleUrls: ['./upload-dialog.component.scss'],
 })
-export class UploadDialogComponent {
+export class UploadDialogComponent implements OnInit {
   @Output() keepCapture = new EventEmitter();
   readonly uploadSettings = this.settingService.getUploadSettings();
 
@@ -17,6 +17,10 @@ export class UploadDialogComponent {
     private readonly router: Router,
     private readonly settingService: SettingService
   ) {}
+
+  ngOnInit(): void {
+    this.containerFacade.clearUploadStatus();
+  }
 
   calculateUploadedLocalCount(images: ContainerImage[]) {
     return images.filter((image) => image.isUploadedLocal).length;

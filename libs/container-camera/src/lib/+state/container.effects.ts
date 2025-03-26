@@ -18,7 +18,6 @@ export class ContainerEffects {
   uploadContainerImagesToLocal$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ContainerActions.uploadImagesToLocal),
-      map((action) => action.isHighResolution),
       mapUploadImages(this.store$),
       mergeMap((uploadImage) =>
         this.uploadService.uploadToLocalServer$(uploadImage).pipe(
@@ -39,7 +38,6 @@ export class ContainerEffects {
   uploadContainerImagesToFtp$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ContainerActions.uploadImagesToFtp),
-      map((action) => action.isHighResolution),
       mapUploadImages(this.store$),
       mergeMap((uploadImage) =>
         this.uploadService.uploadToFtpServer$(uploadImage).pipe(
@@ -60,7 +58,6 @@ export class ContainerEffects {
   uploadContainerImagesToCloud$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ContainerActions.uploadImagesToCloud),
-      map((action) => action.isHighResolution),
       mapUploadImages(this.store$),
       mergeMap((uploadImage) =>
         this.uploadService.uploadToCloud$(uploadImage).pipe(
@@ -292,7 +289,10 @@ export class ContainerEffects {
 
 const mapUploadImages = (
   store$: Store
-): UnaryFunction<Observable<boolean>, Observable<UploadImagePayload>> => {
+): UnaryFunction<
+  Observable<{ isHighResolution: boolean; isForceUpload?: boolean }>,
+  Observable<UploadImagePayload>
+> => {
   return pipe(
     withLatestFrom(
       store$.select(ContainerSelectors.selectImages),
@@ -300,17 +300,26 @@ const mapUploadImages = (
       store$.select(ContainerSelectors.selectContainerId),
       store$.select(ContainerSelectors.selectOpt)
     ),
-    mergeMap(([isHighResolution, images, date, containerId, opt]) =>
-      images.map((image) => ({
-        opt,
-        containerId: containerId ?? '',
-        image: isHighResolution
-          ? image.data.highResolution
-          : image.data.lowResolution,
-        imageFileDate: date,
-        imageFileName: image.name,
-        isHighResolution: isHighResolution,
-      }))
+    mergeMap(
+      ([{ isHighResolution, isForceUpload }, images, date, containerId, opt]) =>
+        images
+          .filter((image) => {
+            if (isForceUpload) {
+              return true;
+            }
+
+            return !image.isUploadedAfterCapture;
+          })
+          .map((image) => ({
+            opt,
+            containerId: containerId ?? '',
+            image: isHighResolution
+              ? image.data.highResolution
+              : image.data.lowResolution,
+            imageFileDate: date,
+            imageFileName: image.name,
+            isHighResolution: isHighResolution,
+          }))
     )
   );
 };
