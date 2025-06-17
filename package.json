@@ -4,7 +4,6 @@
   "license": "MIT",
   "scripts": {
     "ng": "nx",
-    "postinstall": "node ./decorate-angular-cli.js && ngcc --properties es2020 browser module main",
     "format": "nx format:write --uncommitted",
     "start:web": "nx serve container-management --host=0.0.0.0",
     "start:server": "cd ./apps/api/src && SSL=false && nodemon --watch ./ server.js",

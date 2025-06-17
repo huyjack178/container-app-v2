@@ -76,10 +76,10 @@ write-host "----------------------------`n"
 write-host "Installing pm2"
 npm install --global pm2
 npm install pm2-windows-startup -g
-npm install --global yarn
+npm install --global pnpm
 pm2-startup install
 
-yarn install --production --frozen-lockfile
+pnpm install --prod --frozen-lockfile
 pm2 start ./apps/api/src/server.js --name server3000
 pm2 save
 pm2 resurrect

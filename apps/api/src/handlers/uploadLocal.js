@@ -4,49 +4,62 @@ const path = require('path');
 const moment = require('moment');
 const address = require('address');
 const { buildContainerFolder } = require('../utils/common');
+const logger = require('../utils/logger');
 
+/**
+ * Express route handler to upload a file locally.
+ */
 const uploadLocal = async (req, res) => {
-  console.log(req.body);
-  const file = req.file;
-  const fileName = file.originalname + '.jpg';
-  const folderPath = generateLocalFolderPath(req);
-  const photoFolderPath = mkDirByPathSync(folderPath);
+  logger.log('[uploadLocal] Received upload request:', req.body);
 
-  uploadToLocal(file.buffer, fileName, photoFolderPath, (err) => {
-    let response;
+  try {
+    const file = req.file;
+    const fileName = `${file.originalname}.jpg`;
+    const folderPath = generateLocalFolderPath(req);
+    const fullFolderPath = ensureDirectoryExists(folderPath);
 
-    if (err) {
-      response = { error: err, success: false };
-    } else {
-      response = {
-        success: true,
-        path: `${address.ip()}\\\\${photoFolderPath}`,
-      };
-    }
+    logger.log(`[uploadLocal] Saving file to: ${fullFolderPath}/${fileName}`);
+    await saveFileToLocal(file.buffer, fileName, fullFolderPath);
 
-    res.code(200).send({
-      local: response,
+    const response = {
+      success: true,
+      path: `${address.ip()}\\\\${fullFolderPath}`,
+    };
+
+    logger.log('[uploadLocal] Upload successful');
+    return res.code(200).send({ local: response });
+
+  } catch (err) {
+    logger.error('[uploadLocal] Upload failed:', err);
+    return res.code(200).send({
+      local: {
+        success: false,
+        error: err.message || err,
+      },
+    });
+  }
+};
+
+/**
+ * Saves the file content to the local filesystem.
+ */
+const saveFileToLocal = (fileBuffer, fileName, folderPath) => {
+  return new Promise((resolve, reject) => {
+    const filePath = path.join(folderPath, fileName);
+    fs.writeFile(filePath, fileBuffer, (err) => {
+      if (err) {
+        logger.error('[saveFileToLocal] Failed to write file:', err);
+        return reject(err);
+      }
+      return resolve();
     });
   });
 };
 
-const uploadToLocal = async (
-  fileContent,
-  fileName,
-  photoFolderPath,
-  callback
-) => {
-  try {
-    fs.writeFileSync(`${photoFolderPath}/${fileName}`, fileContent);
-  } catch (err) {
-    console.error(err);
-    callback(err);
-  }
-
-  callback();
-};
-
-const mkDirByPathSync = (targetDir, { isRelativeToScript = false } = {}) => {
+/**
+ * Ensures a directory and its parents exist. Creates them if necessary.
+ */
+const ensureDirectoryExists = (targetDir, { isRelativeToScript = false } = {}) => {
   const sep = path.sep;
   const initDir = path.isAbsolute(targetDir) ? sep : '';
   const baseDir = isRelativeToScript ? __dirname : '.';
@@ -56,50 +69,32 @@ const mkDirByPathSync = (targetDir, { isRelativeToScript = false } = {}) => {
     try {
       fs.mkdirSync(curDir, { recursive: true });
     } catch (err) {
-      if (err.code === 'EEXIST') {
-        return curDir;
-      }
-
-      // To avoid `EISDIR` error on Mac and `EACCES`-->`ENOENT` and `EPERM` on Windows.
-      if (err.code === 'ENOENT') {
-        // Throw the original parentDir error on curDir `ENOENT` failure.
-        throw new Error(`EACCES: permission denied, mkdir '${parentDir}'`);
-      }
-
-      const caughtErr = ['EACCES', 'EPERM', 'EISDIR'].indexOf(err.code) > -1;
-      if (!caughtErr || (caughtErr && curDir === path.resolve(targetDir))) {
-        throw err; // Throw if it's just the last created dir.
+      if (err.code === 'EEXIST') return curDir;
+      if (err.code === 'ENOENT') throw new Error(`EACCES: permission denied, mkdir '${parentDir}'`);
+      const critical = ['EACCES', 'EPERM', 'EISDIR'].includes(err.code);
+      if (!critical || (critical && curDir === path.resolve(targetDir))) {
+        throw err;
       }
     }
-
     return curDir;
   }, initDir);
 };
 
+/**
+ * Builds the folder path based on resolution type and metadata.
+ */
 const generateLocalFolderPath = (req) => {
-  const date = req.body.fileDate;
-  const opt = req.body.opt;
+  const { fileDate, opt, isHighResolution, userName, fileId } = req.body;
+  const year = moment(fileDate).format('YYYY');
+  const basePath = isHighResolution === true || isHighResolution === 'true'
+    ? `${configs.uploadDirectoryPath.high}/${year}`
+    : `${configs.uploadDirectoryPath.low}/${year}_GIAM`;
 
-  let rootFolderPath = '';
-  if (
-    req.body.isHighResolution === true ||
-    req.body.isHighResolution === 'true'
-  ) {
-    rootFolderPath = `${configs.uploadDirectoryPath.high}/${moment(date).format(
-      'YYYY'
-    )}`;
-  } else {
-    rootFolderPath = `${configs.uploadDirectoryPath.low}/${moment(date).format(
-      'YYYY'
-    )}_GIAM`;
-  }
-
-  return `${rootFolderPath}/${buildContainerFolder({
-    date,
-    opt,
-    userName: req.body.userName,
-    fileId: req.body.fileId,
-  })}`;
+  const folderName = buildContainerFolder({ date: fileDate, opt, userName, fileId });
+  return `${basePath}/${folderName}`;
 };
 
-module.exports = { uploadLocal, generateLocalFolderPath };
+module.exports = {
+  uploadLocal,
+  generateLocalFolderPath,
+};

@@ -30,12 +30,12 @@ import { NativeCameraComponent } from './components/native-camera/native-camera.
 import { ExternalLinkPopupComponent } from './components/external-link-popup/external-link-popup.component';
 import { ContainerInputActionComponent } from './pages/container-input-action/container-input-action.component';
 import { MatGridListModule } from '@angular/material/grid-list';
-import { VirtualScrollerModule } from 'ngx-virtual-scroller';
 import { ContainerActionPanelComponent } from './components/container-action-panel/container-action-panel.component';
 import { PhotoGridComponent } from './components/photo-grid/photo-grid.component';
 import { ImageViewerDialogComponent } from './components/image-viewer-dialog/image-viewer-dialog.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { CookieService } from 'ngx-cookie-service';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 @NgModule({
   imports: [
@@ -71,7 +71,7 @@ import { CookieService } from 'ngx-cookie-service';
     MatDividerModule,
     MatListModule,
     MatGridListModule,
-    VirtualScrollerModule,
+    ScrollingModule,
     MatSnackBarModule,
   ],
   declarations: [

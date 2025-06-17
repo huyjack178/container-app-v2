@@ -1,6 +1,7 @@
 const fs = require('fs');
 const fastify = require('fastify');
 const path = require('path');
+
 const server = fastify(
   process.env.ENV !== 'DEV'
     ? {

@@ -3,8 +3,8 @@ write-host "`n  ## NODEJS INSTALLER ## `n"
 ### CONFIGURATION
 
 # nodejs
-$version = "v16.13.2"
-$url = "https://nodejs.org/dist/v16.13.2/node-v16.13.2-x64.msi"
+$version = "v18.20.8"
+$url = "https://nodejs.org/dist/v18.20.8/node-v18.20.8-x86.msi"
 
 # activate / desactivate any install
 $install_node = $TRUE
@@ -73,7 +73,7 @@ write-host "`n----------------------------"
 write-host " npm packages installation  "
 write-host "----------------------------`n"
 
-npm install --global yarn
+npm install --global pnpm
 
 write-host "`n----------------------------"
 write-host " Build source  "
@@ -95,8 +95,8 @@ Set-Location $dest
     $_.replace('$IP', $IP.Trim()).replace('$PORT', $PORT.Trim()).replace('$EXPIRED_DATE', $expired_date.Trim()).replace('$SERIAL_ID', $serial_id.Trim()).replace('$USE_NATIVE_CAMERA', $use_native_camera.Trim())
 } | Set-Content '.\apps\container-management\src\environments\environment.prod.ts'
 
-yarn
-yarn build:web
+pnpm install
+pnpm run build:web
 
 Remove-Item -Recurse -Force ./libs
 Remove-Item -Recurse -Force ./apps/container-management
