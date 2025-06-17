@@ -3,6 +3,7 @@ const ftp = require('basic-ftp');
 const { Readable } = require('stream');
 const moment = require('moment');
 const { buildContainerFolder } = require('../utils/common');
+const ftpClient = new ftp.Client();
 
 const uploadFTP = async (req, res) => {
   console.log('Uploading FTP ... ');
@@ -30,7 +31,6 @@ const uploadFTP = async (req, res) => {
 
 const uploadToFTP = async (fileContent, fileName, req, onFinishedUpload) => {
   const opt = req.body.opt;
-  const ftpClient = new ftp.Client();
   let folderPath;
   console.log(req.body);
 
