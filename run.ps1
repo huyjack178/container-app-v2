@@ -2,9 +2,10 @@ write-host "`n  ## NODEJS INSTALLER ## `n"
 
 ### CONFIGURATION
 
+
 # nodejs
-$version = "v16.13.2"
-$url = "https://nodejs.org/dist/v16.13.2/node-v16.13.2-x64.msi"
+$version = "v18.20.8"
+$url = "https://nodejs.org/dist/v18.20.8/node-v18.20.8-x86.msi"
 
 # activate / desactivate any install
 $install_node = $TRUE

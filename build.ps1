@@ -74,6 +74,7 @@ write-host " npm packages installation  "
 write-host "----------------------------`n"
 
 npm install --global pnpm
+npm install -g rimraf
 
 write-host "`n----------------------------"
 write-host " Build source  "
@@ -100,5 +101,4 @@ pnpm run build:web
 
 Remove-Item -Recurse -Force ./libs
 Remove-Item -Recurse -Force ./apps/container-management
-Remove-Item -Recurse -Force ./node_modules
-
+rimraf node_modules

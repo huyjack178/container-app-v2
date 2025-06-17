@@ -1,6 +1,5 @@
 const configs = require('../configs');
 const cloudinary = require('cloudinary').v2;
-const mime = require('mime-types');
 
 const uploadCloud = async (req, res) => {
   console.log('Uploading Cloud ... ');
